@@ -15,8 +15,6 @@ class TasksHistory extends Model
     protected $fillable = [
         'task_id',
         'category_id',
-        'company_id',
-        'driver_id',
         'level_id',
         'status_id',
         'description',

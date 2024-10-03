@@ -26,7 +26,6 @@ class ApplicationStoreRequest extends FormRequest
         return [
             "full_name"=> ["required"],
             "track_num"=> ["required"],
-            "company_id"=> ["required"],
             "eastern_time"=> ["required"],
             "phone"=> ["nullable"],
             "comment"=> ["nullable"]

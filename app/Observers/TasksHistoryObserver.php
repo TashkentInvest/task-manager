@@ -15,8 +15,7 @@ class TasksHistoryObserver
         TasksHistory::create([
             'task_id' => $task->id,
             'category_id' => $task->category_id,
-            'company_id' => $task->company_id,
-            'driver_id' => $task->driver_id,
+        
             'level_id' => $task->level_id,
             'description' => $task->description,
             'type_request' => $task->type_request ?? 0,
@@ -33,8 +32,7 @@ class TasksHistoryObserver
             TasksHistory::create([
                 'task_id' => $task->id,
                 'category_id' => $task->category_id,
-                'company_id' => $task->company_id,
-                'driver_id' => $task->driver_id,
+       
                 'level_id' => $task->level_id,
                 'description' => $task->description,
                 'type_request' => $task->type_request ?? 0,

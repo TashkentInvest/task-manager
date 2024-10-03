@@ -19,8 +19,8 @@ class TaskController extends Controller
     public function getTasks()
     {
         $tasks = Tasks::where('status_id', TaskStatus::ACTIVE)
-        ->whereHas('driver')->whereHas('company')->whereHas('category')->whereHas('level')
-        ->with('category', 'company', 'driver', 'level')
+        ->whereHas('category')->whereHas('level')
+        ->with('category', 'level')
         ->orderByRaw("FIELD(type_request, 2, 1, 0)")
         ->get()->all();
         // dd($tasks);  

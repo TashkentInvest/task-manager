@@ -18,8 +18,6 @@ class MonitoringController extends Controller
         $trashedTasks = Tasks::onlyTrashed()->get();
         $allTasks = Tasks::withTrashed()->get();
 
-
-
         $taskStatuses = TaskStatus::all();
         $taskLevels = TaskLevel::all();
         $tasksHistories = TasksHistory::all();

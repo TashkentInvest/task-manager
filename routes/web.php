@@ -94,22 +94,6 @@ Route::group(['middleware' => 'auth'],function (){
     Route::post('/category/update/{category_id}',[CategoryController::class,'update'])->name('categoryUpdate');
     Route::delete('/category/delete/{id}',[CategoryController::class,'destroy'])->name('categoryDestroy');
     
-    // Company
-    Route::get('/company',[CompanyController::class,'index'])->name('companyIndex');
-    Route::get('/company/add',[CompanyController::class,'add'])->name('companyAdd');
-    Route::post('/company/create',[CompanyController::class,'create'])->name('companyCreate');
-    Route::get('/company/{id}/edit',[CompanyController::class,'edit'])->name('companyEdit');
-    Route::post('/company/update/{company_id}',[CompanyController::class,'update'])->name('companyUpdate');
-    Route::delete('/company/delete/{id}',[CompanyController::class,'destroy'])->name('companyDestroy');
-
-    // Driver
-    Route::get('/driver',[DriverController::class,'index'])->name('driverIndex');
-    Route::get('/driver/add',[DriverController::class,'add'])->name('driverAdd');
-    Route::post('/driver/create',[DriverController::class,'create'])->name('driverCreate');
-    Route::get('/driver/{id}/edit',[DriverController::class,'edit'])->name('driverEdit');
-    Route::post('/driver/update/{driver_id}',[DriverController::class,'update'])->name('driverUpdate');
-    Route::delete('/driver/delete/{id}',[DriverController::class,'destroy'])->name('driverDestroy');
-
     // Task
     Route::get('/monitoring',[ProductController::class,'index'])->name('monitoringIndex');
     // Route::resource('tasks', TaskController::class);

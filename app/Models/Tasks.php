@@ -18,8 +18,6 @@ class Tasks extends Model
 
     protected $fillable = [
         'category_id',
-        'company_id',
-        'driver_id',
         'status_id',
         'user_id',
         'level_id',

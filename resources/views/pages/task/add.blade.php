@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <div class="row">
 
-                            <div class="col">
+                            {{-- <div class="col">
                                 <label>Company</label>
                                 <select class="form-control select2" style="width: 100%;" name="company_id" required>
                                     @foreach($companies as $company)
@@ -69,16 +69,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            
-                            <div class="col">
-                                <label>Driver</label>
-                                <select class="form-control select2" style="width: 100%;" name="driver_id" id="driver_id" required>
-                                    <option value="" disabled selected>Choose Driver</option>
-                                    @foreach($drivers as $driver)
-                                    <option value="{{$driver->id}}">{{$driver->full_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                             --}}
+                           
                         </div>
                     </div>
 
@@ -120,6 +112,9 @@
                         <input type="button" id="submitButton"  class="btn btn-success float-right" value="@lang('global.save')">
                         <a href="{{ route('monitoringIndex') }}" class="btn btn-light waves-effect float-left">@lang('global.cancel')</a>
                     </div>
+
+
+                    {{-- <button type="submit">send</button> --}}
                 </form>
 
             </div>

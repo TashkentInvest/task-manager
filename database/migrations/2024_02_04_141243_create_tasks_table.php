@@ -16,14 +16,13 @@
             Schema::create('tasks', function (Blueprint $table) {
                 $table->id();
 
-                $table->foreignId('assigned_user_id')->constrained('users')->onDelete('cascade'); // User assigned to the task
+                // $table->foreignId('assigned_user_id')->constrained('users')->onDelete('cascade'); // User assigned to the task
                 $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Creator of the task
 
                 $table->unsignedBigInteger('category_id');
                 $table->foreign('category_id')->references('id')->on('category');
-                $table->unsignedBigInteger('company_id');
                 
-                $table->unsignedBigInteger('level_id');
+                $table->unsignedBigInteger('level_id')->nullable();
                 $table->foreign('level_id')->references('id')->on('task_level');
                 $table->text('description')->nullable();
                 $table->integer('type_request')->default(0);
