@@ -25,8 +25,10 @@ class Tasks extends Model
         'level_id',
         'description',
         'type_request',
-        'created_at'
+        'created_at',
+        'assigned_user_id'
     ];
+
 
     public static function deepFilters(){
 
@@ -171,6 +173,18 @@ class Tasks extends Model
         return $query;
     }
 
+
+// ------------------
+    public function assignedUser()
+    {
+        return $this->belongsTo(User::class, 'assigned_user_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+// 
 
     public function history()
     {

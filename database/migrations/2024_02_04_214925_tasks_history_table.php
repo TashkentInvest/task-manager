@@ -18,10 +18,7 @@ class TasksHistoryTable extends Migration
             $table->foreignId('task_id')->references('id')->on('tasks');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('category');
-            $table->unsignedBigInteger('company_id');
-            $table->foreign('company_id')->references('id')->on('company');
-            $table->unsignedBigInteger('driver_id');
-            $table->foreign('driver_id')->references('id')->on('drivers');
+
             $table->unsignedBigInteger('level_id');
             $table->foreign('level_id')->references('id')->on('task_level');
             $table->text('description')->nullable();

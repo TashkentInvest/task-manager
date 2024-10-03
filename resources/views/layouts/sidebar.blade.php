@@ -30,8 +30,7 @@
                 <!-- Manage -->
                 @canany([
                     'category.show',
-                    'company.show',
-                    'driver.show',
+                    
                     'long-text.show',
                     'employee.show',
                     'cheque.show'
@@ -51,7 +50,7 @@
                         </li>
                         @endcan
                         
-                        @can('company.show')
+                        {{-- @can('company.show')
                         <li>
                             <a href="{{ route('companyIndex') }}" class="{{ Request::is('company*') ? 'mm-active':'' }}">
                                 <i class="bx bxs-building" style="min-width: auto;"></i>
@@ -67,7 +66,7 @@
                                 Driver
                             </a>
                         </li>
-                        @endcan
+                        @endcan --}}
 
                         @can('long-text.show')
                         <li>
