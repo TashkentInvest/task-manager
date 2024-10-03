@@ -1,0 +1,603 @@
+@extends('layouts.admin')
+
+@section('content')
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('ad884b243a6ed729c08b', {
+      cluster: 'ap2'
+    });
+
+    var channel = pusher.subscribe('popup-channel');
+    channel.bind('user-register', function(data) {
+    //console.log(JSON.stringify(data));
+
+    $.ajax({
+            url: "/eb" 
+            , type: "GET"
+        
+            , success: function(data) {
+                // console.log(data.eb)
+                document.getElementById('jscount').innerHTML = data.eb
+                toastr.success('You have new tasks pleace reload the page!');
+
+            }
+            , error: function(error) {
+                console.log(error);
+                document.getElementById('jscount').innerHTML = "ERROR"
+                alert("An error occurred.");
+            }
+        });
+    
+    });
+  </script>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Left Request</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">@lang('global.home')</a></li>
+                    <li class="breadcrumb-item active">Left Request</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Tasks</h3> 
+                    @if(auth()->user()->roles[0]->name != "Super Admin")
+                        <a href="{{route('resetEventStatus')}}" class="btn btn-danger py-0 px-3 ml-2">  Count of new Task:   <span class="text-bold" id=jscount>{{auth()->user()->event_ball}}</span> </a>
+                    @endif
+
+                    {{-- <script>
+                        $('#manufacturer_id').change(function() {
+                        $.ajax({
+                            url: '/laravel/public/posts/create',
+                            type: 'GET',
+                            data: {
+                                manufacturer_id: $(this).val()
+                            },
+                            cache: false,
+                            success: function(data) {
+                                console.log(dataString);
+                            },
+                        });
+                    }); --}}
+                    </script>
+
+                     @can('task.add')
+                    <a href="{{ route('taskAdd') }}" class="btn btn-success btn-sm float-right">
+                        <span class="fas fa-plus-circle"></span>
+                        
+                        @lang('global.add') 
+                    </a>
+                    @endcan
+
+
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    {{-- <button>
+                        <a href="{{ route('extraTaskView') }}">View Extra Tasks</a>
+
+                    </button> --}}
+                    <!-- Data table -->
+                    <table id="dataTable"
+                        class="table table-bordered table-striped dataTable dtr-inline table-responsive-lg" role="grid"
+                        aria-describedby="dataTable_info">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Company</th>
+                                <th>Driver</th>
+                                <th>Category</th>
+                                <th>Task</th>
+                                <th>Level</th>
+                                <th>Ball</th>
+                                <th>Deadline</th>
+                                <th>Activate</th>
+                                <th class="w-20"> @lang('global.actions')</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @php
+                            $currentUser = auth()->user();
+                            $oldestProduct = null; 
+                        @endphp
+                        
+                        @foreach ($sortedProducts as $product)
+                            @php
+                                $employeeWithProduct = false;
+                                $isProductInOrder = $currentUser->orders()->where('product_id', $product->id)->exists();
+                                $isProductFinished = $product->orders->where('is_finished', true)->isNotEmpty();
+                                
+                                if ($product->in_stock && (!$oldestProduct || $product->created_at < $oldestProduct->created_at)) {
+                                    $oldestProduct = $product;
+                                }
+                                
+                                if ($currentUser->hasRole('Employee')) {
+                                    $employeeWithProduct = $currentUser->orders()->where('product_id', $product->id)->exists();
+                                }
+                                $othersWithoutProduct = !$employeeWithProduct && $product->in_stock;
+                                $isFirstProduct = ($firstProduct && $product->id == $firstProduct->id ); 
+                            @endphp
+                         @if(!$product->is_later)
+
+                                    @if (!$isProductFinished)
+                                    
+                                    <tr class="@if($isFirstProduct) bg-warning @endif @if($product->is_extra == 1) bg-danger @endif">
+                                        <td>{{ $loop->iteration }}</td>
+                                            <td>{{ isset($product->company->name_ru) ? $product->company->name_ru : 'Deleted' }}
+                                            </td>
+                                            <td>{{ isset($product->driver->full_name) ? $product->driver->full_name : 'Deleted' }}
+                                            </td>
+                                            <td>{{ isset($product->category->name_ru) ? $product->category->name_ru : 'Deleted' }}
+                                            </td>
+                                            <td class="desc_name">{{ $product->description_ru }}</td>
+                                            <style>
+                                                .desc_name {
+                                                    display: -webkit-box;
+                                                    -webkit-box-orient: vertical;
+                                                    -webkit-line-clamp: 1;
+                                                    overflow: hidden;
+                                                    border: none;
+                                                    outline: none
+                                                }
+                                            </style>
+                                            <td
+                                                class="@if($product->level === 'hard') bg-danger @elseif($product->level === 'middle') bg-warning @elseif($product->level === 'easy') bg-success @endif">
+                                                {{ $product->level }}</td> <!-- Display level from the current $product -->
+                                            <td>{{ isset($product->category->default_quantity) ?
+                                                $product->category->default_quantity : 'Null' }}</td>
+                                            <td>{{ $product->category->deadline }} minute</td>
+                                            <td class="text-center">
+
+                                                @if($product->in_stock)
+
+
+
+
+                                                <i style="cursor: pointer" id="product_{{ $product->id }}"
+                                                    class="fas {{ $product->in_stock ? " fa-check-circle text-success"
+                                                    : "fa-times-circle text-danger" }}"
+                                                    onclick="toggle_instock({{ $product->id }})"></i>
+                                                @else
+
+                                                <i style="cursor: pointer" id="product_{{ $product->id }}"
+                                                    class="fas {{ $product->in_stock ? " fa-check-circle text-success"
+                                                    : "fa-times-circle text-danger" }}"
+                                                    onclick="toggle_instock({{ $product->id }})"></i>
+                                                @endif
+
+
+                                            </td>
+
+
+                                            @if(auth()->user()->tag != 'DOT')
+                                            <td class="text-center d-flex">
+                                                @can('task.delete')
+                                                <form action="{{ route('taskDestroy',$product->id) }}" method="post">
+                                                    @csrf
+                                                    <div class="btn-group">
+                                                        @can('task.edit')
+                                                        <a href="{{ route('taskEdit',$product->id) }}" type="button"
+                                                            class="btn btn-info btn-sm"> @lang('global.edit')</a>
+                                                        @endcan
+                                                        <input name="_method" type="hidden" value="DELETE">
+                                                        <button type="button" class="submitButton btn btn-danger btn-sm mx-2">
+                                                            @lang('global.delete')</button>
+                                                    </div>
+                                                </form>
+                                                @endcan
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#exampleModal_{{ $product->id }}">
+                                                    Details
+                                                </button>
+
+                                            </td>
+                                            @else
+                                            <td>
+                                                <button class="btn btn-danger">You have been blocked</button>
+                                            </td>
+                                            @endif
+
+                                        </tr>
+
+                                    @endif
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+
+
+                    <table id="dataTable"
+                    class="table table-bordered table-striped dataTable dtr-inline table-responsive-lg" role="grid"
+                    aria-describedby="dataTable_info">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Company</th>
+                            <th>Driver</th>
+                            <th>Category</th>
+                            <th>Task</th>
+                            <th>Level</th>
+                            <th>Ball</th>
+                            <th>Deadline</th>
+                            <th>Activate</th>
+                            <th class="w-20">@lang('global.actions')</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @php
+                        $currentUser = auth()->user();
+                        $oldestProduct = null; 
+                    @endphp
+                    
+                    @foreach ($sortedProducts as $product)
+
+                    @php
+                  
+                    $isProductFinished = $product->orders->where('is_finished', true)->isNotEmpty();
+                    
+            
+                @endphp
+                        @if($product->is_extra && $product->is_later)
+                                @if (!$isProductFinished)
+                                
+                                {{-- @dump(!$product->in_stock) --}}
+                                
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                        <td>{{ isset($product->company->name_ru) ? $product->company->name_ru : 'Deleted' }}
+                                        </td>
+                                        <td>{{ isset($product->driver->full_name) ? $product->driver->full_name : 'Deleted' }}
+                                        </td>
+                                        <td>{{ isset($product->category->name_ru) ? $product->category->name_ru : 'Deleted' }}
+                                        </td>
+                                        <td class="desc_name">{{ $product->description_ru }}</td>
+                                        <style>
+                                            .desc_name {
+                                                display: -webkit-box;
+                                                -webkit-box-orient: vertical;
+                                                -webkit-line-clamp: 1;
+                                                overflow: hidden;
+                                                border: none;
+                                                outline: none
+                                            }
+                                        </style>
+                                        <td
+                                            class="@if($product->level === 'hard') bg-danger @elseif($product->level === 'middle') bg-warning @elseif($product->level === 'easy') bg-success @endif">
+                                            {{ $product->level }}</td> <!-- Display level from the current $product -->
+                                        <td>{{ isset($product->category->default_quantity) ?
+                                            $product->category->default_quantity : 'Null' }}</td>
+                                        <td>{{ $product->category->deadline }} minute</td>
+                                        <td class="text-center">
+
+                                            @if($product->in_stock)
+
+
+                                            <i style="cursor: pointer" id="product_{{ $product->id }}"
+                                                class="fas {{ $product->in_stock ? " fa-check-circle text-success"
+                                                : "fa-times-circle text-danger" }}"
+                                                onclick="toggle_instock({{ $product->id }})"></i>
+                                            @else
+
+                                            <i style="cursor: pointer" id="product_{{ $product->id }}"
+                                                class="fas {{ $product->in_stock ? " fa-check-circle text-success"
+                                                : "fa-times-circle text-danger" }}"
+                                                onclick="toggle_instock({{ $product->id }})"></i>
+                                            @endif
+
+
+                                        </td>
+
+
+                                        @if(auth()->user()->tag != 'DOT')
+                                        <td class="text-center d-flex">
+                                            @can('task.delete')
+                                            <form action="{{ route('taskDestroy',$product->id) }}" method="post">
+                                                @csrf
+                                                <div class="btn-group">
+                                                    @can('task.edit')
+                                                    <a href="{{ route('taskEdit',$product->id) }}" type="button"
+                                                        class="btn btn-info btn-sm"> @lang('global.edit')</a>
+                                                    @endcan
+                                                    <input name="_method" type="hidden" value="DELETE">
+                                                    <button type="button" class="submitButton btn btn-danger btn-sm mx-2">
+                                                        @lang('global.delete')</button>
+                                                </div>
+                                            </form>
+                                            @endcan
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                data-target="#exampleModal_{{ $product->id }}">
+                                                Details
+                                            </button>
+
+                                        </td>
+                                        @else
+                                        <td>
+                                            <button class="btn btn-danger">You have been blocked</button>
+                                        </td>
+                                        @endif
+
+                                    </tr>
+
+                                @endif
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+                    @php
+                    $currentUser = auth()->user();
+                    $oldestProduct = null; 
+                @endphp
+                    {{-- Modal start --}}
+                    @foreach($sortedProducts as $product)
+
+
+                    <div class="modal fade" id="exampleModal_{{ $product->id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Left Request № {{$loop->iteration}}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 40%">Company Name:</td>
+                                                <td>
+                                                    <b>{{$product->company->name_ru}}</b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Driver name:</td>
+                                                <td>
+                                                    <b>{{$product->driver->full_name}}</b>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Category Name:</td>
+                                                <td>
+                                                    <b>
+                                                        {{$product->category->name_ru}}
+                                                    </b>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+                                    <br>
+                                    <table class="table table-striped" id="striped_table">
+                                        <thead>
+                                            <tr>
+                                                <th>Level</th>
+                                                <th>Ball</th>
+                                                <th>Deadline</th>
+                                                <th>Active</th>
+                                                <th>Created_at</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td
+                                                    class="@if($product->level === 'hard') bg-danger @elseif($product->level === 'middle') bg-warning @elseif($product->level === 'easy') bg-success @endif">
+                                                    {{$product->level}}
+                                                </td>
+
+                                                <td>
+                                                    {{$product->category->default_quantity}}
+                                                </td>
+                                                <td>
+                                                    {{ $product->category->deadline }}
+                                                </td>
+                                                <td>
+                                                    @if($isProductInOrder)
+                                                    <i style="cursor: pointer" id="product_{{ $product->id }}"
+                                                        class="fas {{ $product->in_stock ? " fa-check-circle
+                                                        text-success" : "fa-times-circle text-danger" }}"
+                                                        onclick="toggle_instock({{ $product->id }})"></i>
+                                                    @else
+                                                    <i style="cursor: pointer" id="product_{{ $product->id }}"
+                                                        class="fas {{ $product->in_stock ? " fa-check-circle
+                                                        text-success" : "fa-times-circle text-danger" }}"
+                                                        onclick="toggle_instock({{ $product->id }})"></i>
+                                                    @endif
+                                                </td>
+
+                                                <td>
+                                                    {{$product->created_at}}
+                                                </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <p><strong>Task-description: </strong>{{$product->description_ru}}</p>
+                                    <hr>
+                                    <p><strong>Driver-comment: </strong>{{$product->driver->comment}}</p>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                    @php
+                                    $employeeWithProduct = false;
+                                    $currentUser = auth()->user();
+                                    
+                                    if ($currentUser->hasRole('Employee')) {
+                                        $employeeWithProduct = $currentUser->orders()->where('product_id', $product->id)->exists();
+                                    }
+                                    
+                                    $othersWithoutProduct = !$employeeWithProduct && $product->in_stock;
+                                    $isFirstProduct = ($firstProduct && $product->id == $firstProduct->id); // Add a check for $firstProduct
+                                    @endphp
+
+                                    @if(auth()->user()->roles[0]->name != 'Super Admin')
+                                        @if(auth()->user()->status == 'online')
+                                            @if($isFirstProduct || $product->is_extra == 1)
+                                                @if($employeeWithProduct || $othersWithoutProduct)
+                                                    <form action="{{ route('submit.order', $product->id) }}" method="post">
+                                                        @csrf
+                                                        <div class="btn-group">
+                                                            <input name="_method" type="hidden" value="POST">
+                                                            @if($employeeWithProduct)
+                                                                <button type="button" class="btn btn-success btn-sm py-2" disabled>Submitted</button>
+                                                            @else
+                                                                @if($hasActiveOrder)
+                                                                    <button class="btn btn-success btn-sm py-2 disabled">You have a valid order</button>
+                                                                @else
+                                                                    <button class="btn btn-success btn-sm py-2">Submit</button>
+                                                                @endif
+                                                            @endif
+                                                        </div>
+                                                    </form>
+                                                @endif
+                                            @else
+                                                <button class="btn btn-success btn-sm py-2 disabled">You should to take first task</button>
+                                            @endif
+                                        @else
+                                            <button class="btn btn-success btn-sm py-2 disabled">You should be online</button>
+                                        @endif
+                                    @endif
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    @endforeach
+                    {{-- Modal end --}}
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+{{-- @dd(auth()->user()->load(['orders'])); --}}
+
+
+
+
+
+
+</section>
+<!-- /.content -->
+@endsection
+
+@section('scripts')
+<script>
+ $(document).ready(function() {
+    // Your JavaScript code here
+    console.log("ready")
+    function checkIsView() {
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('is_view') }}',
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                // console.log(response);
+                if (response['is_user_order']===true){
+                    window.location.href = "{{ route('orderIndex', ['isview'=>false]) }}";
+                }
+                // console.log(window.location.href)
+            },
+            error: function(error) {
+                window.location.href = "{{ route('taskIndex') }}";
+            }
+        });
+    }
+
+    setInterval(checkIsView, 1000);
+    // Call the function
+    // checkIsView();
+});
+
+
+</script>
+
+    
+
+<script>
+    function toggle_instock(id) {
+        $.ajax({
+            url: "/product/toggle-status/" + id
+            , type: "POST"
+            , data: {
+                _token: "{{ csrf_token() }}"
+            }
+            , success: function(result) {
+                if (result.is_active) {
+                    $("#product_" + id).attr('class', "fas fa-check-circle text-success");
+                } else {
+                    $("#product_" + id).attr('class', "fas fa-times-circle text-danger");
+                }
+            }
+            , error: function(errorMessage) {
+                console.log(errorMessage);
+            }
+        });
+    }
+
+</script>
+<script>
+    function submitOrder(productId) {
+        $.ajax({
+            url: "/submit/order/" + productId
+            , type: "POST"
+            , data: {
+                _token: "{{ csrf_token() }}"
+            }
+            , success: function(response) {
+                if (response.success) {
+
+                } else {
+                    alert("Failed to submit order: " + response.message);
+                }
+            }
+            , error: function(error) {
+                console.log(error);
+                alert("An error occurred.");
+            }
+        });
+    }
+
+</script>
+@endsection

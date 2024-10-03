@@ -1,0 +1,152 @@
+@extends('layouts.admin')
+
+@section('content')
+<!-- Content Header (Page header) -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18">Control Report</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" style="color: #007bff;">@lang('global.home')</a></li>
+                    <li class="breadcrumb-item active">Control Report</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Main content -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Control Report</h3>
+                <a href="#!" class="btn btn-sm btn-success waves-effect waves-light float-right">
+                    <span class="fas fa-plus-circle"></span>
+                    @lang('global.add')
+                </a>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <!-- Data table -->
+                <table id="datatable" class="table table-bordered dt-responsive w-100">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Employee</th>
+                            <th>Company</th>
+                            <th>Driver</th>
+                            <th>Timer</th>
+                            <th>Reuqest</th>
+                            <th>Detail</th>
+                            <th class="w-25">@lang('global.actions')</th>
+
+ 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($reports as $report)
+                        <tr>
+                            <td>1</td>
+                            <td>{{$report->user->name}}</td>
+                            <td>{{$report->task->company->name}}</td>
+                            <td>{{$report->task->driver->full_name}}</td>
+                            <td>{{$report->task->category->deadline}}</td>
+                            <td>
+                                @if($report->status)
+                                    Violation
+
+                                    @else
+
+                                    No violation
+
+                                @endif
+
+                            </td>
+                            <td>{{$report->task->description}}</td>
+
+                            <td class="text-center">
+                                @can('roles.delete')
+                                <form action="#!" method="post">
+                                    @csrf
+                                    <ul class="list-unstyled hstack gap-1 mb-0 justify-content-lg-center justify-content-md-center justify-content-start">
+                                        
+                                     
+                                        
+                                        <li data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('global.delete')">
+                                            <input name="_method" type="hidden" value="DELETE">
+                                            <button type="button" class="btn btn-danger" onclick="if (confirm('Вы уверены?')) {this.form.submit()}">
+                                                <i class="bx bxs-x-circle" style="font-size: 16px;"></i>
+                                            </button>
+                                        </li>
+
+                                        <li data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('global.detail')">
+                                            <button type="button" class="btn btn-success">
+                                                <i class="bx bxs-check-square" style="font-size: 16px;"></i>
+                                            </button>
+                                        </li>
+
+                                    
+                                        <li data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('global.detail')">
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" 
+                                            data-bs-target="#exampleModal_{{ $report->id }}">
+                                                <i class="bx bxs-show" style="font-size: 16px;"></i>
+                                            </button>
+                                        </li>
+                                        
+                                        </li>
+                                        
+                                    </ul>
+                                </form>
+                                <div class="modal fade" id="exampleModal_{{ $report->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">{{  $report->user->name  }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-striped text-center">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td colspan="2">Off days in {{ $report->month }}:</td>
+                                                        </tr>
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @endcan
+                                
+                            </td>
+
+                           
+                        </tr>
+
+
+                        @endforeach
+                      
+                    </tbody>
+                </table>
+            
+            
+      
+            
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+@endsection

@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Active"
+    },
+    {
+        "name": "Canceled"
+    },
+    {
+        "name": "Accepted"
+    },
+    {
+        "name": "Complated"
+    },
+    {
+        "name": "Deleted"
+    },
+    {
+        "name": "ORDER_ACTIVE"
+    },
+    {
+        "name": "TIME_IS_OVER"
+    },
+    {
+        "name": "ADMIN_REJECT"
+    }
+]

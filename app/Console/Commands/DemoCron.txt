@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use App\Models\Product;
+use App\Models\User;
+use App\Models\Order;
+use Carbon\Carbon;
+
+class DemoCron extends Command
+{
+    protected $signature = 'demo:cron';
+    protected $description = 'Perform tasks for online users and product ordering';
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function handle()
+    {
+        // $statusFilePath = '/Users/user/Desktop/logistic_adminLte/public/status.txt';
+        $statusFilePath = public_path('status.txt');
+
+		
+        try {
+            // Read status file content and decode JSON
+            $statusContent = file_get_contents($statusFilePath);
+            $statusData = json_decode($statusContent, true);
+
+            // Check if the demo cron should be stopped
+            $stopDemoCron = $statusData['stop_demo_cron'];
+            Log::info('Cron status: ' . $stopDemoCron);
+
+            if ($stopDemoCron == 1) {
+                Log::info('DemoCron has been stopped. --------------------------------');
+                return;
+            }
+            Log::info('AFTER ORGINAL WORK Cron status: ' . $stopDemoCron);
+
+            // Retrieve online users with orders and last order details
+            $onlineUsers = User::where('status', 'online')->with('orders', 'lastOrder')->get();
+
+            foreach ($onlineUsers as $user) {
+                // Check if the user is online and eligible for processing
+                if ($user->status === 'online') {
+                    // Check if the user's last update time is more than 5 minutes ago
+                    if ($user->updated_at->addMinutes(5) <= now()) {
+                        // Check if the user has an active order
+                        $hasActiveOrder = $user->orders->where('is_finished', false)->count() > 0;
+
+                        if (!$hasActiveOrder) {
+                            // Find the oldest available product for the user
+                            $oldestProduct = Product::where('in_stock', true)
+                                ->where('is_extra', false)
+                                ->whereDoesntHave('orders')
+                                ->orderBy('created_at')
+                                ->first();
+
+                            if ($oldestProduct) {
+                                // Create a new order for the user
+                                $newOrder = new Order();
+                                $newOrder->user_id = $user->id;
+                                $newOrder->product_id = $oldestProduct->id;
+                                $newOrder->status = 'working';
+
+                                // Calculate the deadline based on the product's category
+                                $newOrder->deadline = now()->addMinutes($oldestProduct->category->deadline);
+
+                                // Set threshold input
+                                $newOrder->thresholdInput = $oldestProduct->category->thresholdInput;
+
+                                $newOrder->is_view = false;
+                                $newOrder->save();
+
+                                Log::info("New order created for User {$user->id}.");
+
+                                // Update product status
+                                $oldestProduct->in_stock = false;
+
+                                $oldestProduct->save();
+                                // break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Log::info("Product ordering job completed.");
+        } catch (\Exception $e) {
+            Log::error("Product ordering job failed: " . $e->getMessage());
+        }
+
+        return 0;
+    }
+}

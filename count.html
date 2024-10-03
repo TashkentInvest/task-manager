@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Deadline Countdown</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Task Deadline Countdown</h1>
+        <p>Deadline: {{ deadline }}</p>
+        <p>Remaining Time: {{ remainingTime }}</p>
+        <button @click="removeFromStorage">Remove Deadline from Storage</button>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    deadline: null,
+                    remainingTime: null
+                }
+            },
+            mounted() {
+                this.retrieveDeadlineFromLocalStorage();
+                this.calculateRemainingTime();
+                setInterval(this.calculateRemainingTime, 1000);
+            },
+            methods: {
+                retrieveDeadlineFromLocalStorage() {
+                    const deadlineData = localStorage.getItem('deadlineData');
+
+                    if (deadlineData) {
+                        this.deadline = new Date(JSON.parse(deadlineData));
+                    } else {
+                        // Set deadline manually to current time + 1 minute
+                        const now = new Date();
+                        now.setMinutes(now.getMinutes() + 1); // Add 1 minute
+                        this.deadline = now;
+                        localStorage.setItem('deadlineData', JSON.stringify(this.deadline));
+                    }
+                },
+                calculateRemainingTime() {
+                    const currentTime = new Date();
+                    const timeDifference = this.deadline - currentTime;
+
+                    if (timeDifference <= 0) {
+                        this.remainingTime = 'Deadline passed';
+                        clearInterval(this.interval);
+                        return;
+                    }
+
+                    let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+                    days = days >= 0 ? days : 0;
+                    hours = hours >= 0 ? hours : 0;
+                    minutes = minutes >= 0 ? minutes : 0;
+                    seconds = seconds >= 0 ? seconds : 0;
+
+                    this.remainingTime = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+                },
+                removeFromStorage() {
+                    localStorage.removeItem('deadlineData');
+                    sessionStorage.removeItem('deadlineData');
+                    this.deadline = null;
+                    this.remainingTime = null;
+                }
+            },
+            created() {
+                window.addEventListener('beforeunload', this.retrieveDeadlineFromLocalStorage);
+            }
+        });
+
+        const vm = app.mount('#app');
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+.float-right {
+    float: right!important;
+}
+
+#sidebar-menu ul li a {
+    font-size: 14px !important;
+}
+
+body{
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__arrow {
+    top: 0 !important;
+}
+.badge {
+    display: inline-block;
+    padding: 0.35em 0.4em;
+    font-size: 80%;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 0.75rem 1.25rem;
+    position: relative;
+    border-top-left-radius: 0.25rem !important;
+    border-top-right-radius: 0.25rem !important;
+}
+
+.card-title {
+    float: left;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.employee-switch-status{
+    width: 80px !important;
+    height: 25px !important;
+}
+
+input[switch]+.employee-switch-status:before{
+    font-size: 14px !important;
+}
+
+input[switch]:checked+.employee-switch-status:after {
+    left: 56px;
+    background-color: #eff2f7;
+}
+
+.cup-main{
+    width: 2.25rem;
+    height: 2.25rem;
+    background-color: #f5fAff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3f9cfb;
+}
+.cup-main i {
+    font-size: 20px;
+}
+
+.cup-main-text{
+    margin-inline-start: 0.5rem;
+    margin-top: 0px;
+    margin-inline-end: 0px;
+    margin-bottom: 0px;
+    color: #4299e1;
+    font-size: 16px;
+    font-weight: 600;
+}
