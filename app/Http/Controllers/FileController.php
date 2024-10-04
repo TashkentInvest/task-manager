@@ -71,12 +71,10 @@ class FileController extends Controller
             $fileModel->user_id = Auth::id();
 
             if ($file) {
-                // Create a unique filename using a random slug and the file's original extension
-                $extension = $file->getClientOriginalExtension();
-                $fileName = Str::random(16) . '.' . $extension; // Change file name
+                $originalFileName = $file->getClientOriginalName();
+                $filePath = $file->storeAs('uploads', $originalFileName, 'local'); // Store with original name
 
-                $filePath = $file->storeAs('uploads', $fileName, 'local'); // Store with new name
-                $fileModel->file_name = $filePath;
+                $fileModel->file_name = $filePath; // Store the path
                 $fileModel->slug = Str::random(16);
             }
 
@@ -85,6 +83,7 @@ class FileController extends Controller
 
         return redirect()->route('files.index');
     }
+
 
 
     // Show and download a file by its slug
