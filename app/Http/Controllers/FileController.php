@@ -30,22 +30,52 @@ class FileController extends Controller
     }
 
     // Store uploaded files
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'department' => 'required',
+    //         'files.*' => 'required', // Validate each file
+    //     ]);
+
+    //     foreach ($request->file('files') as $file) {
+    //         $fileModel = new File();
+    //         $fileModel->name = $request->name;
+    //         $fileModel->department = $request->department;
+    //         $fileModel->user_id = Auth::id();   
+
+    //         if ($file) {
+    //             $filePath = $file->store('uploads', 'local');
+    //             $fileModel->file_name = $filePath;
+    //             $fileModel->slug = Str::random(16);
+    //         }
+
+    //         $fileModel->save();
+    //     }
+
+    //     return redirect()->route('files.index');
+    // }
+
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
             'department' => 'required',
-            'files.*' => 'required', // Validate each file
+            'files.*' => 'required', // Ensure each file is valid
         ]);
 
         foreach ($request->file('files') as $file) {
             $fileModel = new File();
             $fileModel->name = $request->name;
             $fileModel->department = $request->department;
-            $fileModel->user_id = Auth::id(); // Save the ID of the logged-in user
+            $fileModel->user_id = Auth::id();
 
             if ($file) {
-                $filePath = $file->store('uploads', 'local');
+                // Create a unique filename using a random slug and the file's original extension
+                $extension = $file->getClientOriginalExtension();
+                $fileName = Str::random(16) . '.' . $extension; // Change file name
+
+                $filePath = $file->storeAs('uploads', $fileName, 'local'); // Store with new name
                 $fileModel->file_name = $filePath;
                 $fileModel->slug = Str::random(16);
             }
@@ -55,6 +85,7 @@ class FileController extends Controller
 
         return redirect()->route('files.index');
     }
+
 
     // Show and download a file by its slug
     public function show($slug)
