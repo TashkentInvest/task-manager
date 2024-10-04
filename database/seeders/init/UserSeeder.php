@@ -83,7 +83,7 @@ class UserSeeder extends Seeder
 
 
         // generate from xlsx
-        $filePath = public_path('assets/users/ХР.xlsx');
+        $filePath = public_path('assets/users/ХР.xlsx_Parsing.uz.xlsx');
         
         // Load the Excel file
         $spreadsheet = IOFactory::load($filePath);

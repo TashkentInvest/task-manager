@@ -17,10 +17,10 @@ class CreateFilesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('name');        // The name of the person uploading
-            $table->string('department');  // Department name
-            $table->string('file_name');   // Path to the uploaded file
-            $table->string('slug')->unique(); // Add unique slug
+            $table->string('name')->nullable();        // The name of the person uploading
+            $table->string('department')->nullable();  // Department name
+            $table->string('file_name')->nullable();   // Path to the uploaded file
+            $table->string('slug')->unique()->nullable(); // Add unique slug
             $table->timestamps();
         });
     }

@@ -117,7 +117,7 @@
 
 					@endphp
 					{{-- @dump(auth()->user()->roles[0]->name) --}}
-						@if(auth()->user()->roles[0]->name != "Employee")			
+						{{-- @if(auth()->user()->roles[0]->name != "Employee")			
 							@if($my_demo_status)
 							<form action="{{ route('toggleCommand') }}" method="POST">
 								@csrf
@@ -131,7 +131,7 @@
 								<button type="submit" class="text-button btn btn-dark text-white">Stop Command</button>
 							</form>
 							@endif
-						@endif
+						@endif --}}
 					</div>
 
 					{{-- command btn end --}}

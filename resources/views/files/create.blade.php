@@ -34,13 +34,13 @@
                         <!-- Name Input -->
                         <div class="mb-3">
                             <label for="name" class="form-label">File Name</label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder="Enter file name" required>
+                            <input type="text" name="name" id="name" class="form-control" value="{{auth()->user()->name}}" placeholder="Enter file name" required>
                         </div>
 
                         <!-- Department Input -->
                         <div class="mb-3">
                             <label for="department" class="form-label">Department</label>
-                            <input type="text" name="department" id="department" class="form-control" placeholder="Enter department" required>
+                            <input type="text" name="department" id="department" class="form-control" value="{{auth()->user()->about ?? null}}" placeholder="Enter department" required>
                         </div>
 
                         <!-- File Input -->
