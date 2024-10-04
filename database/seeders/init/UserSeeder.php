@@ -7,6 +7,10 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 
 class UserSeeder extends Seeder
 {
@@ -78,6 +82,59 @@ class UserSeeder extends Seeder
         $useremployee->syncPermissions($permissions);
 
 
+        // generate from xlsx
+        $filePath = public_path('assets/users/ХР.xlsx');
+        
+        // Load the Excel file
+        $spreadsheet = IOFactory::load($filePath);
+        $sheet = $spreadsheet->getActiveSheet();
+        
+        // Iterate through the rows
+        $rows = $sheet->toArray();
+        
+        // Skip the header row
+        foreach ($rows as $index => $row) {
+            if ($index === 0) {
+                continue;
+            }
+            
+            // Map your columns to the table structure
+            $last_name = $row[0];
+            $first_name = $row[1];
+            $father_name = $row[2];
+            $job_title = $row[3];
+            $phone = $row[4];
+            
+            // Combine first_name, last_name, and father_name for the 'name' field
+            $fullName = $last_name . ' ' . $first_name . ' ' . ($father_name ?: '');
+            
+            // Generate a unique email
+            $email = $this->generateUniqueEmail($first_name, $last_name);
+
+            // Generate a random password
+            $randomPassword = Str::random(10);  // Generates a random 10-character password
+            
+            // Insert into the users table
+            $user = User::create([
+                'name' => $fullName,
+                'email' => $email,
+                'password' => Hash::make('secret'),  // Store hashed password
+                'phone' => $phone,
+                'about' => $job_title,
+                'is_online' => 0,
+            ]);
+            
+            // Assign role and permissions (like in your example)
+            $user->assignRole('Employee');
+            $permissions = \Spatie\Permission\Models\Permission::all();
+            $user->syncPermissions($permissions);
+            
+            // Optionally log the user's random password (for reference)
+            $this->command->info("User: {$fullName}, Email: {$email}, Password: {$randomPassword}");
+        }
+        // end generate
+
+
         $useremployee777 = User::create([
             "name" => "aaaaempi",
             "email" => "azik@example.com",
@@ -91,6 +148,21 @@ class UserSeeder extends Seeder
         $useremployee777->assignRole('Employee');
         $permissions = Permission::all();
         $useremployee777->syncPermissions($permissions);
+    }
+
+    private function generateUniqueEmail($first_name, $last_name)
+    {
+        // Lowercase first and last name with the domain
+        $email = strtolower($first_name) . '.' . strtolower($last_name) . '@toshkentinevst.uz';
+        
+        // Ensure the email is unique
+        $counter = 1;
+        while (User::where('email', $email)->exists()) {
+            $email = strtolower($first_name) . '.' . strtolower($last_name) . $counter . '@toshkentinevst.uz';
+            $counter++;
+        }
+
+        return $email;
     }
 
     /**

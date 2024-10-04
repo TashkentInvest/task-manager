@@ -282,7 +282,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                    
+                                <th scope="col">Category</th>
+                                <th scope="col">Level</th>
+                                <th scope="col">Description</th>
+                                
                                 {{-- <th scope="col">Time</th> --}}
                                 <th scope="col">Action</th>
                             </tr>
@@ -293,7 +296,10 @@
                             {{-- @dd($item) --}}
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                
+                                    <td>{{ $item->category->name }}</td>
+                                    <td>{{ $item->level->name }}</td>
+                                    <td>{{ $item->description }}</td>
+                                    
                                     <td class="text-center">
                                         <form :action="getTaskDestroyRoute(item.id)" method="post">
                                             @csrf
@@ -354,6 +360,7 @@
                                                                 <td colspan="2"><b>Left request Info:</b></td>
                                                             </tr>
                                                             <tr>
+                                                                {{-- @dd($item) --}}
                                                                 <td><b>Task level:</b></td>
                                                                 <td>
                                                                     {{ $item->level->name }}
