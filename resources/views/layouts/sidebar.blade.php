@@ -19,7 +19,7 @@
                 @endcan
                 <!-- Monitoring -->
                 @can('monitoring.show')
-                <li class="{{ Request::is('monitoring*') ? 'mm-active':'' }}">
+                <li class="{{ Request::is('monitoring*') ?  'mm-active':'' }}">
                     <a href="{{ route('monitoringIndex') }}" class=" waves-effect {{ Request::is('monitoring*') ? 'mm-active':'' }}">
                         <i class="bx bxs-bar-chart-alt-2"></i>
                         <!-- <sub><i class="fas fa-child"></i></sub> -->
@@ -27,6 +27,17 @@
                     </a>
                 </li>
                 @endcan
+
+                {{-- files start --}}
+                <li class="{{ Request::is('files*') ? 'mm-active':'' }}">
+                    <a href="{{ route('files.index') }}" class=" waves-effect {{ Request::is('files*') ? 'mm-active':'' }}">
+                        <i class="bx bxs-file"></i>
+                        <!-- <sub><i class="fas fa-child"></i></sub> -->
+                        <span>Files</span>
+                    </a>
+                </li>
+
+                {{-- files end --}}
                 <!-- Manage -->
                 @canany([
                     'category.show',
@@ -49,6 +60,8 @@
                             </a>
                         </li>
                         @endcan
+
+                        
                         
                         {{-- @can('company.show')
                         <li>
