@@ -12,7 +12,14 @@ class FileController extends Controller
     // Fetch and display all files
     public function index()
     {
-        $files = File::orderByDesc('created_at')->get();
+        // If the user is a Super Admin, show all files
+        if (Auth::user()->roles[0]->name === 'Super Admin') {
+            $files = File::orderByDesc('created_at')->get();
+        } else {
+            // For regular users, only show their files
+            $files = File::where('user_id', Auth::id())->orderByDesc('created_at')->get();
+        }
+
         return view('files.index', compact('files'));
     }
 
@@ -28,48 +35,43 @@ class FileController extends Controller
         $request->validate([
             'name' => 'required',
             'department' => 'required',
-            'files.*' => 'required|file', // Validate each file
+            'files.*' => 'required', // Validate each file
         ]);
 
-        // Loop through each uploaded file
         foreach ($request->file('files') as $file) {
             $fileModel = new File();
             $fileModel->name = $request->name;
             $fileModel->department = $request->department;
+            $fileModel->user_id = Auth::id(); // Save the ID of the logged-in user
 
-            // Store the file and generate a slug
             if ($file) {
-                $filePath = $file->store('uploads', 'local'); // File will be stored in storage/app/uploads
-                $fileModel->file_name = $filePath; // Save the path
-                $fileModel->slug = Str::random(16); // Generate a random slug for the file
+                $filePath = $file->store('uploads', 'local');
+                $fileModel->file_name = $filePath;
+                $fileModel->slug = Str::random(16);
             }
 
-            $fileModel->save(); // Save the file record in the database
+            $fileModel->save();
         }
 
-        return redirect()->route('files.index'); // Redirect to files index page after upload
+        return redirect()->route('files.index');
     }
 
     // Show and download a file by its slug
     public function show($slug)
     {
-        // Ensure the user is authenticated
-        if (!Auth::check()) {
-            return redirect()->route('login'); // Redirect to login if not authenticated
-        }
-
-        // Fetch the file record by its slug
         $file = File::where('slug', $slug)->firstOrFail();
 
-        // Construct the full file path for downloading
-        $filePath = storage_path("app/{$file->file_name}");
-
-        // Check if the file exists
-        if (!file_exists($filePath)) {
-            return abort(404, 'File not found'); // Show 404 error if file is missing
+        // Authorize the action using the policy
+        if (!Auth::user()->can('view', $file)) {
+            abort(403, 'Unauthorized access');
         }
 
-        // Serve the file for download
+        $filePath = storage_path("app/{$file->file_name}");
+
+        if (!file_exists($filePath)) {
+            return abort(404, 'File not found');
+        }
+
         return response()->download($filePath);
     }
 }

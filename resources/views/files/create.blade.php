@@ -29,6 +29,8 @@
                     <form action="{{ route('files.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
+                        <input type="hidden" name="user_id" id="" value="{{auth()->user()->id ?? null}}">
+
                         <!-- Name Input -->
                         <div class="mb-3">
                             <label for="name" class="form-label">File Name</label>
