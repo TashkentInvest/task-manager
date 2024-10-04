@@ -24,6 +24,7 @@
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
+            background: red
         }
 
         canvas{
@@ -150,7 +151,7 @@
         <div class="content" >
             <h3 class="panel_site_title">@lang('panel.site_title')</h3>
             <div class="welcome_box">
-                <h1>404 Not found</h1>
+                <h1>404 Not found :(</h1>
                 @if (Route::has('login'))
                     @auth
                         <a href="{{ url('/home') }}" class="btn btn-success">@lang('global.home')</a>

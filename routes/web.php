@@ -7,9 +7,7 @@ use App\Http\Controllers\Blade\RoleController;
 use App\Http\Controllers\Blade\PermissionController;
 use App\Http\Controllers\Blade\HomeController;
 use App\Http\Controllers\Blade\ApiUserController;
-use App\Http\Controllers\Blade\CompanyController;
 use App\Http\Controllers\Blade\CategoryController;
-use App\Http\Controllers\Blade\DriverController;
 use App\Http\Controllers\Blade\DashboardController;
 use App\Http\Controllers\Blade\MonitoringController;
 use App\Http\Controllers\Blade\EmployeeController;
@@ -22,6 +20,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\FileDownloadController;
 use App\Http\Controllers\FinesController;
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +32,21 @@ use App\Http\Controllers\FinesController;
 |
 */
 
+Route::middleware(['auth'])->group(function () {
+    // Route::resource('files', FileController::class); // Exclude show from resource
+    Route::get('/files', [FileController::class, 'index'])->name('files.index');
+    Route::get('/files/create',[FileController::class,'create'])->name('files.create');
+    Route::post('/files',[FileController::class,'store'])->name('files.store');
+
+    Route::get('/files/{slug}', [FileController::class, 'show'])->name('files.show');
+});
+
 // Default laravel auth routes
 Auth::routes(['register' => false]);
 
+// file start
+
+// file end
 
 // Welcome page
 Route::get('/', function () {
