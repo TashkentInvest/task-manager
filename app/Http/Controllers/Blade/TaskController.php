@@ -102,13 +102,13 @@ class TaskController extends Controller
     {
         // Validate the incoming request
         $validatedData = $request->validate([
-            'category_id' => 'nullable|exists:categories,id', // Ensure category exists
-            'poruchenie' => 'required|string|max:255', // Поручение
-            'issue_date' => 'required|date', // Дата выдачи
-            'author' => 'required|string|max:255', // Автор поручения
-            'executor' => 'required|string|max:255', // Исполнитель поручения
+            // 'category_id' => 'nullable|exists:categories,id', // Ensure category exists
+            'poruchenie' => 'nullable|string|max:255', // Поручение
+            'issue_date' => 'nullable|date', // Дата выдачи
+            'author' => 'nullable|string|max:255', // Автор поручения
+            'executor' => 'nullable|string|max:255', // Исполнитель поручения
             'co_executor' => 'nullable|string|max:255', // Со исполнитель поручения
-            'planned_completion_date' => 'required|date', // Срок выполнения (план)
+            'planned_completion_date' => 'nullable|date', // Срок выполнения (план)
             'actual_status' => 'nullable|string|max:255', // Статус выполнения (факт)
             'execution_state' => 'nullable|string|max:255', // Состояние исполнения
             'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048', // Закрепленный файл
@@ -116,10 +116,11 @@ class TaskController extends Controller
             'notification' => 'nullable|string|max:255', // Оповещение
             'priority' => 'nullable|string|in:Высокий,Средний,Низкий', // Приоритет
             'document_type' => 'nullable|string|max:255', // Вид документа
-            'driver_id' => 'required|exists:drivers,id', // Driver existence check
-            'company_id' => 'required|exists:companies,id', // Company existence check
+            'driver_id' => 'nullable|exists:drivers,id', // Driver existence check
+            'company_id' => 'nullable|exists:companies,id', // Company existence check
         ]);
 
+        // dd('da');
         // Find the task by ID
         $task = Tasks::findOrFail($id);
 
