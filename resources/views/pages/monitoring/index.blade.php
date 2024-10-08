@@ -68,6 +68,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Категория</th>
+                                <th scope="col">Автор</th>
                                 <th scope="col">Поручение</th>
                                 <th scope="col">Исполнитель</th>
                                 <th scope="col">Действие</th>
@@ -78,6 +79,7 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->category->name }}</td>
+                                    <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->poruchenie }}</td>
                                     <td>{{ $item->executor }}</td>
                                     
@@ -106,10 +108,6 @@
                                                     </form>
                                                 </li>
                                                 
-                                                
-                                              
-                                                
-
                                                 <li data-bs-toggle="tooltip" data-bs-placement="top" title="Подробности">
                                                     <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal_{{$item->id}}">
                                                         <i class="bx bxs-show" style="font-size: 16px;"></i>

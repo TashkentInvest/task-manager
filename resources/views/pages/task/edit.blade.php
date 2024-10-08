@@ -36,6 +36,9 @@
                     @csrf
                     @method('POST')
 
+                    <input type="hidden" name="user_id" class="form-control" value="{{ old('user_id', $task->user->id ?? '') }}" required>
+
+
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Категория</label>
@@ -65,10 +68,7 @@
                             <input type="date" name="issue_date" class="form-control" value="{{ old('issue_date', $task->issue_date) }}" required>
                         </div>
 
-                        <div class="col-md-6">
-                            <label>Автор</label>
-                            <input type="text" name="author" class="form-control" value="{{ old('author', $task->author) }}" required>
-                        </div>
+                      
                     </div>
 
                     <div class="row mb-3">

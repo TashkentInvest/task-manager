@@ -30,7 +30,7 @@
                 // New columns
                 $table->string('poruchenie')->nullable(); // Поручение (Task or assignment)
                 $table->date('issue_date')->nullable(); // Дата выдачи (Date of issue)
-                $table->string('author')->nullable(); // Автор поручения (Author of the task)
+                // $table->string('author')->nullable(); // Автор поручения (Author of the task)
                 $table->string('executor')->nullable(); // Исполнитель поручения (Executor of the task)
                 $table->string('co_executor')->nullable(); // Со исполнитель поручения (Co-executor)
                 $table->date('planned_completion_date')->nullable(); // Срок выполнения (план) (Planned completion date)

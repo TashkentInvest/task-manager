@@ -24,7 +24,7 @@ class Tasks extends Model
         'status_id',
         'poruchenie', // Поручение
         'issue_date', // Дата выдачи
-        'author', // Автор поручения
+        // 'author', // Автор поручения
         'executor', // Исполнитель поручения
         'co_executor', // Со исполнитель поручения
         'planned_completion_date', // Срок выполнения (план)

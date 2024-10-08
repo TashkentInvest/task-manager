@@ -35,8 +35,10 @@ class TaskController extends Controller
     {
         // dd($request);
         // Validate the incoming request
+        
         $validatedData = $request->validate([
             'issue_date' => 'nullable|date', // Дата выдачи
+            'poruchenie' => 'nullable|string', // Дата выдачи
             'author' => 'nullable|string|max:255', // Автор поручения
             'executor' => 'nullable|string|max:255', // Исполнитель поручения
             'co_executor' => 'nullable|string|max:255', // Со исполнитель поручения
@@ -55,6 +57,7 @@ class TaskController extends Controller
         $task = new Tasks();
         $task->category_id = $validatedData['category_id'] ?? 1;
         $task->status_id = $validatedData['status_id'] ?? 1;
+        $task->poruchenie = $validatedData['poruchenie'] ?? null;
         $task->description = $validatedData['description'] ?? null;
         $task->issue_date = $validatedData['issue_date'] ?? null;
         $task->author = $validatedData['author'] ?? null;
