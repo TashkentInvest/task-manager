@@ -229,7 +229,7 @@
                     </ul>
                 </li>
 
-                @if (isset($user->roles[0]) && $user->roles[0]->name == "Super Admin")
+                @if (auth()->user()->roles[0]->name == "Super Admin")
                     
                 @canany([
                     'permission.show',

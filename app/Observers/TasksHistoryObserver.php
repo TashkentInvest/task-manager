@@ -15,8 +15,7 @@ class TasksHistoryObserver
         TasksHistory::create([
             'task_id' => $task->id,
             'category_id' => $task->category_id,
-        
-            'level_id' => $task->level_id,
+
             'description' => $task->description,
             'type_request' => $task->type_request ?? 0,
             'user_id' => $task->user_id,
@@ -33,7 +32,6 @@ class TasksHistoryObserver
                 'task_id' => $task->id,
                 'category_id' => $task->category_id,
        
-                'level_id' => $task->level_id,
                 'description' => $task->description,
                 'type_request' => $task->type_request ?? 0,
                 'user_id' => $task->user_id,

@@ -15,7 +15,6 @@ class TasksHistory extends Model
     protected $fillable = [
         'task_id',
         'category_id',
-        'level_id',
         'status_id',
         'description',
         'type_request',

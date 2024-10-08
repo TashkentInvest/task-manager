@@ -17,14 +17,24 @@ class Tasks extends Model
     protected $table = 'tasks';
 
     protected $fillable = [
-        'category_id',
-        'status_id',
         'user_id',
-        'level_id',
+        'category_id',
         'description',
         'type_request',
-        'created_at',
-        'assigned_user_id'
+        'status_id',
+        'poruchenie', // Поручение
+        'issue_date', // Дата выдачи
+        'author', // Автор поручения
+        'executor', // Исполнитель поручения
+        'co_executor', // Со исполнитель поручения
+        'planned_completion_date', // Срок выполнения (план)
+        'actual_status', // Статус выполнения (факт)
+        'execution_state', // Состояние исполнения
+        'attached_file', // Закрепленный файл
+        'note', // Примичание
+        'notification', // Оповещение
+        'priority', // Приоритет
+        'document_type', // Вид документа
     ];
 
 
@@ -189,19 +199,10 @@ class Tasks extends Model
         return $this->hasMany(TasksHistory::class, 'task_id', 'id');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
 
     public function category()
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function driver()
-    {
-        return $this->belongsTo(Driver::class);
     }
 
     public function level()

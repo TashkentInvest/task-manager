@@ -56,8 +56,6 @@ class OrderController extends Controller
             LEFT JOIN users AS order_user ON order_user.id = `order`.user_id
             LEFT JOIN category AS categ ON categ.id = task.category_id
 
-            LEFT JOIN task_level  AS task_lev ON task_lev.id = task.level_id
-            LEFT JOIN task_status ON task_status.id = task.status_id
             WHERE (`order`.task_id = task.id) AND (`order`.status = 0 OR `order`.status = 77)
             ORDER BY `order`.id DESC";
 

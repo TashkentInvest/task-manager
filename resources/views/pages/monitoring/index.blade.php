@@ -297,7 +297,6 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->category->name }}</td>
-                                    <td>{{ $item->level->name }}</td>
                                     <td>{{ $item->description }}</td>
                                     
                                     <td class="text-center">
@@ -359,13 +358,7 @@
                                                             <tr class="text-center">
                                                                 <td colspan="2"><b>Left request Info:</b></td>
                                                             </tr>
-                                                            <tr>
-                                                                {{-- @dd($item) --}}
-                                                                <td><b>Task level:</b></td>
-                                                                <td>
-                                                                    {{ $item->level->name }}
-                                                                </td>
-                                                            </tr>
+                                                  
                                                             <tr>
                                                                 <td><b>Description:</b></td>
                                                                 <td>

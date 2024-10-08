@@ -117,7 +117,6 @@ class DemoCron extends Command
                                 $newOrder->save();
             
                                 // task status update yani tugadi dgan manoda
-                                $oldestTask->status_id = 3; 
                                 $oldestTask->save();
                                 
                                 Log::info("New order created for User {$user->id}.");

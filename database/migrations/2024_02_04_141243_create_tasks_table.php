@@ -15,25 +15,35 @@
         {
             Schema::create('tasks', function (Blueprint $table) {
                 $table->id();
-
-                // $table->foreignId('assigned_user_id')->constrained('users')->onDelete('cascade'); // User assigned to the task
-                $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Creator of the task
-
-                $table->unsignedBigInteger('category_id');
-                $table->foreign('category_id')->references('id')->on('category');
                 
-                $table->unsignedBigInteger('level_id')->nullable();
-                $table->foreign('level_id')->references('id')->on('task_level');
+                // Existing columns
+                $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Creator of the task
+                $table->unsignedBigInteger('category_id')->nullable();
+                $table->foreign('category_id')->references('id')->on('category');
                 $table->text('description')->nullable();
-                $table->integer('type_request')->default(0);
-
+                $table->integer('type_request')->default(0); // request type to know if task was taken or not
                 $table->unsignedBigInteger('status_id')->default(1);
                 $table->foreign('status_id')->references('id')->on('task_status');
                 $table->softDeletes();
-                // $table->timestamp('deleted_at');
                 $table->timestamps();
+                
+                // New columns
+                $table->string('poruchenie')->nullable(); // Поручение (Task or assignment)
+                $table->date('issue_date')->nullable(); // Дата выдачи (Date of issue)
+                $table->string('author')->nullable(); // Автор поручения (Author of the task)
+                $table->string('executor')->nullable(); // Исполнитель поручения (Executor of the task)
+                $table->string('co_executor')->nullable(); // Со исполнитель поручения (Co-executor)
+                $table->date('planned_completion_date')->nullable(); // Срок выполнения (план) (Planned completion date)
+                $table->string('actual_status')->nullable(); // Статус выполнения (факт) (Actual completion status)
+                $table->string('execution_state')->nullable(); // Состояние исполнения (Execution state)
+                $table->string('attached_file')->nullable(); // Закрепленный файл (Attached file)
+                $table->text('note')->nullable(); // Примичание (Notes)
+                $table->text('notification')->nullable(); // Оповещение (Notification)
+                $table->string('priority')->nullable(); // Приоритет (Priority)
+                $table->string('document_type')->nullable(); // Вид документа (Document type)
             });
         }
+        
 
         /**
          * Reverse the migrations.

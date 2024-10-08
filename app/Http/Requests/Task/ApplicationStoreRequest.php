@@ -25,7 +25,6 @@ class ApplicationStoreRequest extends FormRequest
     {
         return [
             'category_id' => 'nullable',
-            'level_id' => 'nullable',
             'description' => 'nullable',
             'type_request' => 'integer|in:0,1', // o yoki 1 db xsoblidi (true or false)
             'user_id' => 'required',

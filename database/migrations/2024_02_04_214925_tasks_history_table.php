@@ -19,8 +19,7 @@ class TasksHistoryTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('category');
 
-            $table->unsignedBigInteger('level_id');
-            $table->foreign('level_id')->references('id')->on('task_level');
+
             $table->text('description')->nullable();
             $table->integer('type_request')->default(0);
             $table->foreign('user_id')->references('id')->on('users');

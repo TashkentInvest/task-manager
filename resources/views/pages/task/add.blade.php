@@ -35,15 +35,7 @@
 
                     <div class="form-group">
                         <div class="row">
-
-                            <div class="col">
-                                <label>Level</label>
-                                <select class="form-control select2" style="width: 100%;" name="level_id" required>
-                                    @foreach($taskLevels as $level)
-                                    <option value="{{$level->id}}">{{$level->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                 
 
                             <div class="col">
                                 <label>Category</label>
@@ -53,34 +45,72 @@
                                     @endforeach
                                 </select>
                             </div>
-
-                        </div>
-                    </div>
-
-                    {{-- company and drivers --}}
-                    <div class="form-group">
-                        <div class="row">
-
-                            {{-- <div class="col">
-                                <label>Company</label>
-                                <select class="form-control select2" style="width: 100%;" name="company_id" required>
-                                    @foreach($companies as $company)
-                                    <option value="{{$company->id}}">{{$company->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                             --}}
-                           
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-12">
-                                <label>Name</label>
-                                <textarea rows="3" name="description" class="form-control"></textarea>
-                            </div>
-                        </div>
+                        <label>Issue Date</label>
+                        <input type="date" name="issue_date" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Author</label>
+                        <input type="text" name="author" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Executor</label>
+                        <input type="text" name="executor" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Co-Executor (optional)</label>
+                        <input type="text" name="co_executor" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Planned Completion Date</label>
+                        <input type="date" name="planned_completion_date" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Actual Status (optional)</label>
+                        <input type="text" name="actual_status" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Execution State (optional)</label>
+                        <input type="text" name="execution_state" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Attached File (optional)</label>
+                        <input type="file" name="attached_file" class="form-control" accept=".pdf, .jpg, .jpeg, .png">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Note (optional)</label>
+                        <textarea rows="3" name="note" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notification (optional)</label>
+                        <input type="text" name="notification" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Priority (optional)</label>
+                        <select class="form-control" name="priority">
+                            <option value="">Select Priority</option>
+                            <option value="Высокий">Высокий</option>
+                            <option value="Средний">Средний</option>
+                            <option value="Низкий">Низкий</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Document Type (optional)</label>
+                        <input type="text" name="document_type" class="form-control">
                     </div>
 
                     <div class="box d-flex">
@@ -99,8 +129,8 @@
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type_request" id="is_extra_no" value="0">
-                                <label class="form-check-label" for="is_extra_no">
+                                <input class="form-check-input" type="radio" name="type_request" id="is_extra_none" value="0">
+                                <label class="form-check-label" for="is_extra_none">
                                     None
                                 </label>
                             </div>
@@ -109,12 +139,12 @@
                     
 
                     <div class="form-group mt-2">
-                        <input type="button" id="submitButton"  class="btn btn-success float-right" value="@lang('global.save')">
+                        <button type="submit" id="submitButton" class="btn btn-success float-right" value="">@lang('global.save')</button>
+                        {{-- <input type="button" id="submitButton" class="btn btn-success float-right" value="@lang('global.save')"> --}}
+
                         <a href="{{ route('monitoringIndex') }}" class="btn btn-light waves-effect float-left">@lang('global.cancel')</a>
                     </div>
 
-
-                    {{-- <button type="submit">send</button> --}}
                 </form>
 
             </div>
@@ -122,7 +152,7 @@
     </div>
 </div>
 @endsection
-
+{{-- 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
@@ -131,7 +161,6 @@
             $(this).prop("disabled", true);
 
             var formData = $("#taskForm").serialize();
-
             formData += '&_token={{ csrf_token() }}';
 
             $.ajax({
@@ -141,7 +170,6 @@
                 success: function (response) {
                     console.log("Request successful");
                     window.location.href = "{{ route('monitoringIndex') }}";
-
                 },
                 error: function (xhr, status, error) {
                     $("#submitButton").prop("disabled", false);
@@ -150,4 +178,4 @@
             });
         });
     });
-</script>
+</script> --}}
