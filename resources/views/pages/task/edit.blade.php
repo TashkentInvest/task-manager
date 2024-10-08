@@ -34,7 +34,7 @@
             <div class="card-body">
                 <form action="{{ route('taskUpdate', $task->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
+                    @method('POST')
 
                     <div class="row mb-3">
                         <div class="col-md-6">
