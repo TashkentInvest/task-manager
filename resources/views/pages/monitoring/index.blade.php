@@ -96,13 +96,19 @@
                                                         <i class="bx bxs-edit" style="font-size:16px;"></i>
                                                     </a>
                                                 </li>
-
                                                 <li data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить">
-                                                    <input name="_method" type="hidden" value="DELETE">
-                                                    <button type="button" class="btn btn-sm btn-danger" @click="confirmDelete(item.id)">
-                                                        <i class="bx bxs-trash" style="font-size: 16px;"></i>
-                                                    </button>
+                                                    <form action="{{ route('taskDestroy', $item->id) }}" method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="bx bxs-trash" style="font-size:16px;"></i>
+                                                        </button>
+                                                    </form>
                                                 </li>
+                                                
+                                                
+                                              
+                                                
 
                                                 <li data-bs-toggle="tooltip" data-bs-placement="top" title="Подробности">
                                                     <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal_{{$item->id}}">

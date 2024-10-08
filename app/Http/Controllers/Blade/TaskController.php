@@ -150,9 +150,17 @@ class TaskController extends Controller
     public function destroy($id)
     {
         $task = Tasks::find($id);
+    
+        if (!$task) {
+            return redirect()->back()->with('error', 'Task not found.');
+        }
+    
+        // Optional: Update the status instead of deleting
         $task->status_id = TaskStatus::DELETED;
         $task->user_id = auth()->user()->id;
         $task->save();
-        return redirect()->back();
+    
+        return redirect()->back()->with('success', 'Task deleted successfully.');
     }
+    
 }

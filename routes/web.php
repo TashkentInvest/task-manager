@@ -113,7 +113,9 @@ Route::group(['middleware' => 'auth'],function (){
     Route::post('/task/create',[TaskController::class,'create'])->name('taskCreate');
     Route::get('/task/{id}/edit',[TaskController::class,'edit'])->name('taskEdit');
     Route::post('/task/update/{task_id}',[TaskController::class,'update'])->name('taskUpdate');
-    Route::delete('/task/delete/{id}',[TaskController::class,'destroy'])->name('taskDestroy');
+    Route::delete('/task/delete/{id}', [TaskController::class, 'destroy'])->name('taskDestroy');
+
+    
     // Route::resource('tasks', TaskController::class);
 
 
