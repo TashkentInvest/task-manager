@@ -540,7 +540,7 @@
                 // console.log(window.location.href)
             },
             error: function(error) {
-                window.location.href = "{{ route('taskIndex') }}";
+                window.location.href = "{{ route('monitoringIndex') }}";
             }
         });
     }

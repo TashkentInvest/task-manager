@@ -314,7 +314,7 @@
 
                                                 <li data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="@lang('global.edit')">
-                                                    <a :href="getTaskEditRoute(item.id)" class="btn btn-sm btn-info">
+                                                    <a href="{{route('taskEdit', $item->id)}}" class="btn btn-sm btn-info">
                                                         <i class="bx bxs-edit" style="font-size:16px;"></i>
                                                     </a>
                                                 </li>

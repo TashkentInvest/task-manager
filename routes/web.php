@@ -108,7 +108,7 @@ Route::group(['middleware' => 'auth'],function (){
     // Task
     Route::get('/monitoring',[ProductController::class,'index'])->name('monitoringIndex');
     // Route::resource('tasks', TaskController::class);
-    // Route::get('/tasks',[TaskController::class,'index'])->name('taskIndex');
+    // Route::get('/tasks',[TaskController::class,'index'])->name('monitoringIndex');
     Route::get('/task/add',[TaskController::class,'add'])->name('taskAdd');
     Route::post('/task/create',[TaskController::class,'create'])->name('taskCreate');
     Route::get('/task/{id}/edit',[TaskController::class,'edit'])->name('taskEdit');

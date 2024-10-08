@@ -18,7 +18,7 @@
                 
                 // Existing columns
                 $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Creator of the task
-                $table->unsignedBigInteger('category_id')->nullable();
+                $table->unsignedBigInteger('category_id')->nullable(); // xat, telefon qilish, etc ...
                 $table->foreign('category_id')->references('id')->on('category');
                 $table->text('description')->nullable();
                 $table->integer('type_request')->default(0); // request type to know if task was taken or not
