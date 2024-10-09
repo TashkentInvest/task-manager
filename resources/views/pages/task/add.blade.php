@@ -151,10 +151,15 @@
                     </div>
 
                     <div class="form-group mt-2">
-                        <button type="submit" id="submitButton" class="btn btn-success float-right">@lang('global.save')</button>
+                        <button type="submit" id="submitBtn" class="btn btn-success float-right">@lang('global.save')</button>
                         <a href="{{ route('monitoringIndex') }}" class="btn btn-light waves-effect float-left">@lang('global.cancel')</a>
                     </div>
                 </form>
+                    <script>
+                        document.getElementById('taskForm').addEventListener('submit', function() {
+                            document.getElementById('submitBtn').disabled = true; // Disable the button
+                        });
+                    </script>
             </div>
         </div>
     </div>
