@@ -48,7 +48,7 @@
                                             $remainingDays = $item->planned_completion_date ? now()->diffInDays($item->planned_completion_date, false) : 'N/A';
                                         @endphp
                                         @if (is_int($remainingDays))
-                                            {{ $remainingDays > 0 ? "{$remainingDays} days remaining" : ($remainingDays < 0 ? abs($remainingDays) . " days overdue" : "Due today") }}
+                                        {{ $remainingDays > 0 ? "{$remainingDays} дней осталось" : ($remainingDays < 0 ? abs($remainingDays) . " дней просрочено" : "Срок сегодня") }}
                                         @else
                                             N/A
                                         @endif
