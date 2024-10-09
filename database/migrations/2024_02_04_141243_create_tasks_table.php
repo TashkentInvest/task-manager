@@ -15,7 +15,7 @@
         {
             Schema::create('tasks', function (Blueprint $table) {
                 $table->id();
-                
+        
                 // Existing columns
                 $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Creator of the task
                 $table->unsignedBigInteger('category_id')->nullable(); // xat, telefon qilish, etc ...
@@ -26,7 +26,7 @@
                 $table->foreign('status_id')->references('id')->on('task_status');
                 $table->softDeletes();
                 $table->timestamps();
-                
+        
                 // New columns
                 $table->string('poruchenie')->nullable(); // Поручение (Task or assignment)
                 $table->date('issue_date')->nullable(); // Дата выдачи (Date of issue)
@@ -41,9 +41,14 @@
                 $table->text('notification')->nullable(); // Оповещение (Notification)
                 $table->string('priority')->nullable(); // Приоритет (Priority)
                 $table->string('document_type')->nullable(); // Вид документа (Document type)
+        
+                // Add role_id column and foreign key
+                $table->unsignedBigInteger('role_id')->nullable(); // Role associated with the task
+                $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             });
         }
         
+
 
         /**
          * Reverse the migrations.

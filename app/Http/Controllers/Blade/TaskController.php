@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Blade;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Driver;
+use App\Models\RoleTask;
 use Illuminate\Http\Request;
 use App\Models\TaskStatus;
 use App\Models\TaskLevel;
@@ -37,33 +38,31 @@ class TaskController extends Controller
         else
             $roles = Role::where('name', '!=', 'Super Admin')->get();
 
-        return view('pages.task.add', compact('categories', 'count', 'taskLevels', 'users','roles'));
+        return view('pages.task.add', compact('categories', 'count', 'taskLevels', 'users', 'roles'));
     }
 
     public function create(Request $request)
     {
-        // dd($request);
         // Validate the incoming request
-
         $validatedData = $request->validate([
-            'issue_date' => 'nullable|date', // Дата выдачи
-            'poruchenie' => 'nullable|string', // Дата выдачи
-            'author' => 'nullable|string|max:255', // Автор поручения
-            'executor' => 'nullable|string|max:255', // Исполнитель поручения
-            'co_executor' => 'nullable|string|max:255', // Со исполнитель поручения
-            'planned_completion_date' => 'nullable|date', // Срок выполнения (план)
-            'actual_status' => 'nullable|string|max:255', // Статус выполнения (факт)
-            'execution_state' => 'nullable|string|max:255', // Состояние исполнения
-            'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png', // Закрепленный файл
-            'note' => 'nullable|string', // Примичание
-            'notification' => 'nullable|string', // Оповещение
-            'priority' => 'nullable|string|in:Высокий,Средний,Низкий', // Приоритет
-            'document_type' => 'nullable|string|max:255', // Вид документа
-            'type_request' => 'nullable|integer|in:0,1,2', // Ensure type_request is valid
-            'roles' => ['required', 'array'],
-
+            'issue_date' => 'nullable|date',
+            'poruchenie' => 'nullable|string',
+            'executor' => 'nullable|string|max:255',
+            'co_executor' => 'nullable|string|max:255',
+            'planned_completion_date' => 'nullable|date',
+            'actual_status' => 'nullable|string|max:255',
+            'execution_state' => 'nullable|string|max:255',
+            'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'note' => 'nullable|string',
+            'notification' => 'nullable|string',
+            'priority' => 'nullable|string|in:Высокий,Средний,Низкий',
+            'document_type' => 'nullable|string|max:255',
+            'type_request' => 'nullable|integer|in:0,1,2',
+            'roles' => 'nullable|array',
+            'roles.*' => 'exists:roles,name', // Validate role names exist
         ]);
 
+        // dd('sasdasd');
         // Create a new task
         $task = new Tasks();
         $task->category_id = $validatedData['category_id'] ?? 1;
@@ -71,32 +70,46 @@ class TaskController extends Controller
         $task->poruchenie = $validatedData['poruchenie'] ?? null;
         $task->description = $validatedData['description'] ?? null;
         $task->issue_date = $validatedData['issue_date'] ?? null;
-        $task->author = $validatedData['author'] ?? null;
         $task->executor = $validatedData['executor'] ?? null;
-        $task->co_executor = $validatedData['co_executor'] ?? null; // Optional field
-        $task->planned_completion_date = $validatedData['planned_completion_date'];
-        $task->actual_status = $validatedData['actual_status'] ?? null; // Optional field
-        $task->execution_state = $validatedData['execution_state'] ?? null; // Optional field
-        $task->note = $validatedData['note'] ?? null; // Optional field
-        $task->notification = $validatedData['notification'] ?? null; // Optional field
-        $task->priority = $validatedData['priority'] ?? null; // Optional field
-        $task->document_type = $validatedData['document_type'] ?? null; // Optional field
+        $task->co_executor = $validatedData['co_executor'] ?? null;
+        $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
+        $task->actual_status = $validatedData['actual_status'] ?? null;
+        $task->execution_state = $validatedData['execution_state'] ?? null;
+        $task->note = $validatedData['note'] ?? null;
+        $task->notification = $validatedData['notification'] ?? null;
+        $task->priority = $validatedData['priority'] ?? null;
+        $task->document_type = $validatedData['document_type'] ?? null;
         $task->type_request = $validatedData['type_request'];
-        $task->user_id = auth()->user()->id; // Set the user ID from the authenticated user
+        $task->user_id = auth()->user()->id;
 
         // Handle file upload
         if ($request->hasFile('attached_file')) {
             $filePath = $request->file('attached_file')->store('attachments', 'public');
-            $task->attached_file = $filePath; // Save the file path in the task
+            $task->attached_file = $filePath;
         }
 
         // Save the task
         $task->save();
 
+        // Manually insert into the `role_task` pivot table
+        if (!empty($validatedData['roles'])) {
+            foreach ($validatedData['roles'] as $roleName) {
+                // Fetch the role by name and get its ID
+                $role = Role::where('name', $roleName)->first();
+
+                if ($role) {
+                    // Insert into the pivot table
+                    RoleTask::create([
+                        'task_id' => $task->id,
+                        'role_id' => $role->id
+                    ]);
+                }
+            }
+        }
+
         // Redirect with success message
         return redirect()->route('monitoringIndex')->with('success', 'Task created successfully!');
     }
-
 
 
 
@@ -109,14 +122,14 @@ class TaskController extends Controller
         $taskLevels = TaskLevel::all();
         $categories = Category::all();
 
-        
+
         if (auth()->user()->hasRole('Super Admin'))
             $roles = Role::all();
         else
-            $roles = Role::where('name','!=','Super Admin')->get();
+            $roles = Role::where('name', '!=', 'Super Admin')->get();
 
 
-        return view('pages.task.edit', compact('taskHistory', 'taskStatuses', 'taskLevels', 'task', 'categories','roles'));
+        return view('pages.task.edit', compact('taskHistory', 'taskStatuses', 'taskLevels', 'task', 'categories', 'roles'));
     }
 
     public function update(Request $request, $id)

@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-
+use Spatie\Permission\Models\Role;
 
 class Tasks extends Model
 {
     use SoftDeletes;
-    
-    protected $dates = ['deleted_at']; 
+
+    protected $dates = ['deleted_at'];
     protected $table = 'tasks';
 
     protected $fillable = [
@@ -35,38 +34,44 @@ class Tasks extends Model
         'notification', // Оповещение
         'priority', // Приоритет
         'document_type', // Вид документа
+
+        'role_id'
     ];
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'task_role');
+    }
 
-    public static function deepFilters(){
+    public static function deepFilters()
+    {
 
-        $tiyin = [
-        ];
+        $tiyin = [];
 
         $obj = new self();
         $request = request();
 
-        $query = self::where('id','!=','0');
+        $query = self::where('id', '!=', '0');
 
         foreach ($obj->fillable as $item) {
 
             // dump($item);
-          
 
-            $operator = $item.'_operator';
+
+            $operator = $item . '_operator';
 
             // Search relationed company ***********************************************
             if ($item == 'company_id' && $request->has('company_name')) {
                 // Determine the operator
                 $operator = $request->input('company_name_operator', 'like');
                 $value = '%' . $request->input('company_name') . '%';
-        
+
                 // Apply the filter
                 $query->whereHas('company', function ($q) use ($operator, $value) {
                     $q->where('name', $operator, $value);
                 });
-        
-                continue; 
+
+                continue;
             }
             // END Search relationed company ***********************************************
 
@@ -75,13 +80,13 @@ class Tasks extends Model
                 // Determine the operator
                 $operator = $request->input('category_name_operator', 'like');
                 $value = '%' . $request->input('category_name') . '%';
-        
+
                 // Apply the filter
                 $query->whereHas('category', function ($q) use ($operator, $value) {
                     $q->where('name', $operator, $value);
                 });
-        
-                continue; 
+
+                continue;
             }
             // END Search relationed category ***********************************************
 
@@ -90,13 +95,13 @@ class Tasks extends Model
                 // Determine the operator
                 $operator = $request->input('driver_full_name_operator', 'like');
                 $value = '%' . $request->input('driver_full_name') . '%';
-        
+
                 // Apply the filter
                 $query->whereHas('driver', function ($q) use ($operator, $value) {
                     $q->where('full_name', $operator, $value);
                 });
-        
-                continue; 
+
+                continue;
             }
             // END Search relationed driver ***********************************************
 
@@ -105,13 +110,13 @@ class Tasks extends Model
                 // Determine the operator
                 $operator = $request->input('user_name_operator', 'like');
                 $value = '%' . $request->input('user_name') . '%';
-        
+
                 // Apply the filter
                 $query->whereHas('user', function ($q) use ($operator, $value) {
                     $q->where('name', $operator, $value);
                 });
-        
-                continue; 
+
+                continue;
             }
             // END Search relationed user ***********************************************
 
@@ -121,59 +126,49 @@ class Tasks extends Model
                 // Determine the operator
                 $operator = $request->input('status_name_operator', 'like');
                 $value = '%' . $request->input('status_name') . '%';
-        
+
                 // Apply the filter
                 $query->whereHas('status', function ($q) use ($operator, $value) {
                     $q->where('name', $operator, $value);
                 });
-        
-                continue; 
+
+                continue;
             }
             // END Search relationed status ***********************************************
 
 
-            if ($request->has($item) && $request->$item != '')
-            {
+            if ($request->has($item) && $request->$item != '') {
 
-               
-                if (isset($tiyin[$item])){
+
+                if (isset($tiyin[$item])) {
                     $select = $request->$item * 100;
-                    $select_pair = $request->{$item.'_pair'} * 100;
-                }else{
+                    $select_pair = $request->{$item . '_pair'} * 100;
+                } else {
                     $select = $request->$item;
-                    $select_pair = $request->{$item.'_pair'};
+                    $select_pair = $request->{$item . '_pair'};
                 }
                 //set value for query
-                if ($request->has($operator) && $request->$operator != '')
-                {
-                    if (strtolower($request->$operator) == 'between' && $request->has($item.'_pair') && $request->{$item.'_pair'} != '')
-                    {
+                if ($request->has($operator) && $request->$operator != '') {
+                    if (strtolower($request->$operator) == 'between' && $request->has($item . '_pair') && $request->{$item . '_pair'} != '') {
                         $value = [
                             $select,
-                            $select_pair];
+                            $select_pair
+                        ];
 
-                        $query->whereBetween($item,$value);
-                    }
-                    elseif (strtolower($request->$operator) == 'wherein')
-                    {
-                        $value = explode(',',str_replace(' ','',$select));
-                        $query->whereIn($item,$value);
-                    }
-                    elseif (strtolower($request->$operator) == 'like')
-                    {
-                        if (strpos($select,'%') === false)
-                            $query->where($item,'like','%'.$select.'%');
+                        $query->whereBetween($item, $value);
+                    } elseif (strtolower($request->$operator) == 'wherein') {
+                        $value = explode(',', str_replace(' ', '', $select));
+                        $query->whereIn($item, $value);
+                    } elseif (strtolower($request->$operator) == 'like') {
+                        if (strpos($select, '%') === false)
+                            $query->where($item, 'like', '%' . $select . '%');
                         else
-                            $query->where($item,'like',$select);
+                            $query->where($item, 'like', $select);
+                    } else {
+                        $query->where($item, $request->$operator, $select);
                     }
-                    else
-                    {
-                        $query->where($item,$request->$operator,$select);
-                    }
-                }
-                else
-                {
-                    $query->where($item,$select);
+                } else {
+                    $query->where($item, $select);
                 }
             }
         }
@@ -182,7 +177,7 @@ class Tasks extends Model
     }
 
 
-// ------------------
+    // ------------------
     public function assignedUser()
     {
         return $this->belongsTo(User::class, 'assigned_user_id');
@@ -192,7 +187,7 @@ class Tasks extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-// 
+    // 
 
     public function history()
     {
