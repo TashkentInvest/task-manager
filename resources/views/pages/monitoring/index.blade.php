@@ -18,8 +18,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="cols">Департаменть</th>
-                                <th scope="cols">Исполнитель</th>
+                                <th scope="cols">Департаменть / Исполнитель</th>
                                 <th scope="col">Поручение</th>
                                 <th scope="col">Дата задачи</th>
                                 <th scope="col">Дата окончания</th>
@@ -56,8 +55,6 @@
                                         @endif
                                     </td>
                                     
-                                    <td></td>
-
                                     <td>{{ $item->executor }}</td>
                                     <td>{{ optional($item->issue_date)->format('d.m.Y') ?? $item->issue_date }}</td>
                                     <td>{{ optional($item->planned_completion_date)->format('d.m.Y') ?? $item->planned_completion_date }}

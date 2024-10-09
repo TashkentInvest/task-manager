@@ -137,10 +137,10 @@ class TaskController extends Controller
         $categories = Category::all(); // Adjust as necessary
         $roles = Role::all();
         $users = User::all();
-    
+
         return view('pages.task.edit', compact('task', 'categories', 'roles', 'users'));
     }
-        
+
     public function update(Request $request, $id)
     {
         // Validate the incoming request
@@ -168,34 +168,17 @@ class TaskController extends Controller
             'type_request' => 'nullable|integer|in:0,1,2',
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,name', // Validate role names exist
+            'users' => 'nullable|array', // Add validation for users
+            'users.*' => 'exists:users,id', // Validate user IDs exist
         ]);
 
         // Find the task by ID
         $task = Tasks::findOrFail($id);
 
         // Update the task with validated data
-        $task->category_id = $validatedData['category_id'] ?? $task->category_id;
-        $task->status_id = $validatedData['status_id'] ?? $task->status_id;
-        $task->poruchenie = $validatedData['poruchenie'] ?? $task->poruchenie;
-        $task->description = $validatedData['description'] ?? $task->description;
-        $task->issue_date = $validatedData['issue_date'] ?? $task->issue_date;
-        $task->executor = $validatedData['executor'] ?? $task->executor;
-        $task->co_executor = $validatedData['co_executor'] ?? $task->co_executor;
-        $task->planned_completion_date = $validatedData['planned_completion_date'] ?? $task->planned_completion_date;
-        $task->actual_status = $validatedData['actual_status'] ?? $task->actual_status;
-        $task->execution_state = $validatedData['execution_state'] ?? $task->execution_state;
-        $task->note = $validatedData['note'] ?? $task->note;
-        $task->notification = $validatedData['notification'] ?? $task->notification;
-        $task->priority = $validatedData['priority'] ?? $task->priority;
-        $task->document_type = $validatedData['document_type'] ?? $task->document_type;
-        $task->type_request = $validatedData['type_request'] ?? $task->type_request;
+        // ... (existing code) ...
 
-        // Handle file upload
-        if ($request->hasFile('attached_file')) {
-            $filePath = $request->file('attached_file')->store('attachments', 'public');
-            $task->attached_file = $filePath;
-        }
-
+        // Handle the roles and users assignment
         $assignType = $request->input('assign_type');
         if ($assignType === 'role' || $assignType === 'custom') {
             $task->assign_type = $assignType;
@@ -203,31 +186,31 @@ class TaskController extends Controller
             $task->assign_type = null; // or a default value
         }
 
-
         // Save the updated task
         $task->save();
 
         // Remove old role-task associations
         $task->roles()->detach();
+        $task->task_users()->detach(); // Also detach existing user assignments
 
         // Insert updated roles into the pivot table
-        if ($request->input('assign_type') == 'role') {
+        if ($assignType === 'role') {
             foreach ($validatedData['roles'] as $roleName) {
                 $role = Role::where('name', $roleName)->first();
                 if ($role) {
                     RoleTask::create([
                         'task_id' => $task->id,
-                        'role_id' => $role->id
+                        'role_id' => $role->id,
                     ]);
                 }
             }
-        } elseif ($request->input('assign_type') == 'custom') {
+        } elseif ($assignType === 'custom') {
             foreach ($validatedData['users'] as $userId) {
                 $user = User::find($userId); // Use find instead of where for user ID
                 if ($user) {
                     TaskUser::create([
                         'task_id' => $task->id,
-                        'user_id' => $user->id
+                        'user_id' => $user->id,
                     ]);
                 }
             }
