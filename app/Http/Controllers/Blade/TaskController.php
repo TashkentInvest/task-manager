@@ -136,47 +136,73 @@ class TaskController extends Controller
     {
         // Validate the incoming request
         $validatedData = $request->validate([
-            // 'category_id' => 'nullable|exists:categories,id', // Ensure category exists
-            'poruchenie' => 'nullable|string|max:255', // Поручение
-            'issue_date' => 'nullable|date', // Дата выдачи
-            'author' => 'nullable|string|max:255', // Автор поручения
-            'executor' => 'nullable|string|max:255', // Исполнитель поручения
-            'co_executor' => 'nullable|string|max:255', // Со исполнитель поручения
-            'planned_completion_date' => 'nullable|date', // Срок выполнения (план)
-            'actual_status' => 'nullable|string|max:255', // Статус выполнения (факт)
-            'execution_state' => 'nullable|string|max:255', // Состояние исполнения
-            'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048', // Закрепленный файл
-            'note' => 'nullable|string|max:255', // Примечание
-            'notification' => 'nullable|string|max:255', // Оповещение
-            'priority' => 'nullable|string|in:Высокий,Средний,Низкий', // Приоритет
-            'document_type' => 'nullable|string|max:255', // Вид документа
-            'driver_id' => 'nullable|exists:drivers,id', // Driver existence check
-            'company_id' => 'nullable|exists:companies,id', // Company existence check
+            'issue_date' => 'nullable|date',
+            'poruchenie' => 'nullable|string',
+            'executor' => 'nullable|string|max:255',
+            'co_executor' => 'nullable|string|max:255',
+            'planned_completion_date' => 'nullable|date',
+            'actual_status' => 'nullable|string|max:255',
+            'execution_state' => 'nullable|string|max:255',
+            'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'note' => 'nullable|string',
+            'notification' => 'nullable|string',
+            'priority' => 'nullable|string|in:Высокий,Средний,Низкий',
+            'document_type' => 'nullable|string|max:255',
+            'type_request' => 'nullable|integer|in:0,1,2',
+            'roles' => 'nullable|array',
+            'roles.*' => 'exists:roles,name', // Validate role names exist
         ]);
 
-        // dd('da');
         // Find the task by ID
         $task = Tasks::findOrFail($id);
 
-        // Handle file upload if present
-        if ($request->hasFile('attached_file')) {
-            // Delete the previous file if exists
-            if ($task->attached_file && Storage::exists($task->attached_file)) {
-                Storage::delete($task->attached_file);
-            }
+        // Update the task with validated data
+        $task->category_id = $validatedData['category_id'] ?? $task->category_id;
+        $task->status_id = $validatedData['status_id'] ?? $task->status_id;
+        $task->poruchenie = $validatedData['poruchenie'] ?? $task->poruchenie;
+        $task->description = $validatedData['description'] ?? $task->description;
+        $task->issue_date = $validatedData['issue_date'] ?? $task->issue_date;
+        $task->executor = $validatedData['executor'] ?? $task->executor;
+        $task->co_executor = $validatedData['co_executor'] ?? $task->co_executor;
+        $task->planned_completion_date = $validatedData['planned_completion_date'] ?? $task->planned_completion_date;
+        $task->actual_status = $validatedData['actual_status'] ?? $task->actual_status;
+        $task->execution_state = $validatedData['execution_state'] ?? $task->execution_state;
+        $task->note = $validatedData['note'] ?? $task->note;
+        $task->notification = $validatedData['notification'] ?? $task->notification;
+        $task->priority = $validatedData['priority'] ?? $task->priority;
+        $task->document_type = $validatedData['document_type'] ?? $task->document_type;
+        $task->type_request = $validatedData['type_request'] ?? $task->type_request;
 
-            // Store the new file
+        // Handle file upload
+        if ($request->hasFile('attached_file')) {
             $filePath = $request->file('attached_file')->store('attachments', 'public');
-            $validatedData['attached_file'] = $filePath; // Update the path in the validated data
+            $task->attached_file = $filePath;
         }
 
-        // Update the task with validated data
-        $task->update(array_merge($validatedData, [
-            'user_id' => auth()->user()->id, // Optionally update user_id if necessary
-            'type_request' => $request->input('type_request', 0), // Default to 0 if not present
-        ]));
+        // Save the updated task
+        $task->save();
 
-        return redirect()->route('monitoringIndex')->with('success', 'Task updated successfully');
+        // Remove old role-task associations
+        $task->roles()->detach();
+
+        // Insert updated roles into the pivot table
+        if (!empty($validatedData['roles'])) {
+            foreach ($validatedData['roles'] as $roleName) {
+                // Fetch the role by name and get its ID
+                $role = Role::where('name', $roleName)->first();
+
+                if ($role) {
+                    // Insert into the pivot table
+                    RoleTask::create([
+                        'task_id' => $task->id,
+                        'role_id' => $role->id
+                    ]);
+                }
+            }
+        }
+
+        // Redirect with success message
+        return redirect()->route('monitoringIndex')->with('success', 'Task updated successfully!');
     }
 
 
