@@ -40,12 +40,22 @@
                                                 <span class="badge bg-secondary text-light p-1 m-1">No Roles Assigned</span>
                                             @endif
                                         @elseif($item->assign_type == 'custom')
-                                            @dump($item->id) 
-                                            {{-- pivot user olish kere --}}
+                                            @php
+                                                // Fetching users associated with the task
+                                                $users = $item->task_users; // Assuming 'task_users' is the relationship method
+                                            @endphp
+                                            @if ($users->isNotEmpty())
+                                                @foreach ($users as $user)
+                                                    <span class="badge bg-primary text-light p-1 m-1">{{ $user->name }}</span>
+                                                @endforeach
+                                            @else
+                                                <span class="badge bg-secondary text-light p-1 m-1">No Users Assigned</span>
+                                            @endif
                                         @else
-                                        not found
+                                            not found
                                         @endif
                                     </td>
+                                    
                                     <td></td>
 
                                     <td>{{ $item->executor }}</td>

@@ -17,13 +17,16 @@ class MonitoringController extends Controller
         $user = Auth::user();
         $isSuperAdmin = $user->roles()->where('name', 'Super Admin')->exists();
 
+        // Determine assign_type from the request
+        $assignType = request()->input('assign_type');
+
         // Check if the user is a Super Admin
         if ($isSuperAdmin) {
             // Fetch all active tasks if the user is a Super Admin
             $tasks = Tasks::with(['roles', 'category', 'user'])
                 ->where('status_id', TaskStatus::ACTIVE)
                 ->get();
-        } else {
+        } elseif ($assignType === 'role') {
             // Fetch tasks that are active and have roles associated with the authenticated user
             $roleIds = $user->roles()->pluck('id')->toArray();
             $tasks = Tasks::with(['roles', 'category', 'user'])
@@ -32,8 +35,18 @@ class MonitoringController extends Controller
                     $query->whereIn('role_id', $roleIds);
                 })
                 ->get();
-
-            
+        } elseif ($assignType === 'custom') {
+            // Fetch tasks that are associated with users assigned to them
+            $userId = $user->id; // Assuming you want tasks for the authenticated user
+            $tasks = Tasks::with(['roles', 'category', 'user'])
+                ->where('status_id', TaskStatus::ACTIVE)
+                ->whereHas('users', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->get();
+        } else {
+            // Handle cases where the assign_type is not recognized, if needed
+            $tasks = collect(); // Empty collection or handle as needed
         }
 
         $roleNamesByTask = $tasks->mapWithKeys(function ($task) {

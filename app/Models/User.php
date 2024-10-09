@@ -166,6 +166,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tasks::class);
     }
+    public function user_tasks()
+    {
+        return $this->belongsToMany(Tasks::class, 'task_user', 'user_id', 'task_id');
+    }
+    
+
 
 
     public function userOfDays()
