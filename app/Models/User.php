@@ -167,10 +167,6 @@ class User extends Authenticatable
         return $this->hasMany(Tasks::class);
     }
 
-    public function ratings()
-    {
-        return $this->hasMany(Rating::class);
-    }
 
     public function userOfDays()
     {

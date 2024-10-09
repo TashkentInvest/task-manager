@@ -96,24 +96,8 @@
                         <p class="cup-main-text">
 
                             {{-- $order->checked_status --}}
-                            @php
-
-                                use App\Models\Rating;
-                                $rating = Rating::where('user_id', auth()->user()->id)->first();
-                                $totalScore =
-                                    Rating::where('user_id', auth()->user()->id)
-                                        ->where('action', 0)
-                                        ->sum('score') -
-                                    Rating::where('user_id', auth()->user()->id)
-                                        ->where('action', 1)
-                                        ->sum('score');
-
-                                $score = $totalScore;
-                                // dump($totalScore)
-                                // $score = $totalScore ? $rating->sum('score') : 0;
-                                // dump($rating)
-                            @endphp
-                            {{ $score }} ball
+                        0
+                            {{-- {{ $score }} ball --}}
                         </p>
                     </div>
 
