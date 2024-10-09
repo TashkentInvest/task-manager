@@ -38,11 +38,16 @@ class Tasks extends Model
         'role_id'
     ];
 
+
+    protected $casts = [
+        'issue_date',
+        'planned_completion_date'
+    ];
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_task', 'task_id', 'role_id');
     }
-    
+
 
     public static function deepFilters()
     {

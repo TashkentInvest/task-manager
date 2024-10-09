@@ -15,22 +15,22 @@ class MonitoringController extends Controller
     public function index()
     {
         abort_if_forbidden('monitoring.show');
-
-
+    
         $trashedTasks = Tasks::onlyTrashed()->get();
         $allTasks = Tasks::withTrashed()->get();
-
+    
         $taskStatuses = TaskStatus::all();
         $taskLevels = TaskLevel::all();
         $tasksHistories = TasksHistory::all();
-        $tasks = Tasks::with('roles')->where('status_id', TaskStatus::ACTIVE)->get()->all();
-        // dd($tasks);
-
+        $tasks = Tasks::with('roles')->where('status_id', TaskStatus::ACTIVE)->get();
+        
+        // Collecting roles for each task
+        $roleNamesByTask = [];
         foreach ($tasks as $task) {
-            $roleNames = $task->roles->pluck('name');        
-            // dd($roleNames);
+            $roleNamesByTask[$task->id] = $task->roles->pluck('name')->toArray(); // Collecting role names into an array
         }
-
-        return view('pages.monitoring.index', compact('taskStatuses', 'taskLevels', 'tasksHistories', 'tasks', 'trashedTasks', 'allTasks','roleNames'));
+    
+        return view('pages.monitoring.index', compact('taskStatuses', 'taskLevels', 'tasksHistories', 'tasks', 'trashedTasks', 'allTasks', 'roleNamesByTask'));
     }
+    
 }
