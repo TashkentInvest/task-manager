@@ -9,20 +9,20 @@ class TaskUser extends Model
 {
     use HasFactory;
 
-    protected $table = 'task_user';
+    // protected $table = 'task_user';
 
-    protected $fillable = [
-        'user_id',
-        'task_id'
-    ];
+    // protected $fillable = [
+    //     'user_id',
+    //     'task_id'
+    // ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'user_id');
+    // }
 
-    public function task()
-    {
-        return $this->belongsTo(Tasks::class, 'task_id');
-    }
+    // public function task()
+    // {
+    //     return $this->belongsTo(Tasks::class, 'task_id');
+    // }
 }

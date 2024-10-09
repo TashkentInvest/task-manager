@@ -49,6 +49,12 @@ class Tasks extends Model
         return $this->belongsToMany(Role::class, 'role_task', 'task_id', 'role_id');
     }
 
+    public function pivot_users()
+    {
+        return $this->belongsToMany(TaskUser::class);
+    }
+
+
 
     public static function deepFilters()
     {

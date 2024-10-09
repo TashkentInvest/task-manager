@@ -32,43 +32,51 @@
                             @forelse ($tasks as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td >
-
-                                        @if ($roleNamesByTask[$item->id] ?? false)
-                                        {{$roleNamesByTask[$item->id]->first()}} ...
-                                        
+                                    <td>
+                                        @if ($item->assign_type == 'role')
+                                            @if ($roleNamesByTask[$item->id] ?? false)
+                                                {{ $roleNamesByTask[$item->id]->first() }} ...
+                                            @else
+                                                <span class="badge bg-secondary text-light p-1 m-1">No Roles Assigned</span>
+                                            @endif
+                                        @elseif($item->assign_type == 'custom')
+                                            @dump($item->id) 
+                                            {{-- pivot user olish kere --}}
                                         @else
-                                            <span class="badge bg-secondary text-light p-1 m-1">No Roles Assigned</span>
+                                        not found
                                         @endif
-
-                                        
                                     </td>
                                     <td></td>
 
                                     <td>{{ $item->executor }}</td>
                                     <td>{{ optional($item->issue_date)->format('d.m.Y') ?? $item->issue_date }}</td>
-                                    <td>{{ optional($item->planned_completion_date)->format('d.m.Y') ?? $item->planned_completion_date }}</td>
+                                    <td>{{ optional($item->planned_completion_date)->format('d.m.Y') ?? $item->planned_completion_date }}
+                                    </td>
                                     <td>
                                         @php
-                                            $remainingDays = $item->planned_completion_date ? now()->diffInDays($item->planned_completion_date, false) : 'N/A';
+                                            $remainingDays = $item->planned_completion_date
+                                                ? now()->diffInDays($item->planned_completion_date, false)
+                                                : 'N/A';
                                         @endphp
                                         @if (is_int($remainingDays))
-                                        {{ $remainingDays > 0 ? "{$remainingDays} дней осталось" : ($remainingDays < 0 ? abs($remainingDays) . " дней просрочено" : "Срок сегодня") }}
+                                            {{ $remainingDays > 0 ? "{$remainingDays} дней осталось" : ($remainingDays < 0 ? abs($remainingDays) . ' дней просрочено' : 'Срок сегодня') }}
                                         @else
                                             N/A
                                         @endif
                                     </td>
                                     <td>
-                                        <span class="badge bg-{{ $item->status->color ?? 'secondary' }}">{{ $item->status->name ?? 'No Status' }}</span>
+                                        <span
+                                            class="badge bg-{{ $item->status->color ?? 'secondary' }}">{{ $item->status->name ?? 'No Status' }}</span>
                                     </td>
                                     <td class="text-center">
                                         <ul class="list-unstyled d-flex gap-2 mb-0 justify-content-center">
-                                            @if(auth()->user()->roles[0]->name != 'Super Admin')
-                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
-                                                <button @click="onSubmit(item.id, {{ auth()->user()->id }})" type="button" class="btn btn-success btn-sm">
-                                                    <i class="bx bxs-badge-check"></i>
-                                                </button>
-                                            </li>
+                                            @if (auth()->user()->roles[0]->name != 'Super Admin')
+                                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
+                                                    <button @click="onSubmit(item.id, {{ auth()->user()->id }})"
+                                                        type="button" class="btn btn-success btn-sm">
+                                                        <i class="bx bxs-badge-check"></i>
+                                                    </button>
+                                                </li>
                                             @endif
                                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
                                                 <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info btn-sm">
@@ -76,7 +84,8 @@
                                                 </a>
                                             </li>
                                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить">
-                                                <form action="{{ route('taskDestroy', $item->id) }}" method="POST" style="display:inline;">
+                                                <form action="{{ route('taskDestroy', $item->id) }}" method="POST"
+                                                    style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm">
@@ -85,12 +94,16 @@
                                                 </form>
                                             </li>
                                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Подробности">
-                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal_{{ $item->id }}">
+                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal_{{ $item->id }}">
                                                     <i class="bx bxs-show"></i>
                                                 </button>
                                             </li>
                                         </ul>
-                                        @include('pages.monitoring.partials.task-modal', ['item' => $item, 'roleNamesByTask' => $roleNamesByTask])
+                                        @include('pages.monitoring.partials.task-modal', [
+                                            'item' => $item,
+                                            'roleNamesByTask' => $roleNamesByTask,
+                                        ])
                                     </td>
                                 </tr>
                             @empty

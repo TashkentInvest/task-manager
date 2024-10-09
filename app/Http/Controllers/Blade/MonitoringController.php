@@ -32,6 +32,8 @@ class MonitoringController extends Controller
                     $query->whereIn('role_id', $roleIds);
                 })
                 ->get();
+
+            
         }
 
         $roleNamesByTask = $tasks->mapWithKeys(function ($task) {
