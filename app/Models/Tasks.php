@@ -35,7 +35,8 @@ class Tasks extends Model
         'priority', // Приоритет
         'document_type', // Вид документа
 
-        'role_id'
+        'role_id',
+        'bool_status'
     ];
 
 
@@ -211,6 +212,12 @@ class Tasks extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function users_pivot()
+    {
+        return $this->belongsToMany(User::class, 'task_users'); // Adjust the table name as needed
+    }
+
 
     public function status()
     {

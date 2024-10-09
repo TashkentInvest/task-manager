@@ -81,7 +81,17 @@ class TaskController extends Controller
             $task->notification = $validatedData['notification'] ?? null;
             $task->priority = $validatedData['priority'] ?? null;
             $task->document_type = $validatedData['document_type'] ?? null;
+
+            // Assign the assign_type based on the input
+            $assignType = $request->input('assign_type');
+            if ($assignType === 'role' || $assignType === 'custom') {
+                $task->assign_type = $assignType;
+            } else {
+                $task->assign_type = null; // or a default value
+            }
+
             $task->save();
+
 
             // Assign roles or users based on selection
             if ($request->input('assign_type') == 'role') {
@@ -110,10 +120,9 @@ class TaskController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Log the validation errors
             \Log::error('Validation errors: ', $e->errors());
-            
+
             return redirect()->back()->withErrors($e->validator)->withInput();
         }
-        
     }
 
 

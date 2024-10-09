@@ -41,6 +41,7 @@
                 $table->text('notification')->nullable(); // Оповещение (Notification)
                 $table->string('priority')->nullable(); // Приоритет (Priority)
                 $table->string('document_type')->nullable(); // Вид документа (Document type)
+                $table->string('assign_type')->nullable(); // Вид документа (Document type)
         
                 // Add role_id column and foreign key
                 $table->unsignedBigInteger('role_id')->nullable(); // Role associated with the task

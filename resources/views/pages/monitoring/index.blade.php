@@ -33,14 +33,15 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td >
+
                                         @if ($roleNamesByTask[$item->id] ?? false)
                                         {{$roleNamesByTask[$item->id]->first()}} ...
-                                            {{-- @foreach ($roleNamesByTask[$item->id] as $role)
-                                                <span class="badge bg-primary text-light p-1 m-1">{{ $role }}</span> 
-                                            @endforeach --}}
+                                        
                                         @else
                                             <span class="badge bg-secondary text-light p-1 m-1">No Roles Assigned</span>
                                         @endif
+
+                                        
                                     </td>
                                     <td></td>
 
