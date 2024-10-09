@@ -84,7 +84,7 @@
                       
                     </div>
 
-                    <div class="row mb-3">
+                    {{-- <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Исполнитель</label>
                             <input type="text" name="executor" class="form-control" value="{{ old('executor', $task->executor) }}" required>
@@ -94,7 +94,7 @@
                             <label>Со исполнитель</label>
                             <input type="text" name="co_executor" class="form-control" value="{{ old('co_executor', $task->co_executor) }}">
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="row mb-3">
                         <div class="col-md-6">

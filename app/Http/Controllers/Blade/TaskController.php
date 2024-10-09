@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Blade;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Driver;
 use App\Models\RoleTask;
 use Illuminate\Http\Request;
 use App\Models\TaskStatus;
 use App\Models\Tasks;
-use App\Models\TasksHistory;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
@@ -26,7 +24,6 @@ class TaskController extends Controller
     {
         abort_if_forbidden('left-request.add');
         $categories = Category::all();
-        $taskHistory = TasksHistory::all();
         $taskStatuses = TaskStatus::all();
         $count = 1;
         $users = User::get()->all();
@@ -115,7 +112,6 @@ class TaskController extends Controller
     {
         abort_if_forbidden('left-request.edit');
         $task = Tasks::find($id);
-        $taskHistory = TasksHistory::all();
         $taskStatuses = TaskStatus::all();
         $categories = Category::all();
 
