@@ -44,7 +44,15 @@ class TaskController extends Controller
             'poruchenie' => 'nullable|string',
             'executor' => 'nullable|string|max:255',
             'co_executor' => 'nullable|string|max:255',
-            'planned_completion_date' => 'nullable|date',
+            'planned_completion_date' => [
+                'nullable',
+                'date',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->filled('issue_date') && $value && strtotime($value) < strtotime($request->input('issue_date'))) {
+                        $fail('The planned completion date cannot be earlier than the issue date.');
+                    }
+                },
+            ],
             'actual_status' => 'nullable|string|max:255',
             'execution_state' => 'nullable|string|max:255',
             'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
@@ -52,12 +60,10 @@ class TaskController extends Controller
             'notification' => 'nullable|string',
             'priority' => 'nullable|string|in:Высокий,Средний,Низкий',
             'document_type' => 'nullable|string|max:255',
-            'type_request' => 'nullable|integer|in:0,1,2',
             'roles' => 'nullable|array',
-            'roles.*' => 'exists:roles,name', // Validate role names exist
+            'roles.*' => 'exists:roles,name',
         ]);
 
-        // dd('sasdasd');
         // Create a new task
         $task = new Tasks();
         $task->category_id = $validatedData['category_id'] ?? 1;
@@ -74,7 +80,6 @@ class TaskController extends Controller
         $task->notification = $validatedData['notification'] ?? null;
         $task->priority = $validatedData['priority'] ?? null;
         $task->document_type = $validatedData['document_type'] ?? null;
-        $task->type_request = $validatedData['type_request'];
         $task->user_id = auth()->user()->id;
 
         // Handle file upload
@@ -122,7 +127,7 @@ class TaskController extends Controller
             $roles = Role::where('name', '!=', 'Super Admin')->get();
 
 
-        return view('pages.task.edit', compact('taskHistory', 'taskStatuses', 'task', 'categories', 'roles'));
+        return view('pages.task.edit', compact('taskStatuses', 'task', 'categories', 'roles'));
     }
 
     public function update(Request $request, $id)
@@ -133,7 +138,15 @@ class TaskController extends Controller
             'poruchenie' => 'nullable|string',
             'executor' => 'nullable|string|max:255',
             'co_executor' => 'nullable|string|max:255',
-            'planned_completion_date' => 'nullable|date',
+            'planned_completion_date' => [
+                'nullable',
+                'date',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->filled('issue_date') && $value && strtotime($value) < strtotime($request->input('issue_date'))) {
+                        $fail('The planned completion date cannot be earlier than the issue date.');
+                    }
+                },
+            ],
             'actual_status' => 'nullable|string|max:255',
             'execution_state' => 'nullable|string|max:255',
             'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',

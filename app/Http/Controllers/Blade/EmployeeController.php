@@ -44,7 +44,7 @@ class EmployeeController extends Controller
     {
         // Define your permissions and roles creation logic here
         // For example:
-        $permissions = ["permission.show", "permission.edit", "permission.add", /* other permissions */];
+        $permissions = ["permission.show","monitoring.show", "permission.edit", "permission.add", /* other permissions */];
         foreach ($permissions as $permission) {
             Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
         }

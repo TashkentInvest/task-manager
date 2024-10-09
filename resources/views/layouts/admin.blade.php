@@ -45,6 +45,15 @@
     {{-- class="sidebar-enable vertical-collpsed" --}}
     <!-- Begin page -->
     <!-- Loader -->
+    {{-- @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif --}}
     <div id="preloader">
         <div id="status">
             <div class="spinner-chase">
@@ -96,7 +105,7 @@
                         <p class="cup-main-text">
 
                             {{-- $order->checked_status --}}
-                        0
+                            0
                             {{-- {{ $score }} ball --}}
                         </p>
                     </div>

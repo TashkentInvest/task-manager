@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        Tasks::observe(TasksHistoryObserver::class);
+        // Tasks::observe(TasksHistoryObserver::class);
         
         // Laravel Pagination use Bootstrap
         Paginator::useBootstrap();

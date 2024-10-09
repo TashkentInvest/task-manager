@@ -82,6 +82,7 @@ class RegisterController extends Controller
             if ($perms_cnt === 0)
             {
                 Permission::insert([
+                    ["name" => 'monitoring.show', "title" => 'Monitoring ko\'rish', "guard_name" => 'web'],
                     ["name" => 'permission.show', "title" => 'Ruxsatlarni ko\'rish', "guard_name" => 'web'],
                     ["name" => 'permission.edit', "title" => 'Ruxsatlarni o\'zgartirish', "guard_name" => 'web'],
                     ["name" => 'permission.add', "title" => 'Yangi ruxsat qo\'shish', "guard_name" => 'web'],
