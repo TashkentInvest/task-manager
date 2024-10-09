@@ -206,10 +206,6 @@ class Tasks extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function level()
-    {
-        return $this->belongsTo(TaskLevel::class);
-    }
 
     public function user()
     {

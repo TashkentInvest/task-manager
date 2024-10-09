@@ -8,7 +8,6 @@ use App\Models\Driver;
 use App\Models\RoleTask;
 use Illuminate\Http\Request;
 use App\Models\TaskStatus;
-use App\Models\TaskLevel;
 use App\Models\Tasks;
 use App\Models\TasksHistory;
 use App\Models\User;
@@ -29,7 +28,6 @@ class TaskController extends Controller
         $categories = Category::all();
         $taskHistory = TasksHistory::all();
         $taskStatuses = TaskStatus::all();
-        $taskLevels = TaskLevel::all();
         $count = 1;
         $users = User::get()->all();
 
@@ -38,7 +36,7 @@ class TaskController extends Controller
         else
             $roles = Role::where('name', '!=', 'Super Admin')->get();
 
-        return view('pages.task.add', compact('categories', 'count', 'taskLevels', 'users', 'roles'));
+        return view('pages.task.add', compact('categories', 'count', 'users', 'roles'));
     }
 
     public function create(Request $request)
@@ -119,7 +117,6 @@ class TaskController extends Controller
         $task = Tasks::find($id);
         $taskHistory = TasksHistory::all();
         $taskStatuses = TaskStatus::all();
-        $taskLevels = TaskLevel::all();
         $categories = Category::all();
 
 
@@ -129,7 +126,7 @@ class TaskController extends Controller
             $roles = Role::where('name', '!=', 'Super Admin')->get();
 
 
-        return view('pages.task.edit', compact('taskHistory', 'taskStatuses', 'taskLevels', 'task', 'categories', 'roles'));
+        return view('pages.task.edit', compact('taskHistory', 'taskStatuses', 'task', 'categories', 'roles'));
     }
 
     public function update(Request $request, $id)

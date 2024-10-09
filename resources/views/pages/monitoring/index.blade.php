@@ -58,11 +58,13 @@
                                     </td>
                                     <td class="text-center">
                                         <ul class="list-unstyled d-flex gap-2 mb-0 justify-content-center">
+                                            @if(auth()->user()->roles[0]->name != 'Super Admin')
                                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
                                                 <button @click="onSubmit(item.id, {{ auth()->user()->id }})" type="button" class="btn btn-success btn-sm">
                                                     <i class="bx bxs-badge-check"></i>
                                                 </button>
                                             </li>
+                                            @endif
                                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
                                                 <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info btn-sm">
                                                     <i class="bx bxs-edit"></i>

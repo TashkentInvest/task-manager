@@ -150,25 +150,12 @@ class TasksHistory extends Model
 
         return $query;
     }
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function driver()
-    {
-        return $this->belongsTo(Driver::class);
-    }
 
-    public function level()
-    {
-        return $this->belongsTo(TaskLevel::class);
-    }
 
     public function user()
     {

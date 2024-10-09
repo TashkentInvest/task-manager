@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Blade;
 
 use App\Http\Controllers\Controller;
 use App\Models\TaskStatus;
-use App\Models\TaskLevel;
 use App\Models\TasksHistory;
 use App\Models\Tasks;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +41,6 @@ class MonitoringController extends Controller
 
         return view('pages.monitoring.index', [
             'taskStatuses' => TaskStatus::all(),
-            'taskLevels' => TaskLevel::all(),
             'tasksHistories' => TasksHistory::all(),
             'tasks' => $tasks,
             'trashedTasks' => Tasks::onlyTrashed()->get(),
