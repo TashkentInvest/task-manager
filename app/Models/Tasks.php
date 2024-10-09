@@ -40,8 +40,9 @@ class Tasks extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'task_role');
+        return $this->belongsToMany(Role::class, 'role_task', 'task_id', 'role_id');
     }
+    
 
     public static function deepFilters()
     {

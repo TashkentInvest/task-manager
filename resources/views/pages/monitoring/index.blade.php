@@ -71,6 +71,7 @@
                                 <th scope="col">Автор</th>
                                 <th scope="col">Поручение</th>
                                 <th scope="col">Исполнитель</th>
+                                <th scope="col">Статус</th>
                                 <th scope="col">Действие</th>
                             </tr>
                         </thead>
@@ -80,8 +81,39 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->category->name }}</td>
                                     <td>{{ $item->user->name }}</td>
-                                    <td>{{ $item->poruchenie }}</td>
                                     <td>{{ $item->executor }}</td>
+                                    <td>
+                                        {{-- {{ $item->poruchenie }} --}}
+                                        @foreach ($roleNames as $role)
+                                            <span class="badge bg-primary text-light p-2 m-1">
+                                                {{ $role }}
+                                            </span> <br>
+                                        @endforeach
+                                    </td>
+
+                                    <td>
+                                        @if($item->status->id == 1)
+                                        <span class="alert alert-small alert-primary">
+                                            Active
+                                        </span>
+                                        @elseif($item->status->id == 2)
+                                        <span class="alert alert-small alert-warning">
+                                            Process
+                                        </span>
+
+                                        @elseif($item->status->id == 3)
+                                        <span class="alert alert-small alert-success">
+                                            Compated
+                                        </span>
+
+                                        @else
+                                        <span class="alert alert-small alert-danger">
+                                            Reject
+                                        </span>
+                                        @endif
+                                    </td>
+                                    
+                                    
                                     
                                     <td class="text-center">
                                         <form :action="getTaskDestroyRoute(item.id)" method="post">

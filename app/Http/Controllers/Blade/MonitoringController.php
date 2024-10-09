@@ -23,9 +23,14 @@ class MonitoringController extends Controller
         $taskStatuses = TaskStatus::all();
         $taskLevels = TaskLevel::all();
         $tasksHistories = TasksHistory::all();
-        $tasks = Tasks::where('status_id', TaskStatus::ACTIVE)->get()->all();
+        $tasks = Tasks::with('roles')->where('status_id', TaskStatus::ACTIVE)->get()->all();
         // dd($tasks);
 
-        return view('pages.monitoring.index',compact('taskStatuses', 'taskLevels', 'tasksHistories', 'tasks','trashedTasks','allTasks'));
+        foreach ($tasks as $task) {
+            $roleNames = $task->roles->pluck('name');        
+            // dd($roleNames);
+        }
+
+        return view('pages.monitoring.index', compact('taskStatuses', 'taskLevels', 'tasksHistories', 'tasks', 'trashedTasks', 'allTasks','roleNames'));
     }
 }
