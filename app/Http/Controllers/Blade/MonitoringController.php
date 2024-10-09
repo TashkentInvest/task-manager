@@ -8,12 +8,14 @@ use App\Models\TaskStatus;
 use App\Models\TaskLevel;
 use App\Models\TasksHistory;
 use App\Models\Tasks;
+use App\Models\User;
 
 class MonitoringController extends Controller
 {
     public function index()
     {
         abort_if_forbidden('monitoring.show');
+
 
         $trashedTasks = Tasks::onlyTrashed()->get();
         $allTasks = Tasks::withTrashed()->get();

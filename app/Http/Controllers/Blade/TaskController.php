@@ -10,7 +10,9 @@ use App\Models\TaskStatus;
 use App\Models\TaskLevel;
 use App\Models\Tasks;
 use App\Models\TasksHistory;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 class TaskController extends Controller
 {
@@ -28,14 +30,21 @@ class TaskController extends Controller
         $taskStatuses = TaskStatus::all();
         $taskLevels = TaskLevel::all();
         $count = 1;
-        return view('pages.task.add', compact('categories', 'count', 'taskLevels'));
+        $users = User::get()->all();
+
+        if (auth()->user()->hasRole('Super Admin'))
+            $roles = Role::all();
+        else
+            $roles = Role::where('name', '!=', 'Super Admin')->get();
+
+        return view('pages.task.add', compact('categories', 'count', 'taskLevels', 'users','roles'));
     }
 
     public function create(Request $request)
     {
         // dd($request);
         // Validate the incoming request
-        
+
         $validatedData = $request->validate([
             'issue_date' => 'nullable|date', // Дата выдачи
             'poruchenie' => 'nullable|string', // Дата выдачи
@@ -51,8 +60,10 @@ class TaskController extends Controller
             'priority' => 'nullable|string|in:Высокий,Средний,Низкий', // Приоритет
             'document_type' => 'nullable|string|max:255', // Вид документа
             'type_request' => 'nullable|integer|in:0,1,2', // Ensure type_request is valid
+            'roles' => ['required', 'array'],
+
         ]);
-        
+
         // Create a new task
         $task = new Tasks();
         $task->category_id = $validatedData['category_id'] ?? 1;
@@ -72,13 +83,13 @@ class TaskController extends Controller
         $task->document_type = $validatedData['document_type'] ?? null; // Optional field
         $task->type_request = $validatedData['type_request'];
         $task->user_id = auth()->user()->id; // Set the user ID from the authenticated user
-        
+
         // Handle file upload
         if ($request->hasFile('attached_file')) {
             $filePath = $request->file('attached_file')->store('attachments', 'public');
             $task->attached_file = $filePath; // Save the file path in the task
         }
-        
+
         // Save the task
         $task->save();
 
@@ -98,7 +109,14 @@ class TaskController extends Controller
         $taskLevels = TaskLevel::all();
         $categories = Category::all();
 
-        return view('pages.task.edit', compact('taskHistory', 'taskStatuses', 'taskLevels', 'task', 'categories'));
+        
+        if (auth()->user()->hasRole('Super Admin'))
+            $roles = Role::all();
+        else
+            $roles = Role::where('name','!=','Super Admin')->get();
+
+
+        return view('pages.task.edit', compact('taskHistory', 'taskStatuses', 'taskLevels', 'task', 'categories','roles'));
     }
 
     public function update(Request $request, $id)
@@ -153,17 +171,16 @@ class TaskController extends Controller
     public function destroy($id)
     {
         $task = Tasks::find($id);
-    
+
         if (!$task) {
             return redirect()->back()->with('error', 'Task not found.');
         }
-    
+
         // Optional: Update the status instead of deleting
         $task->status_id = TaskStatus::DELETED;
         $task->user_id = auth()->user()->id;
         $task->save();
-    
+
         return redirect()->back()->with('success', 'Task deleted successfully.');
     }
-    
 }

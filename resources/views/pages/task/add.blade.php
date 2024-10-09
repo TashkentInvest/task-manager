@@ -48,6 +48,19 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
+                            <label>@lang('cruds.role.fields.roles')</label>
+                            <select name="roles[]" 
+                            class="select2 form-control select2-multiple" 
+                            multiple="multiple" 
+                            data-placeholder="@lang('pleaseSelect')" 
+                            style="width: 100%;">
+                                @foreach($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
                             <label>Дата выдачи</label>
                             <input type="date" name="issue_date" class="form-control" required>
                         </div>
