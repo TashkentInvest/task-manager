@@ -15,16 +15,22 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id'); //employee_id
             $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('finished_user_id');
+            $table->foreign('finished_user_id')->references('id')->on('users');
+
             $table->unsignedBigInteger('task_id');
             $table->foreign('task_id')->references('id')->on('tasks');
-            $table->integer('shipped_time')->nullable();
-            $table->timestamp('deadline')->nullable();
 
-            $table->integer('status')->default(0);
-            $table->integer('report_status')->default(0);
-            $table->integer('checked_status')->default(0);
+            $table->integer('shipped_time')->nullable();
+
+            $table->integer('status')->default(0); // reject or approve 1 -> applied | 2 -> rejected | 3->finished
+
+            $table->text('reject_comment')->nullable(); // if employee will reject 
+
+            $table->integer('checked_status')->default(0); // ceo will check and will approve
             $table->softDeletes();
 
             $table->timestamps();
