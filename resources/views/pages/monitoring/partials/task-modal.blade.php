@@ -12,7 +12,7 @@
                             <td colspan="2"><strong>Информация о поручении:</strong></td>
                         </tr>
                         @foreach ([
-                            'Категория' => $item->category->name,
+                            'Категория' => $item->category->name ?? '',
                             'Автор' => $item->user->name,
                             'Исполнитель' => $item->executor,
                             'Со исполнителем' => $item->co_executor,

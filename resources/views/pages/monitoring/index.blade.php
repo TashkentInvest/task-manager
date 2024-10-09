@@ -15,7 +15,7 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-nowrap align-middle table-borderless">
-                        <thead class="table-dark">
+                        <thead class="table-light">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="cols">Департаменть</th>
