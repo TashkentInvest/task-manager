@@ -8,6 +8,7 @@ use App\Models\RoleTask;
 use Illuminate\Http\Request;
 use App\Models\TaskStatus;
 use App\Models\Tasks;
+use App\Models\TaskUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
@@ -40,6 +41,7 @@ class TaskController extends Controller
     {
         // Validate the incoming request
         $validatedData = $request->validate([
+            'category_id' => 'required|exists:categories,id', // Ensure category_id is validated
             'issue_date' => 'nullable|date',
             'poruchenie' => 'nullable|string',
             'executor' => 'nullable|string|max:255',
@@ -62,41 +64,29 @@ class TaskController extends Controller
             'document_type' => 'nullable|string|max:255',
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,name',
+            'users' => 'nullable|array',
+            'users.*' => 'exists:users,id', // Ensure users are validated
         ]);
-
+    
         // Create a new task
         $task = new Tasks();
-        $task->category_id = $validatedData['category_id'] ?? 1;
-        $task->status_id = $validatedData['status_id'] ?? 1;
+        $task->category_id = $validatedData['category_id'];
         $task->poruchenie = $validatedData['poruchenie'] ?? null;
-        $task->description = $validatedData['description'] ?? null;
         $task->issue_date = $validatedData['issue_date'] ?? null;
-        $task->executor = $validatedData['executor'] ?? null;
-        $task->co_executor = $validatedData['co_executor'] ?? null;
         $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
         $task->actual_status = $validatedData['actual_status'] ?? null;
         $task->execution_state = $validatedData['execution_state'] ?? null;
-        $task->note = $validatedData['note'] ?? null;
         $task->notification = $validatedData['notification'] ?? null;
         $task->priority = $validatedData['priority'] ?? null;
         $task->document_type = $validatedData['document_type'] ?? null;
-        $task->user_id = auth()->user()->id;
-
-        // Handle file upload
-        if ($request->hasFile('attached_file')) {
-            $filePath = $request->file('attached_file')->store('attachments', 'public');
-            $task->attached_file = $filePath;
-        }
-
-        // Save the task
         $task->save();
-
-        // Manually insert into the `role_task` pivot table
-        if (!empty($validatedData['roles'])) {
+    
+        // Assign roles or users based on selection
+        if ($request->input('assign_type') == 'role' && !empty($validatedData['roles'])) {
+            // Insert updated roles into the pivot table
             foreach ($validatedData['roles'] as $roleName) {
-                // Fetch the role by name and get its ID
                 $role = Role::where('name', $roleName)->first();
-
+    
                 if ($role) {
                     // Insert into the pivot table
                     RoleTask::create([
@@ -105,11 +95,24 @@ class TaskController extends Controller
                     ]);
                 }
             }
-        }
+        } elseif ($request->input('assign_type') == 'custom' && !empty($validatedData['users'])) {
 
-        // Redirect with success message
-        return redirect()->route('monitoringIndex')->with('success', 'Task created successfully!');
+            foreach ($validatedData['users'] as $userName) {
+                $user = user::where('name', $userName)->first();
+    
+                if ($user) {
+                    TaskUser::create([
+                        'task_id' => $task->id,
+                        'user_id' => $user->id
+                    ]);
+                }
+            }
+
+        }
+    
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
     }
+    
 
 
 
