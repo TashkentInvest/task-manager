@@ -48,7 +48,6 @@ class OrderController extends Controller
                 driver.eastern_time AS driver_eastern_time,
                 driver.phone AS driver_phone,
                 driver.comment AS driver_comment,
-                task_lev.name AS task_level_name
             FROM
                 orders AS `order`
             LEFT JOIN tasks AS task ON task.id = `order`.task_id
