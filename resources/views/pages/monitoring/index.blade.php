@@ -18,8 +18,8 @@
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Поручение</th>
                                 <th scope="col">Исполнитель</th>
+                                <th scope="col">Поручение</th>
                                 <th scope="col">Дата задачи</th>
                                 <th scope="col">Дата окончания</th>
                                 <th scope="col">Оставшиеся дни до окончания</th>

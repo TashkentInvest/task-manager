@@ -34,8 +34,15 @@
     @yield('styles')
 </head>
 
+<style>
+    body {
+        min-height: 100vh !important;
+    }
+</style>
+
 <body data-sidebar="{{ auth()->user()->theme()['sidebar'] ?? '' }}"
-    data-layout-mode="{{ auth()->user()->theme()['body'] ?? '' }}" class="sidebar-enable vertical-collpsed">
+    data-layout-mode="{{ auth()->user()->theme()['body'] ?? '' }}">
+    {{-- class="sidebar-enable vertical-collpsed" --}}
     <!-- Begin page -->
     <!-- Loader -->
     <div id="preloader">
