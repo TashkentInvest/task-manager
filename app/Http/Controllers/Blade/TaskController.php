@@ -132,21 +132,15 @@ class TaskController extends Controller
 
     public function edit($id)
     {
-        abort_if_forbidden('left-request.edit');
-        $task = Tasks::find($id);
-        $taskStatuses = TaskStatus::all();
-        $categories = Category::all();
-
-
-        if (auth()->user()->hasRole('Super Admin'))
-            $roles = Role::all();
-        else
-            $roles = Role::where('name', '!=', 'Super Admin')->get();
-
-
-        return view('pages.task.edit', compact('taskStatuses', 'task', 'categories', 'roles'));
+        // Fetch the task and related data
+        $task = Tasks::with(['roles', 'user', 'task_users'])->findOrFail($id);
+        $categories = Category::all(); // Adjust as necessary
+        $roles = Role::all();
+        $users = User::all();
+    
+        return view('pages.task.edit', compact('task', 'categories', 'roles', 'users'));
     }
-
+        
     public function update(Request $request, $id)
     {
         // Validate the incoming request
@@ -202,6 +196,14 @@ class TaskController extends Controller
             $task->attached_file = $filePath;
         }
 
+        $assignType = $request->input('assign_type');
+        if ($assignType === 'role' || $assignType === 'custom') {
+            $task->assign_type = $assignType;
+        } else {
+            $task->assign_type = null; // or a default value
+        }
+
+
         // Save the updated task
         $task->save();
 
@@ -209,16 +211,23 @@ class TaskController extends Controller
         $task->roles()->detach();
 
         // Insert updated roles into the pivot table
-        if (!empty($validatedData['roles'])) {
+        if ($request->input('assign_type') == 'role') {
             foreach ($validatedData['roles'] as $roleName) {
-                // Fetch the role by name and get its ID
                 $role = Role::where('name', $roleName)->first();
-
                 if ($role) {
-                    // Insert into the pivot table
                     RoleTask::create([
                         'task_id' => $task->id,
                         'role_id' => $role->id
+                    ]);
+                }
+            }
+        } elseif ($request->input('assign_type') == 'custom') {
+            foreach ($validatedData['users'] as $userId) {
+                $user = User::find($userId); // Use find instead of where for user ID
+                if ($user) {
+                    TaskUser::create([
+                        'task_id' => $task->id,
+                        'user_id' => $user->id
                     ]);
                 }
             }
