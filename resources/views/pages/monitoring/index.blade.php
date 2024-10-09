@@ -15,10 +15,11 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-nowrap align-middle table-borderless">
-                        <thead class="table-light">
+                        <thead class="table-dark">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Исполнитель</th>
+                                <th scope="cols">Департаменть</th>
+                                <th scope="cols">Исполнитель</th>
                                 <th scope="col">Поручение</th>
                                 <th scope="col">Дата задачи</th>
                                 <th scope="col">Дата окончания</th>
@@ -31,15 +32,18 @@
                             @forelse ($tasks as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>
+                                    <td >
                                         @if ($roleNamesByTask[$item->id] ?? false)
-                                            @foreach ($roleNamesByTask[$item->id] as $role)
-                                                <span class="badge bg-primary text-light p-1 m-1">{{ $role }}</span> <br>
-                                            @endforeach
+                                        {{$roleNamesByTask[$item->id]->first()}} ...
+                                            {{-- @foreach ($roleNamesByTask[$item->id] as $role)
+                                                <span class="badge bg-primary text-light p-1 m-1">{{ $role }}</span> 
+                                            @endforeach --}}
                                         @else
                                             <span class="badge bg-secondary text-light p-1 m-1">No Roles Assigned</span>
                                         @endif
                                     </td>
+                                    <td></td>
+
                                     <td>{{ $item->executor }}</td>
                                     <td>{{ optional($item->issue_date)->format('d.m.Y') ?? $item->issue_date }}</td>
                                     <td>{{ optional($item->planned_completion_date)->format('d.m.Y') ?? $item->planned_completion_date }}</td>
