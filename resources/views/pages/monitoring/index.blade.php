@@ -89,8 +89,8 @@
                                     </td>
 
                                     <td>{{ $item->short_title }}</td>
-                                    <td>{{ optional($item->issue_date)->format('d.m.Y') ?? 'Не указана' }}</td>
-                                    <td>{{ optional($item->planned_completion_date)->format('d.m.Y') ?? 'Не указана' }}
+                                    <td>{{ $item->issue_date ?? 'Не указана' }}</td>
+                                    <td>{{ $item->planned_completion_date ?? 'Не указана' }}
                                     </td>
                                     <td>
                                         @php
