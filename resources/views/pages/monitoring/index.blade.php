@@ -7,7 +7,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="text-black text-5">Оставшиеся поручения</h3>
                     @can('left-request.add')
-                        <a href="{{ route('taskAdd') }}" class="btn btn-success btn-sm">
+                        <a href="{{ route('taskAdd') }}" class="btn btn-success">
                             <span class="fas fa-plus-circle"></span>
                             Добавить
                         </a>
@@ -107,9 +107,9 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <span
-                                                class="badge bg-{{ $item->status->color ?? 'secondary' }} text-light p-2 m-1">
+                                                class="badge bg-{{ $item->status->color ?? 'secondary' }} text-light p-2 m-1" style="font-size: 15px">
                                             
-                                                <i class="fas fa-exclamation-triangle" style="color: #fff;"></i>
+                                                {{-- <i class="fas fa-exclamation-triangle" style="color: #fff;"></i> --}}
                                                 {{ $item->status->name ?? 'Нет статуса' }}
                                             </span>
                                         </div>
@@ -123,13 +123,13 @@
                                             @if (auth()->user()->roles[0]->name != 'Super Admin')
                                                 <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
                                                     <button @click="onSubmit(item.id, {{ auth()->user()->id }})"
-                                                        type="button" class="btn btn-success btn-sm">
+                                                        type="button" class="btn btn-success">
                                                         <i class="bx bxs-badge-check"></i>
                                                     </button>
                                                 </li>
                                             @endif
                                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
-                                                <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info btn-sm">
+                                                <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info">
                                                     <i class="bx bxs-edit"></i>
                                                 </a>
                                             </li>
@@ -138,13 +138,13 @@
                                                     style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                    <button type="submit" class="btn btn-danger">
                                                         <i class="bx bxs-trash"></i>
                                                     </button>
                                                 </form>
                                             </li>
                                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Подробности">
-                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal_{{ $item->id }}">
                                                     <i class="bx bxs-show"></i>
                                                 </button>
