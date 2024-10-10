@@ -13,41 +13,28 @@ class MonitoringController extends Controller
     {
         abort_if_forbidden('monitoring.show');
 
-        // Get the roles for the authenticated user
         $user = Auth::user();
         $isSuperAdmin = $user->roles()->where('name', 'Super Admin')->exists();
 
-        // Determine assign_type from the request
-        $assignType = request()->input('assign_type');
+        // Initialize the query to fetch tasks
+        $query = Tasks::with(['roles', 'category', 'task_users'])
+            ->where('status_id', TaskStatus::ACTIVE);
 
-        // Check if the user is a Super Admin
-        if ($isSuperAdmin) {
-            // Fetch all active tasks if the user is a Super Admin
-            $tasks = Tasks::with(['roles', 'category', 'user'])
-                ->where('status_id', TaskStatus::ACTIVE)
-                ->get();
-        } elseif ($assignType === 'role') {
-            // Fetch tasks that are active and have roles associated with the authenticated user
+        // If not super admin, apply additional filters
+        if (!$isSuperAdmin) {
             $roleIds = $user->roles()->pluck('id')->toArray();
-            $tasks = Tasks::with(['roles', 'category', 'user'])
-                ->where('status_id', TaskStatus::ACTIVE)
-                ->whereHas('roles', function ($query) use ($roleIds) {
-                    $query->whereIn('role_id', $roleIds);
-                })
-                ->get();
-        } elseif ($assignType === 'custom') {
-            // Fetch tasks that are associated with users assigned to them
-            $userId = $user->id; // Assuming you want tasks for the authenticated user
-            $tasks = Tasks::with(['roles', 'category', 'user'])
-                ->where('status_id', TaskStatus::ACTIVE)
-                ->whereHas('users', function ($query) use ($userId) {
-                    $query->where('user_id', $userId);
-                })
-                ->get();
-        } else {
-            // Handle cases where the assign_type is not recognized, if needed
-            $tasks = collect(); // Empty collection or handle as needed
+
+            // Filter tasks by roles and assigned users
+            $query->whereHas('roles', function ($q) use ($roleIds) {
+                $q->whereIn('role_id', $roleIds);
+            })
+                ->orWhereHas('task_users', function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                });
         }
+
+        // Execute the query and get the tasks
+        $tasks = $query->get();
 
         $roleNamesByTask = $tasks->mapWithKeys(function ($task) {
             return [$task->id => $task->roles->pluck('name')];
