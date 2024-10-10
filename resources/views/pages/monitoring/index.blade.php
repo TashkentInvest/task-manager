@@ -34,7 +34,10 @@
                                     <td>
                                         @if ($item->assign_type == 'role')
                                             @if ($roleNamesByTask[$item->id] ?? false)
-                                                {{ $roleNamesByTask[$item->id]->first() }} ...
+                                                <span class="badge bg-primary text-light p-1 m-1">
+
+                                                    {{ $roleNamesByTask[$item->id]->first() }} ...
+                                                </span>
                                             @else
                                                 <span class="badge bg-secondary text-light p-1 m-1">No Roles Assigned</span>
                                             @endif

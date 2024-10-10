@@ -138,29 +138,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label>Оповещение (опционально)</label>
-                            <input type="text" name="notification" class="form-control" value="{{ old('notification', $task->notification) }}">
-                            @error('notification')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label>Приоритет (опционально)</label>
-                            <select class="form-control" name="priority">
-                                <option value="">Выберите приоритет</option>
-                                <option value="Высокий" {{ old('priority', $task->priority) == 'Высокий' ? 'selected' : '' }}>Высокий</option>
-                                <option value="Средний" {{ old('priority', $task->priority) == 'Средний' ? 'selected' : '' }}>Средний</option>
-                                <option value="Низкий" {{ old('priority', $task->priority) == 'Низкий' ? 'selected' : '' }}>Низкий</option>
-                            </select>
-                            @error('priority')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
+             
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>Примечание (опционально)</label>
@@ -179,22 +157,6 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label>Это дополнительное поручение?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type_request" id="is_extra_yes" value="2" {{ old('type_request', $task->type_request) == 2 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="is_extra_yes">Дополнительное поручение</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type_request" id="is_extra_no" value="1" {{ old('type_request', $task->type_request) == 1 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="is_extra_no">Обычное поручение</label>
-                            </div>
-                            @error('type_request')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
 
                     <div class="form-group mt-2">
                         <button type="submit" id="submitBtn" class="btn btn-success float-right">@lang('global.update')</button>

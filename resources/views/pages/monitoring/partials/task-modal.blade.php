@@ -24,7 +24,6 @@
                             'Оповещение' => $item->notification,
                             'Приоритет' => $item->priority,
                             'Тип документа' => $item->document_type,
-                            'Тип задачи' => $item->type_request == '2' ? 'Дополнительное поручение' : ($item->type_request == '1' ? 'Позднее поручение' : 'Нет'),
                             'Закрепленный файл' => $item->attached_file ? '<a href="'.Storage::url($item->attached_file).'" target="_blank">Скачать</a>' : 'Нет',
                         ] as $label => $value)
                             <tr>

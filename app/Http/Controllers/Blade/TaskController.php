@@ -60,8 +60,7 @@ class TaskController extends Controller
                 'execution_state' => 'nullable|string|max:255',
                 'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
                 'note' => 'nullable|string',
-                'notification' => 'nullable|string',
-                'priority' => 'nullable|string|in:Высокий,Средний,Низкий',
+               
                 'document_type' => 'nullable|string|max:255',
                 'roles' => 'nullable|array',
                 'roles.*' => 'exists:roles,name',
@@ -78,8 +77,7 @@ class TaskController extends Controller
             $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
             $task->actual_status = $validatedData['actual_status'] ?? null;
             $task->execution_state = $validatedData['execution_state'] ?? null;
-            $task->notification = $validatedData['notification'] ?? null;
-            $task->priority = $validatedData['priority'] ?? null;
+          
             $task->document_type = $validatedData['document_type'] ?? null;
 
             // Assign the assign_type based on the input
@@ -162,10 +160,8 @@ class TaskController extends Controller
             'execution_state' => 'nullable|string|max:255',
             'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
             'note' => 'nullable|string',
-            'notification' => 'nullable|string',
-            'priority' => 'nullable|string|in:Высокий,Средний,Низкий',
+         
             'document_type' => 'nullable|string|max:255',
-            'type_request' => 'nullable|integer|in:0,1,2',
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,name', // Validate role names exist
             'users' => 'nullable|array', // Add validation for users

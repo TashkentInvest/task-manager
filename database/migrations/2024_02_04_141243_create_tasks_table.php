@@ -21,7 +21,6 @@
                 $table->unsignedBigInteger('category_id')->nullable(); // xat, telefon qilish, etc ...
                 $table->foreign('category_id')->references('id')->on('category');
                 $table->text('description')->nullable();
-                $table->integer('type_request')->default(0); // request type to know if task was taken or not
                 $table->unsignedBigInteger('status_id')->default(1);
                 $table->foreign('status_id')->references('id')->on('task_status');
                 $table->softDeletes();
@@ -38,8 +37,7 @@
                 $table->string('execution_state')->nullable(); // Состояние исполнения (Execution state)
                 $table->string('attached_file')->nullable(); // Закрепленный файл (Attached file)
                 $table->text('note')->nullable(); // Примичание (Notes)
-                $table->text('notification')->nullable(); // Оповещение (Notification)
-                $table->string('priority')->nullable(); // Приоритет (Priority)
+
                 $table->string('document_type')->nullable(); // Вид документа (Document type)
                 $table->string('assign_type')->nullable(); // Вид документа (Document type)
         

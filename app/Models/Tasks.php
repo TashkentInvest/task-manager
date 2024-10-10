@@ -19,7 +19,6 @@ class Tasks extends Model
         'user_id',
         'category_id',
         'description',
-        'type_request',
         'status_id',
         'poruchenie', // Поручение
         'issue_date', // Дата выдачи
@@ -31,8 +30,7 @@ class Tasks extends Model
         'execution_state', // Состояние исполнения
         'attached_file', // Закрепленный файл
         'note', // Примичание
-        'notification', // Оповещение
-        'priority', // Приоритет
+       
         'document_type', // Вид документа
 
         'role_id',
