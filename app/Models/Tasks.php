@@ -18,7 +18,6 @@ class Tasks extends Model
     protected $fillable = [
         'user_id',
         'category_id',
-        'description',
         'status_id',
         'poruchenie', // Поручение
         'issue_date', // Дата выдачи

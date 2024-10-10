@@ -20,7 +20,6 @@
                 $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Creator of the task
                 $table->unsignedBigInteger('category_id')->nullable(); // xat, telefon qilish, etc ...
                 $table->foreign('category_id')->references('id')->on('category');
-                $table->text('description')->nullable();
                 $table->unsignedBigInteger('status_id')->default(1);
                 $table->foreign('status_id')->references('id')->on('task_status');
                 $table->softDeletes();
@@ -35,9 +34,9 @@
                 $table->string('co_executor')->nullable(); // Со исполнитель поручения (Co-executor)
                 $table->string('actual_status')->nullable(); // Статус выполнения (факт) (Actual completion status)
                 $table->string('attached_file')->nullable(); // Закрепленный файл (Attached file)
+                $table->string('attached_file_employee')->nullable(); // Закрепленный файл (Attached file)
                 $table->text('note')->nullable(); // Примичание (Notes)
 
-                $table->string('document_type')->nullable(); // Вид документа (Document type)
                 $table->string('assign_type')->nullable(); // Вид документа (Document type)
         
                 // Add role_id column and foreign key
