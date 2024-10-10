@@ -60,7 +60,6 @@ class TaskController extends Controller
                 'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
                 'note' => 'nullable|string',
                
-                'document_type' => 'nullable|string|max:255',
                 'roles' => 'nullable|array',
                 'roles.*' => 'exists:roles,name',
                 'users' => 'nullable|array',
@@ -76,7 +75,6 @@ class TaskController extends Controller
             $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
             $task->short_title = $validatedData['short_title'] ?? null;
           
-            $task->document_type = $validatedData['document_type'] ?? null;
 
             // Assign the assign_type based on the input
             $assignType = $request->input('assign_type');
@@ -158,7 +156,6 @@ class TaskController extends Controller
             'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
             'note' => 'nullable|string',
          
-            'document_type' => 'nullable|string|max:255',
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,name', // Validate role names exist
             'users' => 'nullable|array', // Add validation for users

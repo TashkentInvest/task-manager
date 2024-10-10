@@ -29,8 +29,6 @@ class Tasks extends Model
         'attached_file', // Закрепленный файл
         'note', // Примичание
        
-        'document_type', // Вид документа
-
         'role_id',
         'bool_status'
     ];

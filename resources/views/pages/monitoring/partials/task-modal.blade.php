@@ -23,7 +23,6 @@
                             'Примечание' => $item->note,
                             'Оповещение' => $item->notification,
                             'Приоритет' => $item->priority,
-                            'Тип документа' => $item->document_type,
                             'Закрепленный файл' => $item->attached_file ? '<a href="'.Storage::url($item->attached_file).'" target="_blank">Скачать</a>' : 'Нет',
                         ] as $label => $value)
                             <tr>
