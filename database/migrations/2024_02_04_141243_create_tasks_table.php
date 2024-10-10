@@ -32,7 +32,7 @@
                 // $table->string('author')->nullable(); // Автор поручения (Author of the task)
                 $table->string('executor')->nullable(); // Исполнитель поручения (Executor of the task)
                 $table->string('co_executor')->nullable(); // Со исполнитель поручения (Co-executor)
-                $table->string('actual_status')->nullable(); // Статус выполнения (факт) (Actual completion status)
+                $table->string('short_title')->nullable(); // Краткое название (Actual completion status)
                 $table->string('attached_file')->nullable(); // Закрепленный файл (Attached file)
                 $table->string('attached_file_employee')->nullable(); // Закрепленный файл (Attached file)
                 $table->text('note')->nullable(); // Примичание (Notes)

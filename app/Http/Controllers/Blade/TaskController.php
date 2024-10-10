@@ -56,7 +56,7 @@ class TaskController extends Controller
                         }
                     },
                 ],
-                'actual_status' => 'nullable|string|max:255',
+                'short_title' => 'nullable|string|max:255',
                 'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
                 'note' => 'nullable|string',
                
@@ -74,7 +74,7 @@ class TaskController extends Controller
             $task->poruchenie = $validatedData['poruchenie'] ?? null;
             $task->issue_date = $validatedData['issue_date'] ?? null;
             $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
-            $task->actual_status = $validatedData['actual_status'] ?? null;
+            $task->short_title = $validatedData['short_title'] ?? null;
           
             $task->document_type = $validatedData['document_type'] ?? null;
 
@@ -154,7 +154,7 @@ class TaskController extends Controller
                     }
                 },
             ],
-            'actual_status' => 'nullable|string|max:255',
+            'short_title' => 'nullable|string|max:255',
             'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
             'note' => 'nullable|string',
          

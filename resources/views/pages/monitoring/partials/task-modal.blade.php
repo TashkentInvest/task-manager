@@ -18,7 +18,7 @@
                             'Со исполнителем' => $item->co_executor,
                             'Дата выдачи' => optional($item->issue_date)->format('d.m.Y'),
                             'Срок выполнения (план)' => optional($item->planned_completion_date)->format('d.m.Y'),
-                            'Статус выполнения (факт)' => $item->actual_status,
+                            'Краткое название' => $item->short_title,
                             'Состояние исполнения' => $item->execution_state,
                             'Примечание' => $item->note,
                             'Оповещение' => $item->notification,

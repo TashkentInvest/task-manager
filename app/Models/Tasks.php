@@ -25,7 +25,7 @@ class Tasks extends Model
         'executor', // Исполнитель поручения
         'co_executor', // Со исполнитель поручения
         'planned_completion_date', // Срок выполнения (план)
-        'actual_status', // Статус выполнения (факт)
+        'short_title', // Краткое название
         'attached_file', // Закрепленный файл
         'note', // Примичание
        
