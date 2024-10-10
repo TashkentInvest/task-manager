@@ -3,7 +3,7 @@
 @section('content')
     <div class="row mb-4">
         <div class="col-lg-12 col-12">
-            <div class="card">
+            <div class="card shadow-sm">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h3 class="text-black text-5">Оставшиеся поручения</h3>
                     @can('left-request.add')
@@ -18,11 +18,11 @@
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="cols">Департаменть / Исполнитель</th>
-                                <th scope="col">Краткое название </th>
+                                <th scope="col">Департамент / Исполнитель</th>
+                                <th scope="col">Краткое название</th>
                                 <th scope="col">Дата задачи</th>
                                 <th scope="col">Дата окончания</th>
-                                <th scope="col">Оставшиеся дни до окончания</th>
+                                <th scope="col">Оставшиеся дни</th>
                                 <th scope="col">Статус</th>
                                 <th scope="col">Действие</th>
                             </tr>
@@ -38,7 +38,7 @@
                                                     $roles = $roleNamesByTask[$item->id];
                                                 @endphp
 
-                                                <div class="d-flex align-items-center">
+                                                <div class="d-flex align-items-center flex-wrap" style="max-width: 250px;">
                                                     @if ($roles->count() > 1)
                                                         <span class="badge bg-primary text-light p-2 m-1">
                                                             <i class="fas fa-user-tag"></i> {{ $roles->first() }} и
@@ -60,11 +60,10 @@
                                             @endif
                                         @elseif($item->assign_type == 'custom')
                                             @php
-                                                // Fetching users associated with the task
-                                                $users = $item->task_users; // Assuming 'task_users' is the relationship method
+                                                $users = $item->task_users;
                                             @endphp
                                             @if ($users->isNotEmpty())
-                                                <div class="d-flex align-items-center">
+                                                <div class="d-flex align-items-center flex-wrap" style="max-width: 250px;">
                                                     @if ($users->count() > 1)
                                                         <span class="badge bg-primary text-light p-2 m-1">
                                                             <i class="fas fa-user"></i> {{ $users->first()->name }} и
@@ -87,12 +86,11 @@
                                         @else
                                             <span class="badge bg-warning text-dark p-2 m-1">Не найдено</span>
                                         @endif
-
                                     </td>
 
                                     <td>{{ $item->short_title }}</td>
-                                    <td>{{ optional($item->issue_date)->format('d.m.Y') ?? $item->issue_date }}</td>
-                                    <td>{{ optional($item->planned_completion_date)->format('d.m.Y') ?? $item->planned_completion_date }}
+                                    <td>{{ optional($item->issue_date)->format('d.m.Y') ?? 'Не указана' }}</td>
+                                    <td>{{ optional($item->planned_completion_date)->format('d.m.Y') ?? 'Не указана' }}
                                     </td>
                                     <td>
                                         @php
@@ -107,9 +105,19 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <span
-                                            class="badge bg-{{ $item->status->color ?? 'secondary' }}">{{ $item->status->name ?? 'No Status' }}</span>
+                                        <div class="d-flex align-items-center">
+                                            <span
+                                                class="badge bg-{{ $item->status->color ?? 'secondary' }} text-light p-2 m-1">
+                                            
+                                                <i class="fas fa-exclamation-triangle" style="color: #fff;"></i>
+                                                {{ $item->status->name ?? 'Нет статуса' }}
+                                            </span>
+                                        </div>
                                     </td>
+
+
+
+
                                     <td class="text-center">
                                         <ul class="list-unstyled d-flex gap-2 mb-0 justify-content-center">
                                             @if (auth()->user()->roles[0]->name != 'Super Admin')
