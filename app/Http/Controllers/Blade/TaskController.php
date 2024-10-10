@@ -74,6 +74,7 @@ class TaskController extends Controller
             $task->issue_date = $validatedData['issue_date'] ?? null;
             $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
             $task->short_title = $validatedData['short_title'] ?? null;
+            $task->note = $validatedData['note'] ?? null;
           
 
             // Assign the assign_type based on the input
