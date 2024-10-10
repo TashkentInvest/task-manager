@@ -34,12 +34,29 @@
                                     <td>
                                         @if ($item->assign_type == 'role')
                                             @if ($roleNamesByTask[$item->id] ?? false)
-                                                <span class="badge bg-primary text-light p-1 m-1">
+                                                @php
+                                                    $roles = $roleNamesByTask[$item->id];
+                                                @endphp
 
-                                                    {{ $roleNamesByTask[$item->id]->first() }} ...
-                                                </span>
+                                                <div class="d-flex align-items-center">
+                                                    @if ($roles->count() > 1)
+                                                        <span class="badge bg-primary text-light p-2 m-1">
+                                                            <i class="fas fa-user-tag"></i> {{ $roles->first() }} и
+                                                        </span>
+                                                        <span class="badge bg-secondary text-light p-2 m-1">
+                                                            <i class="fas fa-users"></i> {{ $roles->count() }} роли
+                                                            назначены
+                                                        </span>
+                                                    @else
+                                                        <span class="badge bg-primary text-light p-2 m-1">
+                                                            <i class="fas fa-user-tag"></i> {{ $roles->first() }}
+                                                        </span>
+                                                    @endif
+                                                </div>
                                             @else
-                                                <span class="badge bg-secondary text-light p-1 m-1">No Roles Assigned</span>
+                                                <span class="badge bg-secondary text-light p-2 m-1">
+                                                    <i class="fas fa-times-circle"></i> Роли не назначены
+                                                </span>
                                             @endif
                                         @elseif($item->assign_type == 'custom')
                                             @php
@@ -47,17 +64,32 @@
                                                 $users = $item->task_users; // Assuming 'task_users' is the relationship method
                                             @endphp
                                             @if ($users->isNotEmpty())
-                                                @foreach ($users as $user)
-                                                    <span class="badge bg-primary text-light p-1 m-1">{{ $user->name }}</span>
-                                                @endforeach
+                                                <div class="d-flex align-items-center">
+                                                    @if ($users->count() > 1)
+                                                        <span class="badge bg-primary text-light p-2 m-1">
+                                                            <i class="fas fa-user"></i> {{ $users->first()->name }} и
+                                                        </span>
+                                                        <span class="badge bg-secondary text-light p-2 m-1">
+                                                            <i class="fas fa-users"></i> {{ $users->count() }} пользователей
+                                                            назначено
+                                                        </span>
+                                                    @else
+                                                        <span class="badge bg-primary text-light p-2 m-1">
+                                                            <i class="fas fa-user"></i> {{ $users->first()->name }}
+                                                        </span>
+                                                    @endif
+                                                </div>
                                             @else
-                                                <span class="badge bg-secondary text-light p-1 m-1">No Users Assigned</span>
+                                                <span class="badge bg-secondary text-light p-2 m-1">
+                                                    <i class="fas fa-times-circle"></i> Нет назначенных пользователей
+                                                </span>
                                             @endif
                                         @else
-                                            not found
+                                            <span class="badge bg-warning text-dark p-2 m-1">Не найдено</span>
                                         @endif
+
                                     </td>
-                                    
+
                                     <td>{{ $item->executor }}</td>
                                     <td>{{ optional($item->issue_date)->format('d.m.Y') ?? $item->issue_date }}</td>
                                     <td>{{ optional($item->planned_completion_date)->format('d.m.Y') ?? $item->planned_completion_date }}
