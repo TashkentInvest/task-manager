@@ -19,7 +19,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="cols">Департаменть / Исполнитель</th>
-                                <th scope="col">Поручение</th>
+                                <th scope="col">Краткое название </th>
                                 <th scope="col">Дата задачи</th>
                                 <th scope="col">Дата окончания</th>
                                 <th scope="col">Оставшиеся дни до окончания</th>
@@ -90,7 +90,7 @@
 
                                     </td>
 
-                                    <td>{{ $item->executor }}</td>
+                                    <td>{{ $item->short_title }}</td>
                                     <td>{{ optional($item->issue_date)->format('d.m.Y') ?? $item->issue_date }}</td>
                                     <td>{{ optional($item->planned_completion_date)->format('d.m.Y') ?? $item->planned_completion_date }}
                                     </td>

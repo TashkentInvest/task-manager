@@ -22,8 +22,7 @@ class Tasks extends Model
         'poruchenie', // Поручение
         'issue_date', // Дата выдачи
         // 'author', // Автор поручения
-        'executor', // Исполнитель поручения
-        'co_executor', // Со исполнитель поручения
+    
         'planned_completion_date', // Срок выполнения (план)
         'short_title', // Краткое название
         'attached_file', // Закрепленный файл

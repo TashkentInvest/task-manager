@@ -30,8 +30,7 @@
                 $table->date('issue_date')->nullable(); // Дата выдачи (Date of issue)
                 $table->date('planned_completion_date')->nullable(); // Срок выполнения (план) (Planned completion date)
                 // $table->string('author')->nullable(); // Автор поручения (Author of the task)
-                $table->string('executor')->nullable(); // Исполнитель поручения (Executor of the task)
-                $table->string('co_executor')->nullable(); // Со исполнитель поручения (Co-executor)
+              
                 $table->string('short_title')->nullable(); // Краткое название (Actual completion status)
                 $table->string('attached_file')->nullable(); // Закрепленный файл (Attached file)
                 $table->string('attached_file_employee')->nullable(); // Закрепленный файл (Attached file)

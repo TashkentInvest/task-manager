@@ -45,8 +45,6 @@ class TaskController extends Controller
                 // 'category_id' => 'required|exists:categories,id', // Ensure category_id is validated
                 'issue_date' => 'nullable|date',
                 'poruchenie' => 'nullable|string',
-                'executor' => 'nullable|string|max:255',
-                'co_executor' => 'nullable|string|max:255',
                 'planned_completion_date' => [
                     'nullable',
                     'date',
@@ -142,8 +140,7 @@ class TaskController extends Controller
         $validatedData = $request->validate([
             'issue_date' => 'nullable|date',
             'poruchenie' => 'nullable|string',
-            'executor' => 'nullable|string|max:255',
-            'co_executor' => 'nullable|string|max:255',
+          
             'planned_completion_date' => [
                 'nullable',
                 'date',
