@@ -138,13 +138,6 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label>Состояние исполнения (опционально)</label>
-                            <input type="text" name="execution_state" class="form-control" value="{{ old('execution_state') }}">
-                            @error('execution_state')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
                     </div>
 
                  

@@ -27,7 +27,6 @@ class Tasks extends Model
         'co_executor', // Со исполнитель поручения
         'planned_completion_date', // Срок выполнения (план)
         'actual_status', // Статус выполнения (факт)
-        'execution_state', // Состояние исполнения
         'attached_file', // Закрепленный файл
         'note', // Примичание
        

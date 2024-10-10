@@ -34,7 +34,6 @@
                 $table->string('executor')->nullable(); // Исполнитель поручения (Executor of the task)
                 $table->string('co_executor')->nullable(); // Со исполнитель поручения (Co-executor)
                 $table->string('actual_status')->nullable(); // Статус выполнения (факт) (Actual completion status)
-                $table->string('execution_state')->nullable(); // Состояние исполнения (Execution state)
                 $table->string('attached_file')->nullable(); // Закрепленный файл (Attached file)
                 $table->text('note')->nullable(); // Примичание (Notes)
 

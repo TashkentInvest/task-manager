@@ -57,7 +57,6 @@ class TaskController extends Controller
                     },
                 ],
                 'actual_status' => 'nullable|string|max:255',
-                'execution_state' => 'nullable|string|max:255',
                 'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
                 'note' => 'nullable|string',
                
@@ -76,7 +75,6 @@ class TaskController extends Controller
             $task->issue_date = $validatedData['issue_date'] ?? null;
             $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
             $task->actual_status = $validatedData['actual_status'] ?? null;
-            $task->execution_state = $validatedData['execution_state'] ?? null;
           
             $task->document_type = $validatedData['document_type'] ?? null;
 
@@ -157,7 +155,6 @@ class TaskController extends Controller
                 },
             ],
             'actual_status' => 'nullable|string|max:255',
-            'execution_state' => 'nullable|string|max:255',
             'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
             'note' => 'nullable|string',
          
