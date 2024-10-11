@@ -17,8 +17,7 @@ class MonitoringController extends Controller
         $isSuperAdmin = $user->roles()->where('name', 'Super Admin')->exists();
 
         // Initialize the query to fetch tasks
-        $query = Tasks::with(['roles', 'category', 'task_users'])
-            ->where('status_id', TaskStatus::ACTIVE);
+        $query = Tasks::with(['roles', 'category', 'task_users']);
 
         // If not super admin, apply additional filters
         if (!$isSuperAdmin) {
