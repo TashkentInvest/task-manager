@@ -10,56 +10,62 @@ use Illuminate\Support\Facades\DB;
 class Order extends Model
 {
     use SoftDeletes;
-    
-    protected $dates = ['deleted_at']; 
+
+    protected $dates = ['deleted_at'];
     protected $table = 'orders';
 
     protected $fillable = [
-        'user_id','task_id','shipped_time','status','checked_status','report_status', 'created_at'
+        'user_id',
+        'finished_user_id',
+        'task_id',
+        'shipped_time',
+        'status',
+        'reject_comment',
+        'checked_status',
     ];
 
-    public static function deepFilters(){
+    public static function deepFilters()
+    {
 
-        $tiyin = [
-        ];
+        $tiyin = [];
 
         $obj = new self();
         $request = request();
 
-        $query = self::where('id','!=','0');
+        $query = self::where('id', '!=', '0');
 
         foreach ($obj->fillable as $item) {
 
             // dump($item);
-          
 
-            $operator = $item.'_operator';
+
+            $operator = $item . '_operator';
 
             // Search relationed company ***********************************************
-      
+
             if ($request->filled('company_name')) {
                 $operator = $request->input('company_operator', 'like');
                 $value = '%' . $request->input('company_name') . '%';
-            
+
                 $query->whereHas('task.company', function ($query) use ($operator, $value) {
                     $query->where('name', $operator, $value);
                 });
-            
+
                 // Continue with other filters...
             }
-            
+
             // END Search relationed company ***********************************************
 
             // Search relationed category ***********************************************
             if ($request->filled('category_name')) {
                 $operator = $request->input('category_name_operator', 'like');
                 $value = '%' . $request->input('category_name') . '%';
-        
+
                 $query->whereHas('task.category', function ($q) use ($operator, $value) {
                     $q->where('name', $operator, $value);
                 });
-        
-                continue; 
+
+                continue;
             }
             // END Search relationed category ***********************************************
 
@@ -68,13 +74,13 @@ class Order extends Model
                 // Determine the operator
                 $operator = $request->input('driver_full_name_operator', 'like');
                 $value = '%' . $request->input('driver_full_name') . '%';
-        
+
                 // Apply the filter
                 $query->whereHas('task.driver', function ($q) use ($operator, $value) {
                     $q->where('full_name', $operator, $value);
                 });
-        
-                continue; 
+
+                continue;
             }
             // END Search relationed driver ***********************************************
 
@@ -83,59 +89,49 @@ class Order extends Model
                 // Determine the operator
                 $operator = $request->input('user_name_operator', 'like');
                 $value = '%' . $request->input('user_name') . '%';
-        
+
                 // Apply the filter
                 $query->whereHas('user', function ($q) use ($operator, $value) {
                     $q->where('name', $operator, $value);
                 });
-        
-                continue; 
+
+                continue;
             }
             // END Search relationed status ***********************************************
 
 
-            if ($request->has($item) && $request->$item != '')
-            {
+            if ($request->has($item) && $request->$item != '') {
 
-               
-                if (isset($tiyin[$item])){
+
+                if (isset($tiyin[$item])) {
                     $select = $request->$item * 100;
-                    $select_pair = $request->{$item.'_pair'} * 100;
-                }else{
+                    $select_pair = $request->{$item . '_pair'} * 100;
+                } else {
                     $select = $request->$item;
-                    $select_pair = $request->{$item.'_pair'};
+                    $select_pair = $request->{$item . '_pair'};
                 }
                 //set value for query
-                if ($request->has($operator) && $request->$operator != '')
-                {
-                    if (strtolower($request->$operator) == 'between' && $request->has($item.'_pair') && $request->{$item.'_pair'} != '')
-                    {
+                if ($request->has($operator) && $request->$operator != '') {
+                    if (strtolower($request->$operator) == 'between' && $request->has($item . '_pair') && $request->{$item . '_pair'} != '') {
                         $value = [
                             $select,
-                            $select_pair];
+                            $select_pair
+                        ];
 
-                        $query->whereBetween($item,$value);
-                    }
-                    elseif (strtolower($request->$operator) == 'wherein')
-                    {
-                        $value = explode(',',str_replace(' ','',$select));
-                        $query->whereIn($item,$value);
-                    }
-                    elseif (strtolower($request->$operator) == 'like')
-                    {
-                        if (strpos($select,'%') === false)
-                            $query->where($item,'like','%'.$select.'%');
+                        $query->whereBetween($item, $value);
+                    } elseif (strtolower($request->$operator) == 'wherein') {
+                        $value = explode(',', str_replace(' ', '', $select));
+                        $query->whereIn($item, $value);
+                    } elseif (strtolower($request->$operator) == 'like') {
+                        if (strpos($select, '%') === false)
+                            $query->where($item, 'like', '%' . $select . '%');
                         else
-                            $query->where($item,'like',$select);
+                            $query->where($item, 'like', $select);
+                    } else {
+                        $query->where($item, $request->$operator, $select);
                     }
-                    else
-                    {
-                        $query->where($item,$request->$operator,$select);
-                    }
-                }
-                else
-                {
-                    $query->where($item,$select);
+                } else {
+                    $query->where($item, $select);
                 }
             }
         }
@@ -143,21 +139,20 @@ class Order extends Model
         return $query;
     }
 
-
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Relationship with User who finished the task
+    public function finishedUser()
+    {
+        return $this->belongsTo(User::class, 'finished_user_id');
+    }
+
+    // Relationship with Task
     public function task()
     {
-        return $this->belongsTo(Tasks::class);
+        return $this->belongsTo(Task::class);
     }
-
-
-    public function ratings()
-    {
-        return $this->hasMany(Rating::class);
-    }
-
 }

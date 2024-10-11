@@ -22,12 +22,12 @@ class Tasks extends Model
         'poruchenie', // Поручение
         'issue_date', // Дата выдачи
         // 'author', // Автор поручения
-    
+
         'planned_completion_date', // Срок выполнения (план)
         'short_title', // Краткое название
         'attached_file', // Закрепленный файл
         'note', // Примичание
-       
+
         'role_id',
         'bool_status'
     ];
@@ -47,7 +47,7 @@ class Tasks extends Model
     {
         return $this->belongsToMany(User::class, 'task_user', 'task_id', 'user_id');
     }
-    
+
 
 
     public static function deepFilters()

@@ -16,6 +16,7 @@ use App\Http\Controllers\Blade\RequestHistoryController;
 use App\Http\Controllers\Blade\TaskController;
 use App\Http\Controllers\Blade\ShiftController;
 use App\Http\Controllers\Blade\DailyController;
+use App\Http\Controllers\Blade\OrderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\FileDownloadController;
@@ -115,8 +116,9 @@ Route::group(['middleware' => 'auth'],function (){
     Route::post('/task/update/{task_id}',[TaskController::class,'update'])->name('taskUpdate');
     Route::delete('/task/delete/{id}', [TaskController::class, 'destroy'])->name('taskDestroy');
 
+    // Order controller
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     
-    // Route::resource('tasks', TaskController::class);
 
 
  
