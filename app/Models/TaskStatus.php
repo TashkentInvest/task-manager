@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TaskStatus extends Model
 {
     use SoftDeletes;
-    
-    protected $dates = ['deleted_at']; 
+
+    protected $dates = ['deleted_at'];
     protected $table = 'task_status';
     const ORDER_ACTIVE = 0;
     const ACTIVE = 1;
@@ -21,6 +21,7 @@ class TaskStatus extends Model
     const TIME_IS_OVER = 7;
     const TIME_IS_YET_OVER = 77;
     const ADMIN_REJECT = 8;
+    const XODIM_REJECT = 88;
 
     public function getColor()
     {
@@ -40,6 +41,8 @@ class TaskStatus extends Model
             case 'TIME_IS_OVER':
                 return 'dark'; // Black
             case 'ADMIN_REJECT':
+                return 'danger'; // Red
+            case 'XODIM_REJECT':
                 return 'danger'; // Red
             default:
                 return 'light'; // Default color

@@ -134,6 +134,8 @@
                                     data-bs-target="#exampleModal_{{ $item->id }}">
                                     <i class="bx bxs-show"></i>
                                 </button>
+
+                                <a href="{{route('taskShow', $item->id)}}">show</a>
                             </li>
                         </ul>
                         @include('pages.monitoring.partials.task-modal', [

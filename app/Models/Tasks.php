@@ -29,7 +29,9 @@ class Tasks extends Model
         'note', // Примичание
 
         'role_id',
-        'bool_status'
+        'bool_status',
+
+        'reject_comment'
     ];
 
 

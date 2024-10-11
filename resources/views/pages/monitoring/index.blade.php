@@ -14,6 +14,7 @@
                     @endcan
                 </div>
 
+
                 <div class="common-space project-tabs">
                     <ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -23,7 +24,7 @@
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="progress-top-tab" data-bs-toggle="tab" href="#top-progress" role="tab" aria-controls="top-progress" aria-selected="false">
-                                <i class="fa-solid fa-bars-progress"></i> В процессе
+                                <i class="fa-solid fa-bars-progress"></i> Новые
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">

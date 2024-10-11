@@ -57,7 +57,7 @@ class TaskController extends Controller
                 'short_title' => 'nullable|string|max:255',
                 'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
                 'note' => 'nullable|string',
-               
+
                 'roles' => 'nullable|array',
                 'roles.*' => 'exists:roles,name',
                 'users' => 'nullable|array',
@@ -73,7 +73,7 @@ class TaskController extends Controller
             $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
             $task->short_title = $validatedData['short_title'] ?? null;
             $task->note = $validatedData['note'] ?? null;
-          
+
 
             // Assign the assign_type based on the input
             $assignType = $request->input('assign_type');
@@ -118,11 +118,6 @@ class TaskController extends Controller
         }
     }
 
-
-
-
-
-
     public function edit($id)
     {
         // Fetch the task and related data
@@ -134,13 +129,28 @@ class TaskController extends Controller
         return view('pages.task.edit', compact('task', 'categories', 'roles', 'users'));
     }
 
+    public function show($id)
+    {
+        // Fetch the task and related data
+        $item = Tasks::where('id', $id)
+            ->with(['roles', 'user', 'task_users', 'category']) // Load related data
+            ->findOrFail($id);
+
+        $categories = Category::all(); // Adjust as necessary
+        $roles = Role::all();
+        $users = User::all();
+
+        return view('pages.task.show', compact('item', 'categories', 'roles', 'users'));
+    }
+
+
     public function update(Request $request, $id)
     {
         // Validate the incoming request
         $validatedData = $request->validate([
             'issue_date' => 'nullable|date',
             'poruchenie' => 'nullable|string',
-          
+
             'planned_completion_date' => [
                 'nullable',
                 'date',
@@ -153,7 +163,7 @@ class TaskController extends Controller
             'short_title' => 'nullable|string|max:255',
             'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
             'note' => 'nullable|string',
-         
+
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,name', // Validate role names exist
             'users' => 'nullable|array', // Add validation for users

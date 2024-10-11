@@ -27,9 +27,9 @@ class MonitoringController extends Controller
             $query->whereHas('roles', function ($q) use ($roleIds) {
                 $q->whereIn('role_id', $roleIds);
             })
-            ->orWhereHas('task_users', function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            });
+                ->orWhereHas('task_users', function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                });
         }
 
         // Fetch tasks
@@ -39,6 +39,8 @@ class MonitoringController extends Controller
         $inProgressTasks = $allTasks->where('status_id', TaskStatus::ACTIVE);
         $pendingTasks = $allTasks->where('status_id', TaskStatus::ACCEPTED);
         $completedTasks = $allTasks->where('status_id', TaskStatus::COMPLATED);
+        $rejectedTasks = $allTasks->where('status_id', TaskStatus::ADMIN_REJECT)
+                                 ->orWhere('status_id', TaskStatus::XODIM_REJECT);
 
         // Prepare role names by task
         $roleNamesByTask = $allTasks->mapWithKeys(function ($task) {
@@ -51,6 +53,7 @@ class MonitoringController extends Controller
             'inProgressTasks' => $inProgressTasks,
             'pendingTasks' => $pendingTasks,
             'completedTasks' => $completedTasks,
+            'rejectedTasks' => $rejectedTasks,
             'trashedTasks' => Tasks::onlyTrashed()->get(),
             'roleNamesByTask' => $roleNamesByTask,
         ]);

@@ -12,10 +12,7 @@ use App\Http\Controllers\Blade\DashboardController;
 use App\Http\Controllers\Blade\MonitoringController;
 use App\Http\Controllers\Blade\EmployeeController;
 use App\Http\Controllers\Blade\LongTextController;
-use App\Http\Controllers\Blade\RequestHistoryController;
 use App\Http\Controllers\Blade\TaskController;
-use App\Http\Controllers\Blade\ShiftController;
-use App\Http\Controllers\Blade\DailyController;
 use App\Http\Controllers\Blade\OrderController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DemoController;
@@ -112,13 +109,15 @@ Route::group(['middleware' => 'auth'],function (){
     // Route::get('/tasks',[TaskController::class,'index'])->name('monitoringIndex');
     Route::get('/task/add',[TaskController::class,'add'])->name('taskAdd');
     Route::post('/task/create',[TaskController::class,'create'])->name('taskCreate');
+    Route::get('/task/{id}',[TaskController::class,'show'])->name('taskShow');
     Route::get('/task/{id}/edit',[TaskController::class,'edit'])->name('taskEdit');
     Route::post('/task/update/{task_id}',[TaskController::class,'update'])->name('taskUpdate');
     Route::delete('/task/delete/{id}', [TaskController::class, 'destroy'])->name('taskDestroy');
 
     // Order controller
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-    
+    Route::post('/orders/reject', [OrderController::class, 'reject'])->name('orders.reject');
+
 
 
  

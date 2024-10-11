@@ -28,7 +28,6 @@ class CreateOrdersTable extends Migration
 
             $table->integer('status')->default(1); // reject or approve 1 -> applied | 2 -> rejected | 3->finished
 
-            $table->text('reject_comment')->nullable(); // if employee will reject 
 
             $table->integer('checked_status')->default(0); // ceo will check and will approve
             $table->softDeletes();
