@@ -21,4 +21,28 @@ class TaskStatus extends Model
     const TIME_IS_OVER = 7;
     const TIME_IS_YET_OVER = 77;
     const ADMIN_REJECT = 8;
+
+    public function getColor()
+    {
+        switch ($this->name) {
+            case 'Active':
+                return 'success'; // Green
+            case 'Canceled':
+                return 'danger'; // Red
+            case 'Accepted':
+                return 'warning'; // Blue
+            case 'Completed':
+                return 'success'; // Light Blue
+            case 'Deleted':
+                return 'danger'; // Gray
+            case 'ORDER_ACTIVE':
+                return 'warning'; // Yellow
+            case 'TIME_IS_OVER':
+                return 'dark'; // Black
+            case 'ADMIN_REJECT':
+                return 'danger'; // Red
+            default:
+                return 'light'; // Default color
+        }
+    }
 }

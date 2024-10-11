@@ -24,15 +24,15 @@
                                 <th scope="col">Дата задачи</th>
                                 <th scope="col">Дата окончания</th>
                                 <th scope="col">Оставшиеся дни</th>
-                                <th scope="col">Статус</th> 
-                                <th scope="col">Действия</th> 
+                                <th scope="col">Статус</th>
+                                <th scope="col">Действия</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($tasks as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->user->name}}</td>
+                                    <td>{{ $item->user->name }}</td>
                                     <td>
                                         @if ($item->assign_type == 'role')
                                             @if ($roleNamesByTask[$item->id] ?? false)
@@ -108,33 +108,26 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            {{-- <span
-                                                class="badge bg-{{ $item->status->color ?? 'secondary' }} text-light p-2 m-1" style="font-size: 15px">
-                                            
-                                                {{ $item->status->name ?? 'Нет статуса' }}
-                                            </span> --}}
-
                                             <span
-                                                class="badge badge-soft-success font-size-16 m-1"> {{ $item->status->name}}</span>
+                                                class="badge badge-soft-{{ $item->status->getColor() }} font-size-16 m-1">
+                                                {{ $item->status->name }}
+                                            </span>
                                         </div>
                                     </td>
-
-
-
 
                                     <td class="text-center">
                                         <ul class="list-unstyled d-flex gap-2 mb-0 justify-content-center">
                                             @if (auth()->user()->roles[0]->name != 'Super Admin')
-                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
-                                                <form action="{{ route('orders.store') }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="task_id" value="{{ $item->id }}">
-                                                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                                                    <button type="submit" class="btn btn-success">
-                                                        <i class="bx bxs-badge-check"></i>
-                                                    </button>
-                                                </form>
-                                            </li>
+                                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
+                                                    <form action="{{ route('orders.store') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="task_id" value="{{ $item->id }}">
+                                                        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                                                        <button type="submit" class="btn btn-success">
+                                                            <i class="bx bxs-badge-check"></i>
+                                                        </button>
+                                                    </form>
+                                                </li>
                                             @endif
                                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
                                                 <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info">

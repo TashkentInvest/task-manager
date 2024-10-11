@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('user_id'); //employee_id
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('finished_user_id');
+            $table->unsignedBigInteger('finished_user_id')->nullable(); // finished employee id
             $table->foreign('finished_user_id')->references('id')->on('users');
 
             $table->unsignedBigInteger('task_id');
@@ -26,7 +26,7 @@ class CreateOrdersTable extends Migration
 
             $table->integer('shipped_time')->nullable();
 
-            $table->integer('status')->default(0); // reject or approve 1 -> applied | 2 -> rejected | 3->finished
+            $table->integer('status')->default(1); // reject or approve 1 -> applied | 2 -> rejected | 3->finished
 
             $table->text('reject_comment')->nullable(); // if employee will reject 
 
