@@ -28,23 +28,31 @@ class MonitoringController extends Controller
             $query->whereHas('roles', function ($q) use ($roleIds) {
                 $q->whereIn('role_id', $roleIds);
             })
-                ->orWhereHas('task_users', function ($q) use ($user) {
-                    $q->where('user_id', $user->id);
-                });
+            ->orWhereHas('task_users', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
         }
 
-        // Execute the query and get the tasks
-        $tasks = $query->get();
+        // Fetch tasks
+        $allTasks = $query->get();
 
-        $roleNamesByTask = $tasks->mapWithKeys(function ($task) {
+        // Separate tasks by status
+        $inProgressTasks = $allTasks->where('status_id', TaskStatus::ACTIVE);
+        $pendingTasks = $allTasks->where('status_id', TaskStatus::ACCEPTED);
+        $completedTasks = $allTasks->where('status_id', TaskStatus::COMPLATED);
+
+        // Prepare role names by task
+        $roleNamesByTask = $allTasks->mapWithKeys(function ($task) {
             return [$task->id => $task->roles->pluck('name')];
         });
 
         return view('pages.monitoring.index', [
             'taskStatuses' => TaskStatus::all(),
-            'tasks' => $tasks,
+            'allTasks' => $allTasks,
+            'inProgressTasks' => $inProgressTasks,
+            'pendingTasks' => $pendingTasks,
+            'completedTasks' => $completedTasks,
             'trashedTasks' => Tasks::onlyTrashed()->get(),
-            'allTasks' => Tasks::withTrashed()->get(),
             'roleNamesByTask' => $roleNamesByTask,
         ]);
     }
