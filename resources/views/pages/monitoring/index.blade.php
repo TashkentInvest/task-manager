@@ -18,19 +18,21 @@
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">Поручитель</th>
                                 <th scope="col">Департамент / Исполнитель</th>
                                 <th scope="col">Краткое название</th>
                                 <th scope="col">Дата задачи</th>
                                 <th scope="col">Дата окончания</th>
                                 <th scope="col">Оставшиеся дни</th>
-                                <th scope="col">Статус</th>
-                                <th scope="col">Действие</th>
+                                <th scope="col">Статус</th> 
+                                <th scope="col">Действия</th> 
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($tasks as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
+                                    <td>{{ $item->user->name}}</td>
                                     <td>
                                         @if ($item->assign_type == 'role')
                                             @if ($roleNamesByTask[$item->id] ?? false)
