@@ -44,7 +44,6 @@
                     
                     'long-text.show',
                     'employee.show',
-                    'cheque.show'
                 ])
                 <li class="{{ (Request::is('company*') || Request::is('category*') || Request::is('driver*') || Request::is('cheque*') || Request::is('long*') || Request::is('employee*') ) ? 'mm-active':''}}">
                     <a href="javascript: void(0);" class="has-arrow waves-effect {{ (Request::is('company*') || Request::is('category*') || Request::is('driver*') || Request::is('cheque*') || Request::is('long*') || Request::is('employee*') ) ? 'mm-active':''}}">
@@ -62,25 +61,7 @@
                         @endcan
 
                         
-                        
-                        {{-- @can('company.show')
-                        <li>
-                            <a href="{{ route('companyIndex') }}" class="{{ Request::is('company*') ? 'mm-active':'' }}">
-                                <i class="bx bxs-building" style="min-width: auto;"></i>
-                                Company
-                            </a>
-                        </li>
-                        @endcan
-
-                        @can('driver.show')
-                        <li>
-                            <a href="{{ route('driverIndex') }}" class="{{ Request::is('driver*') ? 'mm-active':'' }}">
-                                <i class="bx bxs-truck" style="min-width: auto;"></i>
-                                Driver
-                            </a>
-                        </li>
-                        @endcan --}}
-
+                  
                         @can('long-text.show')
                         <li>
                             <a href="{{ route('longTextIndex') }}" class="{{ Request::is('long*') ? 'mm-active':'' }}">
@@ -99,14 +80,7 @@
                         </li>
                         @endcan
 
-                        @can('cheque.show')
-                        <li>
-                            <a href="{{ route('chequeIndex') }}" class="{{ Request::is('cheque*') ? 'mm-active':'' }}">
-                                <i class="bx bxs-folder-open" style="min-width: auto;"></i>
-                                Cheque
-                            </a>
-                        </li>
-                        @endcan
+                   
                     </ul>
                 </li>
                 @endcanany
@@ -119,81 +93,7 @@
                     'bonuses.show',
                     'request-history.show'
                 ])
-                <li class="{{ (Request::is('report*')  ) ? 'mm-active':''}}">
-                    <a href="javascript: void(0);" class="has-arrow waves-effect {{ (Request::is('report*')  ) ? 'mm-active':''}}">
-                        <i class="bx bx-file"></i>
-                        <span>Report</span>
-                    </a>
-                    <ul class="sub-menu {{ (Request::is('report*') ) ? ' ':'d-none'}}" aria-expanded="false">
-                        @if(auth()->user()->roles[0]->name != 'Employee')
-                        <li>
-                            <a href="{{ route('dailyReportIndex') }}" class="{{ Request::is('report-daily*') ? 'mm-active':'' }}">
-                                <i class="bx bxs-calendar-check" style="min-width: auto;"></i>
-                                Daily
-                            </a>
-                        </li>
-                        @endif
-                        
-                        @can('control-report.show')
-						@if(auth()->user()->roles[0]->name != "Employee")			
-
-                        <li>
-                            <a href="{{ route('reportUserIndex') }}" class="{{ Request::is('report-control*') ? 'mm-active':'' }}">
-                                <i class="bx bx-border-all" style="min-width: auto;"></i>
-                                Control-Report
-                            </a>
-                        </li>
-                        @else
-                            @php
-                             $user = auth()->user();
-                            @endphp
-                        <li>
-                            <a href="{{ route('controlReportIndex', ['id' => auth()->user()->id, 'name' => auth()->user()->name]) }}" class="{{ Request::is('report-control*') ? 'mm-active':'' }}">
-                                <i class="bx bx-border-all" style="min-width: auto;"></i>
-                                Control-Report
-                            </a>
-                        </li>
-
-                        @endif
-                        @endcan
-
-                        @can('shift.show')
-                        <li>
-                            <a href="{{ route('shiftIndex') }}" class="{{ Request::is('report-shift*') ? 'mm-active':'' }}">
-                                <i class="bx bxs-building" style="min-width: auto;"></i>
-                                Shift
-                            </a>
-                        </li>
-                        @endcan
-
-                        @can('fines.show')
-                        <li>
-                            <a href="{{ route('finesIndex') }}" class="{{ Request::is('report-fines*') ? 'mm-active':'' }}">
-                                <i class="bx bx-error" style="min-width: auto;"></i>
-                                Fines
-                            </a>
-                        </li>
-                        @endcan
-
-                        @can('bonuses.show')
-                        <li>
-                            <a href="{{ route('bonusesIndex') }}" class="{{ Request::is('report-bonuses*') ? 'mm-active':'' }}">
-                                <i class="bx bx-diamond" style="min-width: auto;"></i>
-                                Bonuses
-                            </a>
-                        </li>
-                        @endcan
-
-                        @can('request-history.show')
-                        <li>
-                            <a href="{{ route('historyIndex') }}" class="{{ Request::is('report-history*') ? 'mm-active':'' }}">
-                                <i class="bx bx-history" style="min-width: auto;"></i>
-                                Request History
-                            </a>
-                        </li>
-                        @endcan
-                    </ul>
-                </li>
+ 
                 @endcanany
                 
                 <!-- Theme -->

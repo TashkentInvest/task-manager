@@ -108,12 +108,14 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <span
+                                            {{-- <span
                                                 class="badge bg-{{ $item->status->color ?? 'secondary' }} text-light p-2 m-1" style="font-size: 15px">
                                             
-                                                {{-- <i class="fas fa-exclamation-triangle" style="color: #fff;"></i> --}}
                                                 {{ $item->status->name ?? 'Нет статуса' }}
-                                            </span>
+                                            </span> --}}
+
+                                            <span
+                                                class="badge badge-soft-success font-size-16 m-1"> {{ $item->status->name}}</span>
                                         </div>
                                     </td>
 

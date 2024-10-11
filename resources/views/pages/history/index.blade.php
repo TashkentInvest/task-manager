@@ -194,7 +194,7 @@
                         </div>
                     </form>
                     {{-- <button type="button" class="btn btn-sm btn-secondary waves-effect waves-light">Middle</button> --}}
-                    <a href="{{ route('historyIndex') }}" class="btn btn-secondary waves-effect waves-light btn-sm">
+                    <a href="" class="btn btn-secondary waves-effect waves-light btn-sm">
                         <i class="bx bx-revision"></i> @lang('global.clear')
                     </a>
                 </div>

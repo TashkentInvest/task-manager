@@ -11,7 +11,7 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}" style="color: #007bff;">@lang('global.home')</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('shiftIndex') }}" style="color: #007bff;">Edit Shift</a></li>
+                    <li class="breadcrumb-item"><a href="" style="color: #007bff;">Edit Shift</a></li>
                     <li class="breadcrumb-item active">@lang('global.edit')</li>
                 </ol>
             </div>
@@ -70,7 +70,7 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success waves-effect waves-light float-right">@lang('global.save')</button>
-                        <a href="{{ route('shiftIndex') }}" class="btn btn-light waves-effect float-left">@lang('global.cancel')</a>
+                        <a href="" class="btn btn-light waves-effect float-left">@lang('global.cancel')</a>
                     </div>
                 </form>
 

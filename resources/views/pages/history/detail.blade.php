@@ -10,7 +10,7 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}" style="color: #007bff;">@lang('global.home')</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('historyIndex') }}" style="color: #007bff;">Request History</a></li>
+                    <li class="breadcrumb-item"><a href="" style="color: #007bff;">Request History</a></li>
                     <li class="breadcrumb-item active">Request History Info</li>
                 </ol>
             </div>

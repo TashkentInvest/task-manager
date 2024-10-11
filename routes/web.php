@@ -119,35 +119,7 @@ Route::group(['middleware' => 'auth'],function (){
     // Route::resource('tasks', TaskController::class);
 
 
-    Route::get('/report-control/{id}/{name}', [ReportController::class, 'show'])->name('controlReportIndex');
-    Route::get('/report-users',[ReportController::class,'users'])->name('reportUserIndex');
-
  
-    Route::post('/report-control/create', [ReportController::class, 'create'])->name('controlReportCreate');
-    Route::post('/report-control/{order_id}',[ReportController::class,'update'])->name('controlReportStore');
-    Route::get('/report-daily',[DailyController::class,'index'])->name('dailyReportIndex');
-    Route::post('/daily/toggle-status/{id}', [DailyController::class, 'toggleUserActivation'])->name('dailyActivation');
-
-
-    Route::get('/fetch-rating/{reportId}', [ReportController::class, 'fetchRating'])->name('fetchRating');
-
-
-
-    Route::get('/report-fines',[FinesController::class,'index'])->name('finesIndex');
-    Route::get('/report-bonuses',[FinesController::class,'bonuses'])->name('bonusesIndex');
-    // Route::get('/report-fines',[ReportController::class,'fines'])->name('finesIndex');
-    Route::get('/report-history',[RequestHistoryController::class,'index'])->name('historyIndex');
-    Route::get('/report-history/{id}',[RequestHistoryController::class,'historyDetail'])->name('historyDetailIndex');
-
-    // Report shift
-    Route::get('/report-shift',[ShiftController::class, 'index'])->name('shiftIndex');
-    Route::get('/report-shift/add',[ShiftController::class, 'add'])->name('shiftAdd');
-    Route::post('/report-shift/create',[ShiftController::class, 'create'])->name('shiftCreate');
-    Route::post('/report-shift/extra/days/{shiftId}',[ShiftController::class, 'extraDays'])->name('shiftExrtaDays');
-    Route::get('/report-shift/{id}/edit',[ShiftController::class, 'edit'])->name('shiftEdit');
-    Route::post('/report-shift/update/{id}',[ShiftController::class, 'update'])->name('shiftUpdate');
-    Route::delete('/report-shift/delete/{id}',[ShiftController::class,'destroy'])->name('shiftDestroy');
-    // Dashboard
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboardIndex');
 
     // Monitoring

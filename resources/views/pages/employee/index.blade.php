@@ -26,14 +26,13 @@
                 <div class="card-header">
                     <h3 class="card-title">EMPLOYEES</h3>
                     @can('employee.add')
-                    @if(auth()->check() && auth()->user()->roles->isNotEmpty() && auth()->user()->roles[0]->name != "Employee")
-                    
-                        <a href="{{ route('employeeAdd') }}"
-                            class="btn btn-sm btn-success waves-effect waves-light float-right">
-                            <span class="fas fa-plus-circle"></span>
-                            @lang('global.add')
-                        </a>
-                    @endif
+                        @if (auth()->check() && auth()->user()->roles->isNotEmpty() && auth()->user()->roles[0]->name != 'Employee')
+                            <a href="{{ route('employeeAdd') }}"
+                                class="btn btn-sm btn-success waves-effect waves-light float-right">
+                                <span class="fas fa-plus-circle"></span>
+                                @lang('global.add')
+                            </a>
+                        @endif
                     @endcan
                 </div>
                 <div class="card-body">
@@ -47,7 +46,6 @@
                                     <th scope="col">Date of birth</th>
                                     <th scope="col">Hire date</th>
                                     <th scope="col">Phone number</th>
-                                    <th scope="col">Tags</th>
                                     <th scope="col">Active</th>
                                     {{-- <th scope="col">Projects</th> --}}
                                     <th scope="col">Action</th>
@@ -77,35 +75,23 @@
                                             <td>{{ $user->birth_date ?? 'Empty' }}</td>
                                             <td>{{ $user->hire_date ?? 'Empty' }}</td>
                                             <td>{{ $user->phone ?? 'Empty' }}</td>
-                                            @if(auth()->user()->roles[0]->name != 'Employee')
-                                            <td>
-                                                <div>
-                                                    <span
-                                                        id="program1_{{ $user->id }}"
-                                                        class="badge badge-soft-{{ $user->is_online ? 'success' : 'danger' }} font-size-16 m-1">{{ $user->is_online ? 'Online' : 'Offline' }}</span>
-                                                </div>
-                                            </td>
-
-                                            <td class="text-center">
-                                                <i style="cursor: pointer; font-size: 16px;" id="program_{{ $user->id }}" 
-                                                class="fas {{ $user->is_online === 1 ? "fa-check-circle text-success":"fa-times-circle text-danger" }}"
-                                                onclick="toggle_instock({{ $user->id }})"></i>
-                                            </td>
+                                            @if (auth()->user()->roles[0]->name != 'Employee')
+                                                <td>
+                                                    <div>
+                                                        <span id="program1_{{ $user->id }}"
+                                                            class="badge badge-soft-{{ $user->is_online ? 'success' : 'danger' }} font-size-16 m-1">{{ $user->is_online ? 'Online' : 'Offline' }}</span>
+                                                    </div>
+                                                </td>
 
                                             @else
-                                            <td>
-                                                <div>
-                                                    <span
-                                                        id="program1_{{ $user->id }}"
-                                                        class="badge badge-soft-{{ $user->is_online ? 'success' : 'danger' }} font-size-16 m-1">{{ $user->is_online ? 'Online' : 'Offline' }}</span>
-                                                </div>
-                                            </td>
+                                                <td>
+                                                    <div>
+                                                        <span id="program1_{{ $user->id }}"
+                                                            class="badge badge-soft-{{ $user->is_online ? 'success' : 'danger' }} font-size-16 m-1">{{ $user->is_online ? 'Online' : 'Offline' }}</span>
+                                                    </div>
+                                                </td>
 
-                                            <td class="text-center">
-                                                <i style="cursor: pointer; font-size: 16px;" id="program_{{ $user->id }}" 
-                                                class="fas {{ $user->is_online === 1 ? "fa-check-circle text-success":"fa-times-circle text-danger" }}"
-                                                ></i>
-                                            </td>
+                                             
                                             @endif
 
                                             {{-- <td>
@@ -228,25 +214,25 @@
 
 @section('scripts')
     <script>
-        function toggle_instock(id){
+        function toggle_instock(id) {
             $.ajax({
-                url: "/employee/toggle-status/"+id,
+                url: "/employee/toggle-status/" + id,
                 type: "POST",
-                data:{
+                data: {
                     _token: "{!! @csrf_token() !!}"
                 },
-                success: function(result){
-                    if (result.is_active == 1){
-                        $("#program_"+id).attr('class',"fas fa-check-circle text-success");
-                        $("#program1_"+id).attr('class',"badge badge-soft-success text-success font-size-16 m-1");
-                    }
-                    else
-                    {
-                        $("#program_"+id).attr('class',"fas fa-times-circle text-danger");
-                        $("#program1_"+id).attr('class',"badge badge-soft-danger text-danger font-size-16 m-1");
+                success: function(result) {
+                    if (result.is_active == 1) {
+                        $("#program_" + id).attr('class', "fas fa-check-circle text-success");
+                        $("#program1_" + id).attr('class',
+                            "badge badge-soft-success text-success font-size-16 m-1");
+                    } else {
+                        $("#program_" + id).attr('class', "fas fa-times-circle text-danger");
+                        $("#program1_" + id).attr('class',
+                            "badge badge-soft-danger text-danger font-size-16 m-1");
                     }
                 },
-                error: function (errorMessage){
+                error: function(errorMessage) {
                     console.log(errorMessage)
                 }
             });
