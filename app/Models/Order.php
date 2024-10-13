@@ -20,7 +20,6 @@ class Order extends Model
         'task_id',
         'shipped_time',
         'status',
-        'reject_comment',
         'checked_status',
     ];
 
@@ -153,6 +152,6 @@ class Order extends Model
     // Relationship with Task
     public function task()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Tasks::class);
     }
 }

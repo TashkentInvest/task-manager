@@ -52,6 +52,7 @@ class OrderController extends Controller
             $order->save();
         }
         $order->reject_comment = $request->reject_comment;
+        $order->reject_time = now();
         $order->save();
 
         // Handle file uploads
@@ -62,6 +63,7 @@ class OrderController extends Controller
                 // Create a new file record
                 File::create([
                     'user_id' => auth()->id(),
+                    'task_id' => $order->id,
                     'name' => $file->getClientOriginalName(),
                     'department' => '', // Set as necessary
                     'file_name' => $path,

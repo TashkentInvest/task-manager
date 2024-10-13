@@ -109,39 +109,42 @@
                     <td class="text-center">
                         <ul class="list-unstyled d-flex gap-2 mb-0 justify-content-center">
                             @if (auth()->user()->roles[0]->name != 'Super Admin')
-                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
-                                    <form action="{{ route('orders.store') }}" method="POST">
+                                @if ($item->status->name == 'Active')
+                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
+                                        <form action="{{ route('orders.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="task_id" value="{{ $item->id }}">
+                                            <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="bx bxs-badge-check"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                @endif
+                            @else
+                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
+                                    <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info">
+                                        <i class="bx bxs-edit"></i>
+                                    </a>
+                                </li>
+                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить">
+                                    <form action="{{ route('taskDestroy', $item->id) }}" method="POST"
+                                        style="display:inline;">
                                         @csrf
-                                        <input type="hidden" name="task_id" value="{{ $item->id }}">
-                                        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                                        <button type="submit" class="btn btn-success">
-                                            <i class="bx bxs-badge-check"></i>
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="bx bxs-trash"></i>
                                         </button>
                                     </form>
                                 </li>
                             @endif
-                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
-                                <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info">
-                                    <i class="bx bxs-edit"></i>
-                                </a>
-                            </li>
-                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить">
-                                <form action="{{ route('taskDestroy', $item->id) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">
-                                        <i class="bx bxs-trash"></i>
-                                    </button>
-                                </form>
-                            </li>
                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Подробности">
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal_{{ $item->id }}">
                                     <i class="bx bxs-show"></i>
                                 </button>
                             </li>
-                            
+
                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Посмотреть">
                                 <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">
                                     <i class="bx bxs-link"></i> Посмотреть

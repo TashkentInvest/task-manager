@@ -17,6 +17,8 @@ class CreateFilesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('task_id')->nullable();
+            $table->foreign('task_id')->references('id')->on('tasks');
             $table->string('name')->nullable();        
             $table->string('department')->nullable();  
             $table->string('file_name')->nullable();   

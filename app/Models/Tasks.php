@@ -42,7 +42,7 @@ class Tasks extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class,'category_id','id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
 
@@ -228,8 +228,13 @@ class Tasks extends Model
         return $this->belongsTo(TaskStatus::class);
     }
 
-    public function orders()
+    public function order()
     {
-        return $this->hasMany(Order::class, 'task_id');
+        return $this->hasOne(Order::class, 'task_id', 'id');
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class, 'task_id'); // Assuming 'task_id' is the foreign key in the files table
     }
 }

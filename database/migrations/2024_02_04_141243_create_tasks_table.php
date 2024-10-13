@@ -39,6 +39,7 @@
                 $table->string('assign_type')->nullable(); // Вид документа (Document type)
 
                 $table->text('reject_comment')->nullable(); // if employee will reject 
+                $table->dateTime('reject_time')->nullable(); // if employee will reject 
 
                 // Add role_id column and foreign key
                 $table->unsignedBigInteger('role_id')->nullable(); // Role associated with the task

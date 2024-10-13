@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blade;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\RoleTask;
 use Illuminate\Http\Request;
 use App\Models\TaskStatus;
@@ -129,19 +130,19 @@ class TaskController extends Controller
 
         return view('pages.task.edit', compact('task', 'categories', 'roles', 'users'));
     }
-
     public function show($id)
     {
         // Fetch the task and related data
         $item = Tasks::where('id', $id)
-            ->with(['roles', 'user', 'task_users', 'category']) // Load related data
+            ->with(['roles', 'user', 'task_users', 'category', 'order', 'files']) // Load files relationship
             ->findOrFail($id);
 
         $categories = Category::all(); // Adjust as necessary
         $roles = Role::all();
         $users = User::all();
+        $order = Order::withTrashed()->where('task_id', $id)->first();
 
-        return view('pages.task.show', compact('item', 'categories', 'roles', 'users'));
+        return view('pages.task.show', compact('item', 'categories', 'roles', 'users', 'order'));
     }
 
 
