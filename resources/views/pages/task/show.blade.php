@@ -9,7 +9,8 @@
                     <h3 class="mb-0">Детали поручения ID: {{ $item->id }}</h3>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title text-secondary">Краткое название: <span class="text-bold" style="font-weight: bold">{{ $item->short_title }}</span></h5>
+                    {{-- @dd($item->category) --}}
+                    <h5 class="card-title text-secondary">Краткое название: <span class="text-bold" style="font-weight: bold">{{ $item->short_title }}</span></h5> <br><br>
                     <p class="card-text"><strong>Поручитель:</strong> {{ $item->user->name }}</p>
                     <p class="card-text"><strong>Категория:</strong> {{ $item->category->name ?? 'Не указана' }}</p>
                     <p class="card-text"><strong>Дата выдачи:</strong> {{ optional($item->issue_date)->format('d.m.Y') }}</p>

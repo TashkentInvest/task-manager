@@ -58,6 +58,7 @@ class TaskController extends Controller
                 'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
                 'note' => 'nullable|string',
 
+                'category_id' => 'nullable',
                 'roles' => 'nullable|array',
                 'roles.*' => 'exists:roles,name',
                 'users' => 'nullable|array',
@@ -163,6 +164,7 @@ class TaskController extends Controller
             'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
             'note' => 'nullable|string',
 
+            'category_id' => 'nullable',
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,name',
             'users' => 'nullable|array',
@@ -171,6 +173,7 @@ class TaskController extends Controller
 
         // Find the task by ID
         $task = Tasks::findOrFail($id);
+        // dd($request);
         // dd($request->short_title);
         $task->category_id = $validatedData['category_id'] ?? null;
         $task->user_id = auth()->user()->id;
@@ -180,7 +183,7 @@ class TaskController extends Controller
         $task->short_title = $validatedData['short_title'] ?? null;
         $task->note = $validatedData['note'] ?? null;
 
-  
+
 
         // Handle the roles and users assignment
         $assignType = $request->input('assign_type');

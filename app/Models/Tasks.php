@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Role;
@@ -39,6 +38,14 @@ class Tasks extends Model
         'issue_date',
         'planned_completion_date'
     ];
+
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'category_id','id');
+    }
+
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_task', 'task_id', 'role_id');
@@ -203,11 +210,6 @@ class Tasks extends Model
         return $this->hasMany(TasksHistory::class, 'task_id', 'id');
     }
 
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
 
 
     public function user()

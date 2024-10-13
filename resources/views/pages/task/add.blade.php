@@ -53,16 +53,16 @@
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <label>Assign To</label>
+                                <label>Назначить</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="assign_type" id="assign_role"
                                         value="role" checked>
-                                    <label class="form-check-label" for="assign_role">Assign by Roles</label>
+                                    <label class="form-check-label" for="assign_role">Назначить по ролям</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="assign_type"
                                         id="assign_custom_users" value="custom">
-                                    <label class="form-check-label" for="assign_custom_users">Assign to Custom Users</label>
+                                    <label class="form-check-label" for="assign_custom_users">Назначить конкретным пользователям</label>
                                 </div>
                             </div>
                         </div>
