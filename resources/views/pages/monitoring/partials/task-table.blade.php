@@ -97,6 +97,12 @@
                             <span class="badge badge-soft-{{ $item->status->getColor() }} font-size-16 m-1">
                                 {{ $item->status->name }}
                             </span>
+                            {{-- <span class="badge badge-soft-success }} font-size-16 m-1">
+                                Complated
+                            </span>
+                            <span class="badge badge-soft-primary }} font-size-16 m-1">
+                                Active
+                            </span> --}}
                         </div>
                     </td>
 
@@ -134,8 +140,12 @@
                                     data-bs-target="#exampleModal_{{ $item->id }}">
                                     <i class="bx bxs-show"></i>
                                 </button>
-
-                                <a href="{{route('taskShow', $item->id)}}">show</a>
+                            </li>
+                            
+                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Посмотреть">
+                                <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">
+                                    <i class="bx bxs-link"></i> Посмотреть
+                                </a>
                             </li>
                         </ul>
                         @include('pages.monitoring.partials.task-modal', [

@@ -150,7 +150,6 @@ class TaskController extends Controller
         $validatedData = $request->validate([
             'issue_date' => 'nullable|date',
             'poruchenie' => 'nullable|string',
-
             'planned_completion_date' => [
                 'nullable',
                 'date',
@@ -165,16 +164,23 @@ class TaskController extends Controller
             'note' => 'nullable|string',
 
             'roles' => 'nullable|array',
-            'roles.*' => 'exists:roles,name', // Validate role names exist
-            'users' => 'nullable|array', // Add validation for users
-            'users.*' => 'exists:users,id', // Validate user IDs exist
+            'roles.*' => 'exists:roles,name',
+            'users' => 'nullable|array',
+            'users.*' => 'exists:users,id',
         ]);
 
         // Find the task by ID
         $task = Tasks::findOrFail($id);
+        // dd($request->short_title);
+        $task->category_id = $validatedData['category_id'] ?? null;
+        $task->user_id = auth()->user()->id;
+        $task->poruchenie = $validatedData['poruchenie'] ?? null;
+        $task->issue_date = $validatedData['issue_date'] ?? null;
+        $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
+        $task->short_title = $validatedData['short_title'] ?? null;
+        $task->note = $validatedData['note'] ?? null;
 
-        // Update the task with validated data
-        // ... (existing code) ...
+  
 
         // Handle the roles and users assignment
         $assignType = $request->input('assign_type');

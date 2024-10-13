@@ -57,8 +57,8 @@
                             <input type="file" class="form-control" id="files" name="files[]" multiple required>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                            <button type="submit" class="btn btn-danger">Отказ</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                            <button type="submit" class="btn btn-success">Сахранить</button>
                         </div>
                     </form>
                 </div>
