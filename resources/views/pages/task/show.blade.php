@@ -1,6 +1,101 @@
 @extends('layouts.admin')
 
 @section('content')
+    <style>
+        .card {
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            border-radius: 10px 10px 0 0;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            color: #343a40;
+        }
+
+        .card-text {
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        .btn-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #dee2e6;
+        }
+
+        .blockquote {
+            border-left: 5px solid #dc3545;
+            padding-left: 15px;
+            margin: 0;
+            font-size: 1.2rem;
+            color: #495057;
+        }
+
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .text-bold {
+            font-weight: bold;
+        }
+
+        .text-muted {
+            color: #6c757d !important;
+        }
+    </style>
+
     <div class="container-fluid">
         <div class="row mb-4">
             <div class="col-lg-12">
@@ -9,7 +104,7 @@
                         <h3 class="mb-0">Детали поручения ID: {{ $item->id }}</h3>
                     </div>
                     <div class="card-body">
-                        {{-- @dd($item->category) --}}
+                        {{-- Task Details --}}
                         <h5 class="card-title text-secondary">Краткое название: <span class="text-bold"
                                 style="font-weight: bold">{{ $item->short_title }}</span></h5> <br><br>
                         <div class="mb-3">
@@ -32,50 +127,39 @@
                                 @endif
                             </p>
                         </div>
-                        {{-- admin reject start --}}
 
+                        {{-- Admin Status Section --}}
                         @if ($item->order)
                             @if ($item->order->checked_status == 2)
                                 <h3>И.О статус</h3>
                                 <div class="mt-4 border p-3 rounded bg-light">
                                     <h5 class="text-danger">Отказ по поручению</h5>
-
                                     <p class="card-text"><strong>Комментарий об отказе:</strong></p>
                                     <blockquote class="blockquote">
                                         <p class="mb-0">{{ $item->order->checked_comment }}</p>
                                     </blockquote>
-
-
                                     <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
                                             class="text-muted">{{ $item->reject_time }}</span></p>
                                 </div>
                             @elseif($item->order->checked_status == 1)
                                 <h3>И.О статус</h3>
-
                                 <blockquote class="blockquote text-success">
                                     <p class="mb-0">Вазифа тасдиқланди</p>
                                 </blockquote>
                             @endif
                         @endif
 
-                        {{-- admin reject end --}}
-
-                        {{-- @dump($order) --}}
-                        {{-- Reject Comments Section --}}
-
+                        {{-- Employee Rejection Comments --}}
                         @if ($item->reject_comment != null)
                             <h3>Ходим статус</h3>
                             <div class="mt-4 border p-3 rounded bg-light">
                                 <h5 class="text-danger">Отказ по поручению</h5>
-                                @if (isset($item->order))
-                                    <p class="card-text"><strong>Кто отклонил:</strong> <span
-                                            class="text-warning">{{ $item->order->user->name }}</span></p>
-                                @endif
+                                <p class="card-text"><strong>Кто отклонил:</strong> <span
+                                        class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
                                 <p class="card-text"><strong>Комментарий об отказе:</strong></p>
                                 <blockquote class="blockquote">
                                     <p class="mb-0">{{ $item->reject_comment }}</p>
                                 </blockquote>
-
                                 @if ($item->files && count($item->files) > 0)
                                     <h5>Загруженные файлы:</h5>
                                     <ul class="list-group">
@@ -90,13 +174,12 @@
                                 @else
                                     <p>Нет загруженных файлов.</p>
                                 @endif
-
                                 <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
                                         class="text-muted">{{ $item->reject_time }}</span></p>
                             </div>
                         @endif
-                        {{-- End Reject Comments Section --}}
 
+                        {{-- Action Buttons --}}
                         <div class="d-flex justify-content-end mt-4">
                             @if (auth()->user()->roles[0]->name != 'Super Admin' && $item->status->name == 'Accepted')
                                 <form action="{{ route('orders.complete') }}" method="POST">
@@ -107,22 +190,16 @@
                             @endif
                             @if (auth()->user()->roles[0]->name == 'Super Admin')
                                 <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info mx-2">Редактировать</a>
-
-
                                 <form action="{{ route('orders.admin_confirm') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="task_id" value="{{ $item->id }}">
                                     <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                                    <button type="submit" class="btn btn-success">
-                                        Принят
-                                    </button>
+                                    <button type="submit" class="btn btn-success">Принят</button>
                                 </form>
-
-
                                 <button class="btn btn-danger mx-2" data-bs-toggle="modal"
                                     data-bs-target="#rejectModal">Отказ</button>
                             @else
-                                @if ($item->status->name == 'Active')
+                                {{-- @if ($item->status->name == 'Active')
                                     <form action="{{ route('orders.store') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="task_id" value="{{ $item->id }}">
@@ -131,12 +208,17 @@
                                             Принят <i class="bx bxs-badge-check"></i>
                                         </button>
                                     </form>
-                                @endif
+                                @endif --}}
                             @endif
-                            {{-- &&
-                                    !isset($item->reject_comment) &&
-                                    $item->status->name == 'Accepted' --}}
-                            @if (auth()->user()->roles[0]->name != 'Super Admin' )
+                            @if (auth()->user()->roles[0]->name != 'Super Admin')
+                                <form action="{{ route('orders.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="task_id" value="{{ $item->id }}">
+                                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                                    <button type="submit" class="btn btn-success">
+                                        Принят 
+                                    </button>
+                                </form>
                                 <button class="btn btn-danger mx-2" data-bs-toggle="modal"
                                     data-bs-target="#rejectModalEmp">Отказ</button>
                             @endif
@@ -146,7 +228,7 @@
             </div>
         </div>
 
-        <!-- Rejection Modal -->
+        <!-- Admin Reject Modal -->
         <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -159,12 +241,10 @@
                             @csrf
                             <input type="hidden" name="task_id" value="{{ $item->id }}">
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-
                             <div class="mb-3">
                                 <label for="checked_comment" class="form-label">Комментарий об отказе</label>
-                                <textarea class="form-control" id="checked_comment" name="checked_comment"  rows="3" required></textarea>
+                                <textarea class="form-control" id="checked_comment" name="checked_comment" rows="3" required></textarea>
                             </div>
-
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Отменить</button>
@@ -176,8 +256,9 @@
             </div>
         </div>
 
-        <!-- Reject Modal -->
-        <div class="modal fade" id="rejectModalEmp" tabindex="-1" aria-labelledby="rejectModalEmpLabel" aria-hidden="true">
+        <!-- Employee Reject Modal -->
+        <div class="modal fade" id="rejectModalEmp" tabindex="-1" aria-labelledby="rejectModalEmpLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
@@ -189,21 +270,18 @@
                             @csrf
                             <input type="hidden" name="task_id" value="{{ $item->id }}">
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-
                             <div class="mb-3">
-                                <label for="reject_comment" class="form-label">Комментарий</label>
-                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required>{{ old('reject_comment',$item->reject_comment)}}</textarea>
+                                <label for="reject_comment" class="form-label">Комментарий об отказе</label>
+                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required></textarea>
                             </div>
-
                             <div class="mb-3">
-                                <label for="files" class="form-label">Файлы (можно выбрать несколько)</label>
-                                <input type="file" class="form-control" id="files" name="files[]" multiple
-                                    >
+                                <label for="attached_file" class="form-label">Загрузить файл</label>
+                                <input type="file" class="form-control" id="attached_file" name="attached_file">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Отменить</button>
-                                <button type="submit" class="btn btn-success">Сахранить</button>
+                                <button type="submit" class="btn btn-danger">Отказ</button>
                             </div>
                         </form>
                     </div>
