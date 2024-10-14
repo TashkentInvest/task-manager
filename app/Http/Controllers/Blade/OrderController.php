@@ -101,4 +101,44 @@ class OrderController extends Controller
 
         return redirect()->back()->with('success', 'Task status updated to Completed!');
     }
+
+    public function adminConfirm(Request $request)
+    {
+        $request->validate([
+            'task_id' => 'required|exists:tasks,id',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $order = Order::where('task_id', $request->task_id)->first();
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found!');
+        }
+
+        // Update the order status and save
+        $order->checked_status = 1; // Confirmed
+        $order->checked_comment = null; // Clear any comment if needed
+        $order->save();
+
+        return redirect()->back()->with('success', 'Order confirmed!');
+    }
+
+    public function adminReject(Request $request)
+    {
+        $request->validate([
+            'task_id' => 'required|exists:tasks,id',
+            'checked_comment' => 'required|string|max:255',
+        ]);
+
+        $order = Order::where('task_id', $request->task_id)->first();
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found!');
+        }
+
+        // Update the order status and save
+        $order->checked_status = 2; // Rejected
+        $order->checked_comment = $request->checked_comment; // Store the rejection comment
+        $order->save();
+
+        return redirect()->back()->with('success', 'Order rejected with comment!');
+    }
 }

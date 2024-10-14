@@ -118,7 +118,8 @@ Route::group(['middleware' => 'auth'],function (){
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::post('/orders/reject', [OrderController::class, 'reject'])->name('orders.reject');
     Route::post('/orders/complete', [OrderController::class, 'complete'])->name('orders.complete');
-
+    Route::post('/orders/admin_confirm', [OrderController::class, 'adminConfirm'])->name('orders.admin_confirm');
+    Route::post('/orders/admin_reject', [OrderController::class, 'adminReject'])->name('orders.admin_reject');
 
  
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboardIndex');

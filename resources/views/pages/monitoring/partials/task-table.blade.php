@@ -150,6 +150,7 @@
                                     <i class="bx bxs-link"></i> Посмотреть
                                 </a>
                             </li>
+
                         </ul>
                         @include('pages.monitoring.partials.task-modal', [
                             'item' => $item,
