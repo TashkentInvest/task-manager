@@ -86,7 +86,7 @@ class UserController extends Controller
     
         LogWriter::user_activity($activity, 'AddingUsers');
     
-        return redirect()->route('userIndex');
+        return redirect()->back();
     }
     
  
@@ -169,7 +169,7 @@ class UserController extends Controller
         LogWriter::user_activity($activity, 'EditingUsers');
     
         // Redirect based on user permissions
-        return redirect()->route('userProfile');
+        return redirect()->back();
     }
     
     // delete user by id
@@ -216,10 +216,10 @@ class UserController extends Controller
     public function userProfile()
     {
         $user = User::where('id',auth()->user()->id)->get()->first();
-        $Completed_own_orders = auth()->user()->orders()->where('status', true)->count(); 
-        $unCompleted_own_orders = auth()->user()->orders()->where('status', false)->count(); 
+        // $Completed_own_orders = auth()->user()->orders()->where('status', true)->count(); 
+        // $unCompleted_own_orders = auth()->user()->orders()->where('status', false)->count(); 
 // dd($user);
-        return view('pages.profile.index',compact('user','Completed_own_orders','unCompleted_own_orders'));
+        return view('pages.profile.index',compact('user'));
     }
 
     // offline or online

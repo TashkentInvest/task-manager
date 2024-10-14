@@ -57,7 +57,7 @@
                     <div class="col-sm-8">
                         <div class="pt-4">
                             
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-6">
                                     <h5 class="font-size-15">{{$Completed_own_orders}}</h5>
                                     <p class="text-muted mb-0">Completed Projects</p>
@@ -66,7 +66,7 @@
                                     <h5 class="font-size-15">{{$Completed_own_orders}}</h5>
                                     <p class="text-muted mb-0">UnCompleted Projects</p>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="mt-4">
                                 <a href="{{route('userEdit', ['id' => $user->id])}}" class="btn btn-primary waves-effect waves-light btn-sm">Edit Profile <i class="mdi mdi-arrow-right ms-1"></i></a>
                             </div>
