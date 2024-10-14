@@ -21,35 +21,42 @@
                             <a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home"
                                 role="tab" aria-controls="top-home" aria-selected="true">
                                 <i class="fa-solid fa-bullseye"></i> Все
+                                <span class="badge bg-primary text-white ms-2">{{ $allTasks->count() ?? '' }}</span>
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="progress-top-tab" data-bs-toggle="tab" href="#top-progress"
                                 role="tab" aria-controls="top-progress" aria-selected="false">
                                 <i class="fa-solid fa-bars-progress"></i> Новые
+                                <span class="badge bg-secondary text-white ms-2">{{ $inProgressTasks->count() ?? '' }}</span>
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="pending-top-tab" data-bs-toggle="tab" href="#top-pending" role="tab"
                                 aria-controls="top-pending" aria-selected="false">
                                 <i class="fa-regular fa-hourglass-half"></i> Процессные
+                                <span class="badge bg-warning text-dark ms-2">{{ $pendingTasks->count() ?? '' }}</span>
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="completed-top-tab" data-bs-toggle="tab" href="#top-completed"
                                 role="tab" aria-controls="top-completed" aria-selected="false">
                                 <i class="fa-solid fa-circle-check"></i> Выполненные
+                                <span class="badge bg-success text-white ms-2">{{ $completedTasks->count() ?? '' }}</span>
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" id="employeeRejectedTasks-top-tab" data-bs-toggle="tab"
                                 href="#top-employeeRejectedTasks" role="tab" aria-controls="top-employeeRejectedTasks"
                                 aria-selected="false">
-                                <i class="fa-solid fa-circle-check"></i> Незавершенные
+                                <i class="fa-solid fa-circle-xmark"></i> Незавершенные
+                                <span
+                                    class="badge bg-danger text-white ms-2">{{ $employeeRejectedTasks->count() ?? '' }}</span>
                             </a>
                         </li>
                     </ul>
                 </div>
+
 
                 <div class="tab-content" id="top-tabContent">
                     <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
