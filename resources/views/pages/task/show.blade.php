@@ -27,6 +27,29 @@
                             @endif
                         </p>
 
+                        {{-- admin reject start --}}
+
+                        @if ($item->order->checked_status == 2)
+                            <div class="mt-4 border p-3 rounded bg-light">
+                                <h5 class="text-danger">Отказ по поручению</h5>
+
+                                <p class="card-text"><strong>Комментарий об отказе:</strong></p>
+                                <blockquote class="blockquote">
+                                    <p class="mb-0">{{ $item->order->checked_comment }}</p>
+                                </blockquote>
+
+
+                                <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
+                                        class="text-muted">{{ $item->reject_time }}</span></p>
+                            </div>
+                        @elseif($item->order->checked_status == 1)
+                            <blockquote class="blockquote text-success">
+                                <p class="mb-0">Вазифа тасдиқланди</p>
+                            </blockquote>
+                        @endif
+
+                        {{-- admin reject end --}}
+
                         {{-- @dump($order) --}}
                         {{-- Reject Comments Section --}}
                         @if ($item->reject_comment != null)
