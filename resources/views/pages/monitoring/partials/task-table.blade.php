@@ -143,7 +143,7 @@
                                         <i class="bx bxs-edit"></i>
                                     </a>
                                 </li>
-                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить">
+                                {{-- <li data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить">
                                     <form action="{{ route('taskDestroy', $item->id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
@@ -152,7 +152,7 @@
                                             <i class="bx bxs-trash"></i>
                                         </button>
                                     </form>
-                                </li>
+                                </li> --}}
                             @endif
                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Подробности">
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
