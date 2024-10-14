@@ -11,6 +11,7 @@
                 <th scope="col">Дата окончания</th>
                 <th scope="col">Оставшиеся дни</th>
                 <th scope="col">Статус</th>
+                <th scope="col">И.О</th>
                 <th scope="col">Действия</th>
             </tr>
         </thead>
@@ -104,6 +105,21 @@
                                 Active
                             </span> --}}
                         </div>
+                    </td>
+                    <td>
+                        @if (isset($item->order))
+                            @if ($item->order->checked_status == 1)
+                                <blockquote class="blockquote text-success">
+                                    <p class="mb-0">Вазифа тасдиқланди</p>
+                                </blockquote>
+                            @elseif($item->order->checked_status == 2)
+                                <blockquote class="blockquote text-danger">
+                                    <p class="mb-0">Вазифа рад этилди</p>
+                                </blockquote>
+                            @else
+                                <p></p>
+                            @endif
+                        @endif
                     </td>
 
                     <td class="text-center">
