@@ -62,7 +62,8 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="assign_type"
                                         id="assign_custom_users" value="custom">
-                                    <label class="form-check-label" for="assign_custom_users">Назначить конкретным пользователям</label>
+                                    <label class="form-check-label" for="assign_custom_users">Назначить конкретным
+                                        пользователям</label>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +77,8 @@
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->name }}"
                                             {{ in_array($role->name, old('roles', [])) ? 'selected' : '' }}>
-                                            {{ $role->name }}
+                                            {{ $role->name }} 
+                                            ({{ $role->title ?? '' }})
                                         </option>
                                     @endforeach
                                 </select>
@@ -122,11 +124,12 @@
                             <div class="col-md-6 mb-3">
                                 <label>Дата выдачи</label>
                                 <input type="date" name="issue_date" class="form-control"
-                                    value="{{ old('issue_date') }}" required>
+                                       value="{{ old('issue_date', now()->format('Y-m-d')) }}" required>
                                 @error('issue_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            
 
                             <div class="col-md-6 mb-3">
                                 <label>Срок выполнения (план)</label>

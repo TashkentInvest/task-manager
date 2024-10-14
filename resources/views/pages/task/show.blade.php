@@ -12,43 +12,50 @@
                         {{-- @dd($item->category) --}}
                         <h5 class="card-title text-secondary">Краткое название: <span class="text-bold"
                                 style="font-weight: bold">{{ $item->short_title }}</span></h5> <br><br>
-                        <p class="card-text"><strong>Поручитель:</strong> {{ $item->user->name }}</p>
-                        <p class="card-text"><strong>Категория:</strong> {{ $item->category->name ?? 'Не указана' }}</p>
-                        <p class="card-text"><strong>Дата выдачи:</strong> {{ $item->issue_date ?? '' }}</p>
-                        <p class="card-text"><strong>Срок выполнения:</strong> {{ $item->planned_completion_date ?? '' }}
-                        </p>
-                        <p class="card-text"><strong>Примечание:</strong> {{ $item->note }}</p>
-                        <p class="card-text"><strong>Закрепленный файл:</strong>
-                            @if ($item->attached_file)
-                                <a href="{{ Storage::url($item->attached_file) }}" target="_blank"
-                                    class="text-decoration-none">Скачать</a>
-                            @else
-                                Нет
-                            @endif
-                        </p>
-
+                        <div class="mb-3">
+                            <p class="card-text"><strong>Поручитель:</strong> <span
+                                    class="text-muted">{{ $item->user->name }}</span></p>
+                            <p class="card-text"><strong>Категория:</strong> <span
+                                    class="text-muted">{{ $item->category->name ?? 'Не указана' }}</span></p>
+                            <p class="card-text"><strong>Дата выдачи:</strong> <span
+                                    class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span></p>
+                            <p class="card-text"><strong>Срок выполнения:</strong> <span
+                                    class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}</span></p>
+                            <p class="card-text"><strong>Примечание:</strong> <span
+                                    class="text-muted">{{ $item->note ?? 'Нет' }}</span></p>
+                            <p class="card-text"><strong>Закрепленный файл:</strong>
+                                @if ($item->attached_file)
+                                    <a href="{{ Storage::url($item->attached_file) }}" target="_blank"
+                                        class="btn btn-link">Скачать</a>
+                                @else
+                                    <span class="text-muted">Нет</span>
+                                @endif
+                            </p>
+                        </div>
                         {{-- admin reject start --}}
 
-                        @if ($item->order->checked_status == 2)
-                            <h3>И.О статус</h3>
-                            <div class="mt-4 border p-3 rounded bg-light">
-                                <h5 class="text-danger">Отказ по поручению</h5>
+                        @if ($item->order)
+                            @if ($item->order->checked_status == 2)
+                                <h3>И.О статус</h3>
+                                <div class="mt-4 border p-3 rounded bg-light">
+                                    <h5 class="text-danger">Отказ по поручению</h5>
 
-                                <p class="card-text"><strong>Комментарий об отказе:</strong></p>
-                                <blockquote class="blockquote">
-                                    <p class="mb-0">{{ $item->order->checked_comment }}</p>
+                                    <p class="card-text"><strong>Комментарий об отказе:</strong></p>
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">{{ $item->order->checked_comment }}</p>
+                                    </blockquote>
+
+
+                                    <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
+                                            class="text-muted">{{ $item->reject_time }}</span></p>
+                                </div>
+                            @elseif($item->order->checked_status == 1)
+                                <h3>И.О статус</h3>
+
+                                <blockquote class="blockquote text-success">
+                                    <p class="mb-0">Вазифа тасдиқланди</p>
                                 </blockquote>
-
-
-                                <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
-                                        class="text-muted">{{ $item->reject_time }}</span></p>
-                            </div>
-                        @elseif($item->order->checked_status == 1)
-                            <h3>И.О статус</h3>
-
-                            <blockquote class="blockquote text-success">
-                                <p class="mb-0">Вазифа тасдиқланди</p>
-                            </blockquote>
+                            @endif
                         @endif
 
                         {{-- admin reject end --}}
@@ -126,11 +133,12 @@
                                     </form>
                                 @endif
                             @endif
-                            @if (auth()->user()->roles[0]->name != 'Super Admin' &&
+                            {{-- &&
                                     !isset($item->reject_comment) &&
-                                    $item->status->name == 'Accepted')
+                                    $item->status->name == 'Accepted' --}}
+                            @if (auth()->user()->roles[0]->name != 'Super Admin' )
                                 <button class="btn btn-danger mx-2" data-bs-toggle="modal"
-                                    data-bs-target="#rejectModal">Отказ</button>
+                                    data-bs-target="#rejectModalEmp">Отказ</button>
                             @endif
                         </div>
                     </div>
@@ -154,7 +162,7 @@
 
                             <div class="mb-3">
                                 <label for="checked_comment" class="form-label">Комментарий об отказе</label>
-                                <textarea class="form-control" id="checked_comment" name="checked_comment" rows="3" required></textarea>
+                                <textarea class="form-control" id="checked_comment" name="checked_comment"  rows="3" required></textarea>
                             </div>
 
                             <div class="modal-footer">
@@ -169,11 +177,11 @@
         </div>
 
         <!-- Reject Modal -->
-        <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+        <div class="modal fade" id="rejectModalEmp" tabindex="-1" aria-labelledby="rejectModalEmpLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="rejectModalLabel">Отказ по поручению ID: {{ $item->id }}</h5>
+                        <h5 class="modal-title" id="rejectModalEmpLabel">Отказ по поручению ID: {{ $item->id }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -184,13 +192,13 @@
 
                             <div class="mb-3">
                                 <label for="reject_comment" class="form-label">Комментарий</label>
-                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required></textarea>
+                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required>{{ old('reject_comment',$item->reject_comment)}}</textarea>
                             </div>
 
                             <div class="mb-3">
                                 <label for="files" class="form-label">Файлы (можно выбрать несколько)</label>
                                 <input type="file" class="form-control" id="files" name="files[]" multiple
-                                    required>
+                                    >
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"

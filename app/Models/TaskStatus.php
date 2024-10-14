@@ -26,7 +26,7 @@ class TaskStatus extends Model
     {
         switch ($this->name) {
             case 'Active':
-                return 'success'; // Green
+                return 'secondary'; // Green
             case 'Canceled':
                 return 'danger'; // Red
             case 'Accepted':
