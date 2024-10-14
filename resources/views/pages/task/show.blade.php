@@ -115,8 +115,7 @@
                                     <p class="card-text"><strong>Категория:</strong> <span
                                             class="text-muted">{{ $item->category->name ?? 'Не указана' }}</span></p>
 
-                                    <p class="card-text"><strong>Примечание:</strong> <span
-                                            class="text-muted">{{ $item->note ?? 'Нет' }}</span></p>
+                                 
                                     <p class="card-text"><strong>Закрепленный файл:</strong>
                                         @if ($item->attached_file)
                                             <a href="{{ Storage::url($item->attached_file) }}" target="_blank"
@@ -168,6 +167,13 @@
 
                         </div>
 
+                            <div class="mt-4 border p-3 rounded bg-light">
+                                <p class="card-text"><strong>Примечание:</strong></p>
+                                <blockquote class="blockquote">
+                                    <p class="mb-0">{{ $item->note }}</p>
+                                </blockquote>
+                            
+                            </div>
 
                         {{-- Admin Status Section --}}
                         @if ($item->order)
@@ -188,50 +194,51 @@
                                     <p class="mb-0">Вазифа тасдиқланди</p>
                                 </blockquote>
                             @endif
+
+                            {{-- Employee Rejection Comments --}}
+                            @if ($item->reject_comment != null)
+                                <h3>Ходим статус</h3>
+                                <div class="mt-4 border p-3 rounded bg-light">
+                                    <h5 class="text-danger">Отказ по поручению</h5>
+                                    <p class="card-text"><strong>Кто отклонил:</strong> <span
+                                            class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
+                                    <p class="card-text"><strong>Комментарий об отказе:</strong></p>
+                                    <blockquote class="blockquote">
+                                        <p class="mb-0">{{ $item->reject_comment }}</p>
+                                    </blockquote>
+                                    @if ($item->files && count($item->files) > 0)
+                                        <h5>Загруженные файлы:</h5>
+                                        <ul class="list-group">
+                                            @foreach ($item->files as $file)
+                                                <li class="list-group-item">
+                                                    <strong>{{ $file->name }}</strong>
+                                                    <a href="{{ Storage::url($file->file_name) }}" target="_blank"
+                                                        class="btn btn-link">Скачать</a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p>Нет загруженных файлов.</p>
+                                    @endif
+                                    <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
+                                            class="text-muted">{{ $item->reject_time }}</span></p>
+                                </div>
+                            @else
+                                <div class="mt-4 border p-3 rounded bg-light">
+                                    <h5 class="text-success">Завершено</h5>
+                                    <p class="card-text"><strong>Кто закончил:</strong> <span
+                                            class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
+                                    <blockquote class="blockquote text-success">
+                                        <p class="mb-0">Вазифа якунланди</p>
+                                    </blockquote>
+
+                                    <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
+                                            class="text-muted">{{ $item->reject_time }}</span></p>
+                                </div>
+
+                            @endif
                         @endif
 
-                        {{-- Employee Rejection Comments --}}
-                        @if ($item->reject_comment != null)
-                            <h3>Ходим статус</h3>
-                            <div class="mt-4 border p-3 rounded bg-light">
-                                <h5 class="text-danger">Отказ по поручению</h5>
-                                <p class="card-text"><strong>Кто отклонил:</strong> <span
-                                        class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
-                                <p class="card-text"><strong>Комментарий об отказе:</strong></p>
-                                <blockquote class="blockquote">
-                                    <p class="mb-0">{{ $item->reject_comment }}</p>
-                                </blockquote>
-                                @if ($item->files && count($item->files) > 0)
-                                    <h5>Загруженные файлы:</h5>
-                                    <ul class="list-group">
-                                        @foreach ($item->files as $file)
-                                            <li class="list-group-item">
-                                                <strong>{{ $file->name }}</strong>
-                                                <a href="{{ Storage::url($file->file_name) }}" target="_blank"
-                                                    class="btn btn-link">Скачать</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <p>Нет загруженных файлов.</p>
-                                @endif
-                                <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
-                                        class="text-muted">{{ $item->reject_time }}</span></p>
-                            </div>
-                        @else
-                            <div class="mt-4 border p-3 rounded bg-light">
-                                <h5 class="text-success">Завершено</h5>
-                                <p class="card-text"><strong>Кто закончил:</strong> <span
-                                        class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
-                                <blockquote class="blockquote text-success">
-                                    <p class="mb-0">Вазифа якунланди</p>
-                                </blockquote>
-
-                                <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
-                                        class="text-muted">{{ $item->reject_time }}</span></p>
-                            </div>
-
-                        @endif
 
                         {{-- Action Buttons --}}
                         <div class="d-flex justify-content-end mt-4">
@@ -242,7 +249,7 @@
                                     <button type="submit" class="btn btn-success">Закончить</button>
                                 </form>
                             @endif
-                            @if (auth()->user()->roles[0]->name == 'Super Admin')
+                            @if (auth()->user()->roles[0]->name == 'Super Admin' && $item->status->name != 'Active')
                                 <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info mx-2">Редактировать</a>
                                 <form action="{{ route('orders.admin_confirm') }}" method="POST">
                                     @csrf
@@ -253,7 +260,7 @@
                                 <button class="btn btn-danger mx-2" data-bs-toggle="modal"
                                     data-bs-target="#rejectModal">Отказ</button>
                             @else
-                                @if ($item->status->name == 'Active')
+                                @if ($item->status->name == 'Active' && auth()->user()->roles[0]->name != 'Super Admin')
                                     <form action="{{ route('orders.store') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="task_id" value="{{ $item->id }}">
@@ -264,7 +271,7 @@
                                     </form>
                                 @endif
                             @endif
-                            @if (auth()->user()->roles[0]->name != 'Super Admin')
+                            @if (auth()->user()->roles[0]->name != 'Super Admin' && $item->status->name != 'Active')
                                 <form action="{{ route('orders.complete') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="task_id" value="{{ $item->id }}">

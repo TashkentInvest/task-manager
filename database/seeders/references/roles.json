@@ -5,11 +5,6 @@
         "title": "Super Admin"
     },
     {
-        "name": "Admin",
-        "guard_name": "web",
-        "title": "Admin"
-    },
-    {
         "name": "Manager",
         "guard_name": "web",
         "title": "Manager"
