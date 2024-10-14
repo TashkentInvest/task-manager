@@ -46,8 +46,8 @@ class OrderController extends Controller
         $order = Tasks::findOrFail($request->task_id);
 
         $status = \App\Models\TaskStatus::where('name', 'XODIM_REJECT')->first();
-
         if ($status) {
+            // dd($request);
             $order->status_id = $status->id;
             $order->save();
         }

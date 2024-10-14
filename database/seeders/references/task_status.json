@@ -23,4 +23,7 @@
     {
         "name": "ADMIN_REJECT"
     }
+    {
+        "name": "XODIM_REJECT"
+    }
 ]

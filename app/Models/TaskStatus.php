@@ -19,9 +19,8 @@ class TaskStatus extends Model
     const COMPLATED = 4;
     const DELETED = 5;
     const TIME_IS_OVER = 7;
-    const TIME_IS_YET_OVER = 77;
     const ADMIN_REJECT = 8;
-    const XODIM_REJECT = 88;
+    const XODIM_REJECT = 9;
 
     public function getColor()
     {

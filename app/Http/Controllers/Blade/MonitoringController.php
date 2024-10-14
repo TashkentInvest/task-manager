@@ -39,7 +39,7 @@ class MonitoringController extends Controller
         $inProgressTasks = $allTasks->where('status_id', TaskStatus::ACTIVE);
         $pendingTasks = $allTasks->where('status_id', TaskStatus::ACCEPTED);
         $completedTasks = $allTasks->where('status_id', TaskStatus::COMPLATED);
-        $rejectedTasks = $allTasks->where('status_id', TaskStatus::ADMIN_REJECT);
+        $employeeRejectedTasks = $allTasks->where('status_id', TaskStatus::XODIM_REJECT);
                                 //  ->orWhere('status_id', TaskStatus::XODIM_REJECT);
 
         // Prepare role names by task
@@ -53,7 +53,7 @@ class MonitoringController extends Controller
             'inProgressTasks' => $inProgressTasks,
             'pendingTasks' => $pendingTasks,
             'completedTasks' => $completedTasks,
-            'rejectedTasks' => $rejectedTasks,
+            'employeeRejectedTasks' => $employeeRejectedTasks,
             'trashedTasks' => Tasks::onlyTrashed()->get(),
             'roleNamesByTask' => $roleNamesByTask,
         ]);

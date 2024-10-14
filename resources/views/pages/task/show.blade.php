@@ -56,9 +56,7 @@
                                     <p>Нет загруженных файлов.</p>
                                 @endif
 
-
-
-                                <p class="card-text"><strong>Дата отказа:</strong> <span
+                                <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
                                         class="text-muted">{{ $item->reject_time }}</span></p>
                             </div>
                         @endif
