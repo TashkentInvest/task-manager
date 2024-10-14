@@ -107,26 +107,67 @@
                         {{-- Task Details --}}
                         <h5 class="card-title text-secondary">Краткое название: <span class="text-bold"
                                 style="font-weight: bold">{{ $item->short_title }}</span></h5> <br><br>
-                        <div class="mb-3">
-                            <p class="card-text"><strong>Поручитель:</strong> <span
-                                    class="text-muted">{{ $item->user->name }}</span></p>
-                            <p class="card-text"><strong>Категория:</strong> <span
-                                    class="text-muted">{{ $item->category->name ?? 'Не указана' }}</span></p>
-                            <p class="card-text"><strong>Дата выдачи:</strong> <span
-                                    class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span></p>
-                            <p class="card-text"><strong>Срок выполнения:</strong> <span
-                                    class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}</span></p>
-                            <p class="card-text"><strong>Примечание:</strong> <span
-                                    class="text-muted">{{ $item->note ?? 'Нет' }}</span></p>
-                            <p class="card-text"><strong>Закрепленный файл:</strong>
-                                @if ($item->attached_file)
-                                    <a href="{{ Storage::url($item->attached_file) }}" target="_blank"
-                                        class="btn btn-link">Скачать</a>
-                                @else
-                                    <span class="text-muted">Нет</span>
-                                @endif
-                            </p>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <p class="card-text"><strong>Поручитель:</strong> <span
+                                            class="text-muted">{{ $item->user->name }}</span></p>
+                                    <p class="card-text"><strong>Категория:</strong> <span
+                                            class="text-muted">{{ $item->category->name ?? 'Не указана' }}</span></p>
+
+                                    <p class="card-text"><strong>Примечание:</strong> <span
+                                            class="text-muted">{{ $item->note ?? 'Нет' }}</span></p>
+                                    <p class="card-text"><strong>Закрепленный файл:</strong>
+                                        @if ($item->attached_file)
+                                            <a href="{{ Storage::url($item->attached_file) }}" target="_blank"
+                                                class="btn btn-link">Скачать</a>
+                                        @else
+                                            <span class="text-muted">Нет</span>
+                                        @endif
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+
+                                    @php
+                                        $remainingDays = $item->planned_completion_date
+                                            ? now()->diffInDays($item->planned_completion_date, false)
+                                            : 'N/A';
+                                    @endphp
+
+                                    <p class="card-text"><strong>Дата выдачи:</strong> <span
+                                            class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span></p>
+                                    <p class="card-text"><strong>Срок выполнения:</strong> <span
+                                            class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}
+
+                                            @if (is_int($remainingDays))
+                                                {{ $remainingDays > 0 ? "{$remainingDays} дней осталось" : ($remainingDays < 0 ? abs($remainingDays) . ' дней просрочено' : 'Срок сегодня') }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </span>
+                                    </p>
+
+
+
+
+                                    <p class="card-text"><strong>Закрепленный файл:</strong>
+                                        @if ($item->attached_file)
+                                            <a href="{{ Storage::url($item->attached_file) }}" target="_blank"
+                                                class="btn btn-link">Скачать</a>
+                                        @else
+                                            <span class="text-muted">Нет</span>
+                                        @endif
+                                    </p>
+                                </div>
+
+                            </div>
+
+
                         </div>
+
 
                         {{-- Admin Status Section --}}
                         @if ($item->order)
@@ -177,18 +218,16 @@
                                 <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
                                         class="text-muted">{{ $item->reject_time }}</span></p>
                             </div>
-
-                            @else
-
+                        @else
                             <div class="mt-4 border p-3 rounded bg-light">
-                                <h5 class="text-danger">Отказ по поручению</h5>
+                                <h5 class="text-success">Завершено</h5>
                                 <p class="card-text"><strong>Кто закончил:</strong> <span
                                         class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
                                 <blockquote class="blockquote text-success">
                                     <p class="mb-0">Вазифа якунланди</p>
                                 </blockquote>
-                                
-                                <p class="card-text mt-3"><strong>Дата законченя:</strong> <span
+
+                                <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
                                         class="text-muted">{{ $item->reject_time }}</span></p>
                             </div>
 
