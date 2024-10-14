@@ -112,8 +112,8 @@
                                 <div class="mb-3">
                                     <p class="card-text"><strong>Поручитель:</strong> <span
                                             class="text-muted">{{ $item->user->name }}</span></p>
-                                    <p class="card-text"><strong>Категория:</strong> <span
-                                            class="text-muted">{{ $item->category->name ?? 'Не указана' }}</span></p>
+                                    {{-- <p class="card-text"><strong>Категория:</strong> <span
+                                            class="text-muted">{{ $item->category->name ?? 'Не указана' }}</span></p> --}}
 
                                  
                                     <p class="card-text"><strong>Закрепленный файл:</strong>
@@ -178,9 +178,9 @@
                         {{-- Admin Status Section --}}
                         @if ($item->order)
                             @if ($item->order->checked_status == 2)
-                                <h3>И.О статус</h3>
+                              
                                 <div class="mt-4 border p-3 rounded bg-light">
-                                    <h5 class="text-danger">Отказ по поручению</h5>
+                                    <h5 class="text-danger">  <h3>И.О статус</h3> Отказ по поручению</h5>
                                     <p class="card-text"><strong>Комментарий об отказе:</strong></p>
                                     <blockquote class="blockquote">
                                         <p class="mb-0">{{ $item->order->checked_comment }}</p>
@@ -189,10 +189,15 @@
                                             class="text-muted">{{ $item->reject_time }}</span></p>
                                 </div>
                             @elseif($item->order->checked_status == 1)
-                                <h3>И.О статус</h3>
+                                
+                            <div class="mt-4 border p-3 rounded bg-light">
+                                <p class="card-text"><strong>И.О статус:</strong></p>
                                 <blockquote class="blockquote text-success">
-                                    <p class="mb-0">Вазифа тасдиқланди</p>
+                                    <p class="mb-0"><h3>И.О статус</h3> Вазифа тасдиқланди</p>
                                 </blockquote>
+                            
+                            </div>
+                            
                             @endif
 
                             {{-- Employee Rejection Comments --}}
@@ -224,6 +229,7 @@
                                             class="text-muted">{{ $item->reject_time }}</span></p>
                                 </div>
                             @else
+                            @if($item->status->id == 4)
                                 <div class="mt-4 border p-3 rounded bg-light">
                                     <h5 class="text-success">Завершено</h5>
                                     <p class="card-text"><strong>Кто закончил:</strong> <span
@@ -235,20 +241,20 @@
                                     <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
                                             class="text-muted">{{ $item->reject_time }}</span></p>
                                 </div>
-
+                            @endif
                             @endif
                         @endif
 
 
                         {{-- Action Buttons --}}
                         <div class="d-flex justify-content-end mt-4">
-                            @if (auth()->user()->roles[0]->name != 'Super Admin' && $item->status->name == 'Accepted')
+                            {{-- @if (auth()->user()->roles[0]->name != 'Super Admin' && $item->status->name == 'Accepted')
                                 <form action="{{ route('orders.complete') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="task_id" value="{{ $item->id }}">
                                     <button type="submit" class="btn btn-success">Закончить</button>
                                 </form>
-                            @endif
+                            @endif --}}
                             @if (auth()->user()->roles[0]->name == 'Super Admin' && $item->status->name != 'Active')
                                 <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info mx-2">Редактировать</a>
                                 <form action="{{ route('orders.admin_confirm') }}" method="POST">
