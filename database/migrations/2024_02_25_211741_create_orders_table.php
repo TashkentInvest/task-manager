@@ -24,12 +24,11 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('task_id');
             $table->foreign('task_id')->references('id')->on('tasks');
 
-            $table->integer('shipped_time')->nullable();
-
-            $table->integer('status')->default(1); // reject or approve 1 -> applied | 2 -> rejected | 3->finished
-
-
+            $table->integer('completed_time')->nullable();
+            
             $table->integer('checked_status')->default(0); // ceo will check and will approve
+            $table->text('checked_comment')->nullable(); 
+
             $table->softDeletes();
 
             $table->timestamps();

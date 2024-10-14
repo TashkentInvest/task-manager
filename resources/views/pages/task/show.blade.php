@@ -70,6 +70,7 @@
                                 <button type="submit" class="btn btn-success">Закончить</button>
                             </form>
                             @endif
+
                             <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info mx-2">Редактировать</a>
                             @if (auth()->user()->roles[0]->name != 'Super Admin' && !isset($item->reject_comment) && $item->status->name == 'Accepted')
                                 <button class="btn btn-danger" data-bs-toggle="modal"

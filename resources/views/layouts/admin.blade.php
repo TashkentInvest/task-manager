@@ -234,40 +234,9 @@
                 <div class="container-fluid">
                     <div class="row d-flex align-items-center">
                         <div class="col-sm-4">
-                            <strong>Copyright &copy; {{ date('Y') }} <a href="#!">TeamDevs-Group
+                            <strong>Copyright &copy; {{ date('Y') }} <a href="https://t.me/az_etc">toshkentinvest.uz
                                 </a>.</strong>
                             All rights reserved.
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="row p-0 m-0">
-
-                                <div class="col-4">
-                                    <div class="mt-4">
-                                        <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-warning me-1"></i>
-                                            First task</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-4">
-                                    <div class="mt-4">
-                                        <p class="mb-2 text-truncate"><i
-                                                class="mdi mdi-circle text-secondary me-1"></i> Later Task</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-4">
-                                    <div class="mt-4">
-                                        <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-danger me-1"></i>
-                                            Extra task</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <div class="text-sm-end d-none d-sm-block">
-                                <b>Version</b> 1.0
-                            </div>
                         </div>
                     </div>
                 </div>

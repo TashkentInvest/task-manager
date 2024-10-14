@@ -18,9 +18,9 @@ class Order extends Model
         'user_id',
         'finished_user_id',
         'task_id',
-        'shipped_time',
-        'status',
+        'completed_time',
         'checked_status',
+        'checked_comment',
     ];
 
     public static function deepFilters()
