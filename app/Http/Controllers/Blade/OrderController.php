@@ -94,6 +94,7 @@ class OrderController extends Controller
         $status = \App\Models\TaskStatus::where('name', 'Completed')->first();
         if ($status) {
             $task->status_id = $status->id; // Update the task status
+            $task->reject_comment = null; // Update the task status
             $order->finished_user_id = auth()->id(); // Set the finished user ID
             $task->save(); // Save the task
             $order->save(); // Save the order

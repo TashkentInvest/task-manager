@@ -177,6 +177,21 @@
                                 <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
                                         class="text-muted">{{ $item->reject_time }}</span></p>
                             </div>
+
+                            @else
+
+                            <div class="mt-4 border p-3 rounded bg-light">
+                                <h5 class="text-danger">Отказ по поручению</h5>
+                                <p class="card-text"><strong>Кто закончил:</strong> <span
+                                        class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
+                                <blockquote class="blockquote text-success">
+                                    <p class="mb-0">Вазифа якунланди</p>
+                                </blockquote>
+                                
+                                <p class="card-text mt-3"><strong>Дата законченя:</strong> <span
+                                        class="text-muted">{{ $item->reject_time }}</span></p>
+                            </div>
+
                         @endif
 
                         {{-- Action Buttons --}}
@@ -199,7 +214,7 @@
                                 <button class="btn btn-danger mx-2" data-bs-toggle="modal"
                                     data-bs-target="#rejectModal">Отказ</button>
                             @else
-                                {{-- @if ($item->status->name == 'Active')
+                                @if ($item->status->name == 'Active')
                                     <form action="{{ route('orders.store') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="task_id" value="{{ $item->id }}">
@@ -208,16 +223,13 @@
                                             Принят <i class="bx bxs-badge-check"></i>
                                         </button>
                                     </form>
-                                @endif --}}
+                                @endif
                             @endif
                             @if (auth()->user()->roles[0]->name != 'Super Admin')
-                                <form action="{{ route('orders.store') }}" method="POST">
+                                <form action="{{ route('orders.complete') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="task_id" value="{{ $item->id }}">
-                                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                                    <button type="submit" class="btn btn-success">
-                                        Принят 
-                                    </button>
+                                    <button type="submit" class="btn btn-success">Закончить</button>
                                 </form>
                                 <button class="btn btn-danger mx-2" data-bs-toggle="modal"
                                     data-bs-target="#rejectModalEmp">Отказ</button>
