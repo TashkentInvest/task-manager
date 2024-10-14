@@ -30,6 +30,7 @@
                         {{-- admin reject start --}}
 
                         @if ($item->order->checked_status == 2)
+                            <h3>И.О статус</h3>
                             <div class="mt-4 border p-3 rounded bg-light">
                                 <h5 class="text-danger">Отказ по поручению</h5>
 
@@ -43,6 +44,8 @@
                                         class="text-muted">{{ $item->reject_time }}</span></p>
                             </div>
                         @elseif($item->order->checked_status == 1)
+                            <h3>И.О статус</h3>
+
                             <blockquote class="blockquote text-success">
                                 <p class="mb-0">Вазифа тасдиқланди</p>
                             </blockquote>
@@ -52,7 +55,9 @@
 
                         {{-- @dump($order) --}}
                         {{-- Reject Comments Section --}}
+
                         @if ($item->reject_comment != null)
+                            <h3>Ходим статус</h3>
                             <div class="mt-4 border p-3 rounded bg-light">
                                 <h5 class="text-danger">Отказ по поручению</h5>
                                 @if (isset($item->order))
