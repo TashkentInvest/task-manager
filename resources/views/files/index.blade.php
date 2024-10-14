@@ -88,7 +88,7 @@
             input.select();
             document.execCommand('copy');
             document.body.removeChild(input);
-            alert('Link copied to clipboard!');
+            console.log('Link copied to clipboard!');
         }
     </script>
 @endsection

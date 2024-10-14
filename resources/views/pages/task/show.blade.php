@@ -63,7 +63,7 @@
                         {{-- End Reject Comments Section --}}
 
                         <div class="d-flex justify-content-end mt-4">
-                            @if($item->status->name == 'Accepted')
+                            @if(auth()->user()->roles[0]->name != 'Super Admin' && $item->status->name == 'Accepted')
                             <form action="{{ route('orders.complete') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="task_id" value="{{ $item->id }}">
