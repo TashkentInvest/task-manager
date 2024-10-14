@@ -59,12 +59,12 @@
                             
                             <div class="row">
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{$complated_own_orders}}</h5>
-                                    <p class="text-muted mb-0">Complated Projects</p>
+                                    <h5 class="font-size-15">{{$Completed_own_orders}}</h5>
+                                    <p class="text-muted mb-0">Completed Projects</p>
                                 </div>
                                 <div class="col-6">
-                                    <h5 class="font-size-15">{{$complated_own_orders}}</h5>
-                                    <p class="text-muted mb-0">Uncomplated Projects</p>
+                                    <h5 class="font-size-15">{{$Completed_own_orders}}</h5>
+                                    <p class="text-muted mb-0">UnCompleted Projects</p>
                                 </div>
                             </div>
                             <div class="mt-4">

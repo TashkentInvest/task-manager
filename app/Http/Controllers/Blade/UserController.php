@@ -216,10 +216,10 @@ class UserController extends Controller
     public function userProfile()
     {
         $user = User::where('id',auth()->user()->id)->get()->first();
-        $complated_own_orders = auth()->user()->orders()->where('status', true)->count(); 
-        $uncomplated_own_orders = auth()->user()->orders()->where('status', false)->count(); 
+        $Completed_own_orders = auth()->user()->orders()->where('status', true)->count(); 
+        $unCompleted_own_orders = auth()->user()->orders()->where('status', false)->count(); 
 // dd($user);
-        return view('pages.profile.index',compact('user','complated_own_orders','uncomplated_own_orders'));
+        return view('pages.profile.index',compact('user','Completed_own_orders','unCompleted_own_orders'));
     }
 
     // offline or online

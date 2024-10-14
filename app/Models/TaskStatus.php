@@ -16,7 +16,7 @@ class TaskStatus extends Model
     const ACTIVE = 1;
     const CANCELED = 2;
     const ACCEPTED = 3;
-    const COMPLATED = 4;
+    const Completed = 4;
     const DELETED = 5;
     const TIME_IS_OVER = 7;
     const ADMIN_REJECT = 8;

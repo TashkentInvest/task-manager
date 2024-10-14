@@ -98,7 +98,7 @@
                                 {{ $item->status->name }}
                             </span>
                             {{-- <span class="badge badge-soft-success }} font-size-16 m-1">
-                                Complated
+                                Completed
                             </span>
                             <span class="badge badge-soft-primary }} font-size-16 m-1">
                                 Active

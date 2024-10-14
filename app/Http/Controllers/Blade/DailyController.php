@@ -93,12 +93,12 @@ class DailyController extends Controller
             $order2 = Order::where('id', $order->id)->first();
             $taskId = $order2->task_id;
             $task = Tasks::where('id', $taskId)->first();
-            $task->status_id = TaskStatus::COMPLATED;
+            $task->status_id = TaskStatus::Completed;
             $task->save();
             // $task = Tasks::findOrFail($id);
 
             $order->task_id = $task->id;
-            $order->status = TaskStatus::COMPLATED;
+            $order->status = TaskStatus::Completed;
             $order->save();
 
             // if($task->status_id === TaskStatus::ACCEPTED){

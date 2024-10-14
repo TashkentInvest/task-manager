@@ -83,7 +83,7 @@ request history employee uchun alohida bolsh kere +++
 
 report middle keremas +++
 
-task edit complated , accepterdlani ob tawash kere +++
+task edit Completed , accepterdlani ob tawash kere +++
 
 driver delete qsa task yaratib bomayapti +++
 

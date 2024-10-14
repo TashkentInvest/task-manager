@@ -38,7 +38,7 @@ class MonitoringController extends Controller
         // Separate tasks by status
         $inProgressTasks = $allTasks->where('status_id', TaskStatus::ACTIVE);
         $pendingTasks = $allTasks->where('status_id', TaskStatus::ACCEPTED);
-        $completedTasks = $allTasks->where('status_id', TaskStatus::COMPLATED);
+        $completedTasks = $allTasks->where('status_id', TaskStatus::Completed);
         $employeeRejectedTasks = $allTasks->where('status_id', TaskStatus::XODIM_REJECT);
                                 //  ->orWhere('status_id', TaskStatus::XODIM_REJECT);
 

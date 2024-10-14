@@ -141,13 +141,13 @@ class OrderController extends Controller
             }else{
 
                 
-                $order->status = TaskStatus::COMPLATED;
+                $order->status = TaskStatus::Completed;
                 $order->save();
         
                 $order2 = Order::where('id', $order->id)->first();
                 $taskId = $order2->task_id;
                 $task = Tasks::where('id', $taskId)->first();
-                $task->status_id = TaskStatus::COMPLATED;
+                $task->status_id = TaskStatus::Completed;
                 $task->save();
         
                 // $category = Category::where('id', $task->category_id)->first();

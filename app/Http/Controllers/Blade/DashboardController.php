@@ -22,9 +22,9 @@ class DashboardController extends Controller
 
         // own orders
         $own_orders = auth()->user()->orders()->where('status', 4)->count(); 
-        // $uncomplated_own_orders = auth()->user()->orders()->where('status', 5)->count(); 
-        // dd($uncomplated_own_orders);
-        $uncomplated_own_orders = auth()->user()->orders()->whereIn('status', [5, 7, 8])->count();
+        // $unCompleted_own_orders = auth()->user()->orders()->where('status', 5)->count(); 
+        // dd($unCompleted_own_orders);
+        $unCompleted_own_orders = auth()->user()->orders()->whereIn('status', [5, 7, 8])->count();
 
         // all orders 
         $all_orders = Order::where('status', 4)->get()->count();
@@ -65,7 +65,7 @@ class DashboardController extends Controller
         ->get();
 
 
-        return view('pages.dashboard.index', compact('users','monthlyAverage','monthlyAverageAllUsers','own_orders','all_orders','uncomplated_own_orders','unclomlated_all_orders','topUsers'));
+        return view('pages.dashboard.index', compact('users','monthlyAverage','monthlyAverageAllUsers','own_orders','all_orders','unCompleted_own_orders','unclomlated_all_orders','topUsers'));
     }
     
 }

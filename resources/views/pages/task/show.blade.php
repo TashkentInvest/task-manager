@@ -63,9 +63,15 @@
                         {{-- End Reject Comments Section --}}
 
                         <div class="d-flex justify-content-end mt-4">
-                            <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-success">Закончить</a>
+                            @if($item->status->name == 'Accepted')
+                            <form action="{{ route('orders.complete') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="task_id" value="{{ $item->id }}">
+                                <button type="submit" class="btn btn-success">Закончить</button>
+                            </form>
+                            @endif
                             <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info mx-2">Редактировать</a>
-                            @if (auth()->user()->roles[0]->name != 'Super Admin' && !isset($item->reject_comment))
+                            @if (auth()->user()->roles[0]->name != 'Super Admin' && !isset($item->reject_comment) && $item->status->name == 'Accepted')
                                 <button class="btn btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#rejectModal">Отказ</button>
                             @endif

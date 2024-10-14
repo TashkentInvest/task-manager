@@ -117,7 +117,7 @@ Route::group(['middleware' => 'auth'],function (){
     // Order controller
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::post('/orders/reject', [OrderController::class, 'reject'])->name('orders.reject');
-
+    Route::post('/orders/complete', [OrderController::class, 'complete'])->name('orders.complete');
 
 
  

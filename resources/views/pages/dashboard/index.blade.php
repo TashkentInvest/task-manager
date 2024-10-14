@@ -166,7 +166,7 @@
                         @else
                         <div class="flex-grow-1 card-description">
                             <p class="text-muted fw-medium">Невыполненные задачи</p>
-                            <h4 class="mb-0">{{ $uncomplated_own_orders  }}</h4>
+                            <h4 class="mb-0">{{ $unCompleted_own_orders  }}</h4>
                         </div>
 
 

@@ -35,7 +35,7 @@ class OrderController extends Controller
 
     public function reject(Request $request)
     {
-        
+
         $request->validate([
             'reject_comment' => 'required|string|max:255',
             'files.*' => 'nullable', // Adjust file types and size as needed
@@ -73,5 +73,32 @@ class OrderController extends Controller
         }
 
         return redirect()->back()->with('success', 'Order rejected and files uploaded successfully!');
+    }
+
+    public function complete(Request $request)
+    {
+        $request->validate([
+            'task_id' => 'required|exists:tasks,id',
+        ]);
+
+        // Find the task first
+        $task = Tasks::findOrFail($request->task_id);
+
+        // Find the order associated with this task
+        $order = Order::where('task_id', $task->id)->first();
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found!');
+        }
+
+        // Get the 'Completed' status
+        $status = \App\Models\TaskStatus::where('name', 'Completed')->first();
+        if ($status) {
+            $task->status_id = $status->id; // Update the task status
+            $order->finished_user_id = auth()->id(); // Set the finished user ID
+            $task->save(); // Save the task
+            $order->save(); // Save the order
+        }
+
+        return redirect()->back()->with('success', 'Task status updated to Completed!');
     }
 }
