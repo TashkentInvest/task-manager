@@ -62,7 +62,8 @@
                                     <input class="form-check-input" type="radio" name="assign_type"
                                         id="assign_custom_users" value="custom"
                                         {{ $task->assign_type == 'custom' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="assign_custom_users">Назначить конкретным пользователям</label>
+                                    <label class="form-check-label" for="assign_custom_users">Назначить конкретным
+                                        пользователям</label>
                                 </div>
                             </div>
                         </div>
@@ -141,12 +142,23 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Закрепленный файл (опционально)</label>
-                                <input type="file" name="attached_file" class="form-control"
-                                    accept=".pdf, .jpg, .jpeg, .png">
-                                @error('attached_file')
+                                <input type="file" name="attached_file[]" class="form-control"
+                                     multiple>
+                                @error('attached_file.*')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            @if ($task->files && $task->files->count() > 0)
+                            <h5>Attached Files:</h5>
+                            <ul>
+                                @foreach ($task->files as $file)
+                                {{-- @dd($file->name) --}}
+                                        <li>{{ $file->name }} <a href="{{ asset('porucheniya/' . $file->name) }}"
+                                                target="_blank">View</a></li>
+                                    @endforeach
+                                </ul>
+                            @endif
                         </div>
 
 

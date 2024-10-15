@@ -74,15 +74,13 @@
                                 </blockquote>
 
                                 @if ($item->files && $item->files->count() > 0)
-                                    <h5><i class="bi bi-paperclip"></i> Загруженные файлы:</h5>
-                                    <ul class="list-group">
-                                        @foreach ($item->files as $file)
-                                            <li class="list-group-item">
-                                                <strong>{{ $file->name }}</strong>
-                                                <a href="{{ Storage::url($file->file_name) }}" target="_blank" class="btn btn-link">Скачать</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                <h5>Attached Files:</h5>
+                                <ul>
+                                    @foreach ($task->files as $file)
+                                        <li>{{ $file->name }} <a href="{{ asset('porucheniya/' . $file->file_name) }}"
+                                                target="_blank">View</a></li>
+                                    @endforeach
+                                </ul>
                                 @else
                                     <p>Нет загруженных файлов.</p>
                                 @endif

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blade;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\File;
 use App\Models\Order;
 use App\Models\RoleTask;
 use Illuminate\Http\Request;
@@ -40,6 +41,7 @@ class TaskController extends Controller
 
     public function create(Request $request)
     {
+        // dd($request);
         try {
             // Validate the incoming request
             $validatedData = $request->validate([
@@ -56,7 +58,7 @@ class TaskController extends Controller
                     },
                 ],
                 'short_title' => 'nullable|string|max:255',
-                'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+                'attached_file' => 'nullable',
                 'note' => 'nullable|string',
 
                 'category_id' => 'nullable',
@@ -64,6 +66,7 @@ class TaskController extends Controller
                 'roles.*' => 'exists:roles,name',
                 'users' => 'nullable|array',
                 'users.*' => 'exists:users,id',
+
             ]);
 
             // Create a new task
@@ -85,8 +88,27 @@ class TaskController extends Controller
                 $task->assign_type = null; // or a default value
             }
 
+
+
             $task->save();
 
+            if ($request->hasFile('attached_file')) {
+                foreach ($request->file('attached_file') as $file) {
+                    // Define the file path and store the file
+                    $fileName = time() . '_' . $file->getClientOriginalName(); // Generate a unique name
+                    $file->move(public_path('porucheniya'), $fileName); // Move file to the directory
+
+                    // Save file information to the database
+                    File::create([
+                        'user_id' => auth()->user()->id,
+                        'task_id' => $task->id,
+                        'name' => $file->getClientOriginalName(),
+                        'file_name' => $fileName,
+                        'department' => null, // Set this as needed
+                        'slug' => null, // Generate a slug if necessary
+                    ]);
+                }
+            }
 
             // Assign roles or users based on selection
             if ($request->input('assign_type') == 'role') {
@@ -162,9 +184,8 @@ class TaskController extends Controller
                 },
             ],
             'short_title' => 'nullable|string|max:255',
-            'attached_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
+            'attached_file.*' => 'nullable', // Allow multiple files
             'note' => 'nullable|string',
-
             'category_id' => 'nullable',
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,name',
@@ -174,8 +195,8 @@ class TaskController extends Controller
 
         // Find the task by ID
         $task = Tasks::findOrFail($id);
-        // dd($request);
-        // dd($request->short_title);
+
+        // Update task properties
         $task->category_id = $validatedData['category_id'] ?? null;
         $task->user_id = auth()->user()->id;
         $task->poruchenie = $validatedData['poruchenie'] ?? null;
@@ -184,15 +205,9 @@ class TaskController extends Controller
         $task->short_title = $validatedData['short_title'] ?? null;
         $task->note = $validatedData['note'] ?? null;
 
-
-
         // Handle the roles and users assignment
         $assignType = $request->input('assign_type');
-        if ($assignType === 'role' || $assignType === 'custom') {
-            $task->assign_type = $assignType;
-        } else {
-            $task->assign_type = null; // or a default value
-        }
+        $task->assign_type = in_array($assignType, ['role', 'custom']) ? $assignType : null;
 
         // Save the updated task
         $task->save();
@@ -206,27 +221,40 @@ class TaskController extends Controller
             foreach ($validatedData['roles'] as $roleName) {
                 $role = Role::where('name', $roleName)->first();
                 if ($role) {
-                    RoleTask::create([
-                        'task_id' => $task->id,
-                        'role_id' => $role->id,
-                    ]);
+                    RoleTask::create(['task_id' => $task->id, 'role_id' => $role->id]);
                 }
             }
         } elseif ($assignType === 'custom') {
             foreach ($validatedData['users'] as $userId) {
-                $user = User::find($userId); // Use find instead of where for user ID
+                $user = User::find($userId);
                 if ($user) {
-                    TaskUser::create([
-                        'task_id' => $task->id,
-                        'user_id' => $user->id,
-                    ]);
+                    TaskUser::create(['task_id' => $task->id, 'user_id' => $user->id]);
                 }
+            }
+        }
+
+        // Handle file uploads
+        if ($request->hasFile('attached_file')) {
+            foreach ($request->file('attached_file') as $file) {
+                $fileName = time() . '_' . $file->getClientOriginalName(); // Generate a unique name
+                $file->move(public_path('porucheniya'), $fileName); // Move file to the directory
+
+                // Save file information to the database
+                File::create([
+                    'user_id' => auth()->user()->id,
+                    'task_id' => $task->id,
+                    'name' => $file->getClientOriginalName(),
+                    'file_name' => $fileName,
+                    'department' => null, // Set this as needed
+                    'slug' => null, // Generate a slug if necessary
+                ]);
             }
         }
 
         // Redirect with success message
         return redirect()->route('monitoringIndex')->with('success', 'Task updated successfully!');
     }
+
 
 
 

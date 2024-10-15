@@ -152,8 +152,8 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Закрепленный файл (опционально)</label>
-                                <input type="file" name="attached_file" class="form-control"
-                                    accept=".pdf, .jpg, .jpeg, .png">
+                                <input type="file" name="attached_file[]" class="form-control" multiple>
+
                                 @error('attached_file')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
