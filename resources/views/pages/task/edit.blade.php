@@ -54,23 +54,27 @@
                                 <label>Назначить</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="assign_type" id="assign_role"
-                                        value="role" {{ old('assign_type', $task->assign_type) == 'role' ? 'checked' : '' }}>
+                                        value="role"
+                                        {{ old('assign_type', $task->assign_type) == 'role' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="assign_role">Назначить по ролям</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="assign_type"
                                         id="assign_custom_users" value="custom"
                                         {{ old('assign_type', $task->assign_type) == 'custom' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="assign_custom_users">Назначить конкретным пользователям</label>
+                                    <label class="form-check-label" for="assign_custom_users">Назначить конкретным
+                                        пользователям</label>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Roles select field -->
-                        <div class="row" id="rolesSection" style="{{ old('assign_type', $task->assign_type) == 'role' ? 'display:block;' : 'display:none;' }}">
+                        <div class="row" id="rolesSection"
+                            style="{{ old('assign_type', $task->assign_type) == 'role' ? 'display:block;' : 'display:none;' }}">
                             <div class="col-md-12 mb-3">
                                 <label>Роли</label>
-                                <select name="roles[]" class="select2 form-control select2-multiple" multiple="multiple" style="width: 100%;">
+                                <select name="roles[]" class="select2 form-control select2-multiple" multiple="multiple"
+                                    style="width: 100%;">
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->name }}"
                                             {{ in_array($role->name, old('roles', $task->roles->pluck('name')->toArray())) ? 'selected' : '' }}>
@@ -85,10 +89,12 @@
                         </div>
 
                         <!-- Custom users select field -->
-                        <div class="row" id="customUsersSection" style="{{ old('assign_type', $task->assign_type) == 'custom' ? 'display:block;' : 'display:none;' }}">
+                        <div class="row" id="customUsersSection"
+                            style="{{ old('assign_type', $task->assign_type) == 'custom' ? 'display:block;' : 'display:none;' }}">
                             <div class="col-md-12 mb-3">
                                 <label>Пользователи</label>
-                                <select name="users[]" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                <select name="users[]" class="form-control select2" multiple="multiple"
+                                    style="width: 100%;">
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
                                             {{ in_array($user->id, old('users', $task->task_users->pluck('id')->toArray())) ? 'selected' : '' }}>
@@ -140,27 +146,56 @@
                         </div>
 
                         <div class="row">
-                                @if ($task->files && $task->files->count() > 0)
+                            @if ($task->files && $task->files->count() > 0)
                                 <div class="col-md-12">
                                     <h5>Закрепленные файлы</h5>
-                                    <ul>
-                                        @foreach ($task->files as $file)
-                                            <li>
-                                                {{ $file->name }}
-                                                <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank">View</a>
-                                                {{-- @if (auth()->user()->roles[0]->name == 'Super Admin')
+
+
+                                    {{-- @if (auth()->user()->roles[0]->name == 'Super Admin')
                                                     <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-link text-danger">Delete</button>
                                                     </form>
                                                 @endif --}}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+
+                                    @if ($task->files && $task->files->count() > 0)
+                                        <ul class="list-group">
+                                            @foreach ($task->files as $file)
+                                                @php
+                                                    // Build the file path
+                                                    $filePath = public_path('porucheniya/' . $file->file_name);
+                                                @endphp
+
+                                                @if (file_exists($filePath))
+                                                    <!-- Check if the file exists in the specified directory -->
+                                                    <li>
+                                                        <span class="badge badge-soft-primary font-size-16 m-1">
+                                                            {{ $file->name }}
+                                                        </span>
+                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}"
+                                                            target="_blank">View</a>
+                                                        @if (auth()->user()->roles[0]->name == 'Super Admin')
+                                                            <form action="{{ route('file.delete', $file->id) }}"
+                                                                method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-link text-danger">Delete</button>
+                                                            </form>
+                                                        @endif
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p>Нет загруженных файлов.</p>
+                                    @endif
+
+
                                 </div>
-                                @endif
-                            </div>
+                            @endif
+                        </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -173,8 +208,10 @@
                         </div>
 
                         <div class="form-group mt-2">
-                            <button type="submit" id="submitBtn" class="btn btn-success float-right">@lang('global.update')</button>
-                            <a href="{{ route('monitoringIndex') }}" class="btn btn-light waves-effect float-left">@lang('global.cancel')</a>
+                            <button type="submit" id="submitBtn"
+                                class="btn btn-success float-right">@lang('global.update')</button>
+                            <a href="{{ route('monitoringIndex') }}"
+                                class="btn btn-light waves-effect float-left">@lang('global.cancel')</a>
                         </div>
                     </form>
                 </div>
