@@ -7,6 +7,7 @@ use App\Models\File;
 use App\Models\Order;
 use App\Models\Tasks;
 use Illuminate\Http\Request;
+use Str;
 
 class OrderController extends Controller
 {
@@ -56,18 +57,29 @@ class OrderController extends Controller
         $order->save();
 
         // Handle file uploads
-        if ($request->hasFile('files')) {
+         // Handle file uploads
+         if ($request->hasFile('files')) {
+            // Ensure the directory exists
+            $directoryPath = public_path('porucheniya/reject');
+            if (!file_exists($directoryPath)) {
+                mkdir($directoryPath, 0755, true); // Create the directory if it doesn't exist
+            }
+        
             foreach ($request->file('files') as $file) {
-                $path = $file->store('uploads'); // Change this path as necessary
-
-                // Create a new file record
+                // Generate a unique name
+                $fileName = time() . '_' . Str::random(5) . '_' . $file->getClientOriginalName();
+                
+                // Move the file to the directory
+                $file->move($directoryPath, $fileName);
+        
+                // Save file information to the database
                 File::create([
-                    'user_id' => auth()->id(),
+                    'user_id' => auth()->user()->id,
                     'task_id' => $order->id,
                     'name' => $file->getClientOriginalName(),
-                    'department' => '', // Set as necessary
-                    'file_name' => $path,
-                    'slug' => uniqid() . '-' . time(), // Generate unique slug
+                    'file_name' => $fileName,
+                    'department' => null, // Set this as needed
+                    'slug' => null, // Generate a slug if necessary
                 ]);
             }
         }
