@@ -129,7 +129,7 @@
                                                         <span class="badge badge-soft-primary font-size-16 m-1">
                                                             {{ $file->name }}
                                                         </span>
-                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank">{{$file->name}} Посмотреть
+                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank"> Скачать
                                                         </a>
                                                         @if (auth()->user()->roles[0]->name == 'Super Admin')
                                                             <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">

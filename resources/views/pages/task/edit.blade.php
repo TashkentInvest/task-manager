@@ -175,7 +175,7 @@
                                                         </span>
                                                         <a href="{{ asset('porucheniya/' . $file->file_name) }}"
                                                             target="_blank">View</a>
-                                                        @if (auth()->user()->roles[0]->name == 'Super Admin')
+                                                        {{-- @if (auth()->user()->roles[0]->name == 'Super Admin')
                                                             <form action="{{ route('file.delete', $file->id) }}"
                                                                 method="POST" style="display:inline;">
                                                                 @csrf
@@ -183,7 +183,7 @@
                                                                 <button type="submit"
                                                                     class="btn btn-link text-danger">Delete</button>
                                                             </form>
-                                                        @endif
+                                                        @endif --}}
                                                     </li>
                                                 @endif
                                             @endforeach
