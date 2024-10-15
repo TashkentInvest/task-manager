@@ -115,15 +115,30 @@
                                     {{-- <p class="card-text"><strong>Категория:</strong> <span
                                             class="text-muted">{{ $item->category->name ?? 'Не указана' }}</span></p> --}}
 
-
-                                    <p class="card-text"><strong>Закрепленный файл:</strong>
-                                        @if ($item->attached_file)
-                                            <a href="{{ Storage::url($item->attached_file) }}" target="_blank"
-                                                class="btn btn-link">Скачать</a>
-                                        @else
-                                            <span class="text-muted">Нет</span>
-                                        @endif
-                                    </p>
+                                            <p class="card-text"><strong>Закрепленный файл:</strong>
+                                                @if ($item->files && $item->files->count() > 0)
+                                                    @foreach ($item->files as $file)
+                                                        <li>
+        
+                                                            <span class="badge badge-soft-primary font-size-16 m-1">
+                                                            {{ $file->name }}
+        
+                                                            </span>
+                                                            <a href="{{ asset('porucheniya/' . $file->file_name) }}"
+                                                                target="_blank">View</a>
+                                                            @if (auth()->user()->roles[0]->name == 'Super Admin')
+                                                                <form action="{{ route('file.delete', $file->id) }}" method="POST"
+                                                                    style="display:inline;">
+                                                                    @csrf
+                                                                    @method('POST')
+                                                                    <button type="submit"
+                                                                        class="btn btn-link text-danger">Delete</button>
+                                                                </form>
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                @endif
+                                            </p>
                                 </div>
 
                             </div>
@@ -178,35 +193,7 @@
                                     </p>
 
 
-
-
-
-
-
-                                    <p class="card-text"><strong>Закрепленный файл:</strong>
-                                        @if ($item->files && $item->files->count() > 0)
-                                            @foreach ($item->files as $file)
-                                                <li>
-
-                                                    <span class="badge badge-soft-primary font-size-16 m-1">
-                                                    {{ $file->name }}
-
-                                                    </span>
-                                                    <a href="{{ asset('porucheniya/' . $file->file_name) }}"
-                                                        target="_blank">View</a>
-                                                    @if (auth()->user()->roles[0]->name == 'Super Admin')
-                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
-                                                            style="display:inline;">
-                                                            @csrf
-                                                            @method('POST')
-                                                            <button type="submit"
-                                                                class="btn btn-link text-danger">Delete</button>
-                                                        </form>
-                                                    @endif
-                                                </li>
-                                            @endforeach
-                                        @endif
-                                    </p>
+                                   
                                 </div>
 
                             </div>
