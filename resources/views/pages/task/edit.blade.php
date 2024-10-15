@@ -150,15 +150,22 @@
                             </div>
 
                             @if ($task->files && $task->files->count() > 0)
-                            <h5>Attached Files:</h5>
-                            <ul>
+                         
                                 @foreach ($task->files as $file)
-                                {{-- @dd($file->name) --}}
-                                        <li>{{ $file->name }} <a href="{{ asset('porucheniya/' . $file->name) }}"
-                                                target="_blank">View</a></li>
-                                    @endforeach
-                                </ul>
-                            @endif
+                                    <li>
+                                        {{ $file->name }} 
+                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank">View</a>
+                                        <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-link text-danger">Delete</button>
+                                        </form>
+                                    </li>
+                                @endforeach
+                  
+                        @endif
+                        
+                        
                         </div>
 
 

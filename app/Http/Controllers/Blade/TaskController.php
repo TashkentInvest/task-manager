@@ -94,21 +94,21 @@ class TaskController extends Controller
 
             if ($request->hasFile('attached_file')) {
                 foreach ($request->file('attached_file') as $file) {
-                    // Define the file path and store the file
-                    $fileName = time() . '_' . $file->getClientOriginalName(); // Generate a unique name
+                    $fileName = time() . '_' . $file->getClientOriginalName(); // Create a unique name
                     $file->move(public_path('porucheniya'), $fileName); // Move file to the directory
-
+            
                     // Save file information to the database
                     File::create([
                         'user_id' => auth()->user()->id,
                         'task_id' => $task->id,
-                        'name' => $file->getClientOriginalName(),
-                        'file_name' => $fileName,
+                        'name' => $file->getClientOriginalName(), // Store the original name
+                        'file_name' => $fileName, // Store the unique name
                         'department' => null, // Set this as needed
                         'slug' => null, // Generate a slug if necessary
                     ]);
                 }
             }
+            
 
             // Assign roles or users based on selection
             if ($request->input('assign_type') == 'role') {
@@ -255,6 +255,23 @@ class TaskController extends Controller
         return redirect()->route('monitoringIndex')->with('success', 'Task updated successfully!');
     }
 
+
+
+    public function deleteFile($fileId)
+    {
+        $file = File::findOrFail($fileId);
+
+        // Optionally, you can delete the file from storage
+        $filePath = public_path('porucheniya/' . $file->name);
+        if (file_exists($filePath)) {
+            unlink($filePath); // Delete the file from storage
+        }
+
+        // Delete the file record from the database
+        $file->delete();
+
+        return redirect()->back()->with('success', 'File deleted successfully!');
+    }
 
 
 

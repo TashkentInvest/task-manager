@@ -157,6 +157,9 @@ Route::group(['middleware' => 'auth'],function (){
 
 
     // filedonloader
+
+    Route::delete('/files/{id}', [TaskController::class, 'deleteFile'])->name('file.delete');
+
     
     Route::get('download-pdf', [FileDownloadController::class, 'downloadPdf']);
     Route::get('download-excel', [FileDownloadController::class, 'downloadExcel']);
