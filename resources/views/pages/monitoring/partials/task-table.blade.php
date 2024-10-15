@@ -83,11 +83,26 @@
                     </td>
                     <td>
                         @php
-                            $remainingDays = $item->planned_completion_date
-                                ? now()->diffInDays($item->planned_completion_date, false)
-                                : 'N/A';
-                        @endphp
-                        @if (is_int($remainingDays))
+                        $remainingDays = $item->planned_completion_date
+                            ? now()->diffInDays($item->planned_completion_date, false)
+                            : 'N/A';
+                    
+                        // Check if reject_time exists
+                        $isRejected = !is_null($item->reject_time);
+                    @endphp
+                    
+                    @if (is_int($remainingDays))
+                        @if ($isRejected)
+                            @if ($remainingDays >= 0)
+                                <span class="badge badge-soft-success font-size-16 m-1">
+                                     Срок выполнения еще не истек: {{ $remainingDays }} дней осталось
+                                </span>
+                            @else
+                                <span class="badge badge-soft-danger font-size-16 m-1">
+                                     Срок завершения был {{ abs($remainingDays) }} дней назад
+                                </span>
+                            @endif
+                        @else
                             @if ($remainingDays > 0)
                                 <span class="badge badge-soft-warning font-size-16 m-1">
                                     {{ $remainingDays }} дней осталось
@@ -101,9 +116,11 @@
                                     Срок сегодня
                                 </span>
                             @endif
-                        @else
-                            N/A
                         @endif
+                    @else
+                        N/A
+                    @endif
+                    
                     </td>
                     <td>
                         <div class="d-flex align-items-center">

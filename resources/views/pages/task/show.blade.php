@@ -136,30 +136,48 @@
                                         $remainingDays = $item->planned_completion_date
                                             ? now()->diffInDays($item->planned_completion_date, false)
                                             : 'N/A';
+
+                                        // Check if reject_time exists
+                                        $isRejected = !is_null($item->reject_time);
                                     @endphp
+
 
                                     <p class="card-text"><strong>Дата выдачи:</strong> <span
                                             class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span></p>
                                     <p class="card-text"><strong>Срок выполнения:</strong> <span
                                             class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}
 
+
                                             @if (is_int($remainingDays))
-                                                @if ($remainingDays > 0)
-                                                <span class="badge badge-soft-warning font-size-16 m-1">
-                                                    {{ $remainingDays }} дней осталось
-                                                </span>
-                                                @elseif ($remainingDays < 0)
-                                                    <span class="badge badge-soft-danger font-size-16 m-1">
-                                                        {{ abs($remainingDays) }} дней просрочено
-                                                    </span>
+                                                @if ($isRejected)
+                                                    @if ($remainingDays >= 0)
+                                                        <span class="badge badge-soft-success font-size-16 m-1">
+                                                            Срок выполнения еще не истек: {{ $remainingDays }} дней осталось
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-soft-danger font-size-16 m-1">
+                                                            Срок завершения был {{ abs($remainingDays) }} дней назад
+                                                        </span>
+                                                    @endif
                                                 @else
-                                                    <span class="badge badge-soft-warning font-size-16 m-1">
-                                                        Срок сегодня
-                                                    </span>
+                                                    @if ($remainingDays > 0)
+                                                        <span class="badge badge-soft-warning font-size-16 m-1">
+                                                            {{ $remainingDays }} дней осталось
+                                                        </span>
+                                                    @elseif ($remainingDays < 0)
+                                                        <span class="badge badge-soft-danger font-size-16 m-1">
+                                                            {{ abs($remainingDays) }} дней просрочено
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-soft-warning font-size-16 m-1">
+                                                            Срок сегодня
+                                                        </span>
+                                                    @endif
                                                 @endif
                                             @else
                                                 N/A
                                             @endif
+
                                         </span>
                                     </p>
 

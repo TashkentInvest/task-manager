@@ -83,6 +83,8 @@ class OrderController extends Controller
 
         // Find the task first
         $task = Tasks::findOrFail($request->task_id);
+        $task->reject_time = now(); // Update the task status
+
 
         // Find the order associated with this task
         $order = Order::where('task_id', $task->id)->first();
