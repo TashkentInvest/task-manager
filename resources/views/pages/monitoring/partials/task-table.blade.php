@@ -88,7 +88,19 @@
                                 : 'N/A';
                         @endphp
                         @if (is_int($remainingDays))
-                            {{ $remainingDays > 0 ? "{$remainingDays} дней осталось" : ($remainingDays < 0 ? abs($remainingDays) . ' дней просрочено' : 'Срок сегодня') }}
+                            @if ($remainingDays > 0)
+                                <span class="badge badge-soft-warning font-size-16 m-1">
+                                    {{ $remainingDays }} дней осталось
+                                </span>
+                            @elseif ($remainingDays < 0)
+                                <span class="badge badge-soft-danger font-size-16 m-1">
+                                    {{ abs($remainingDays) }} дней просрочено
+                                </span>
+                            @else
+                                <span class="badge badge-soft-warning font-size-16 m-1">
+                                    Срок сегодня
+                                </span>
+                            @endif
                         @else
                             N/A
                         @endif
@@ -109,14 +121,12 @@
                     <td>
                         @if (isset($item->order))
                             @if ($item->order->checked_status == 1)
-                            <div class="d-flex align-items-center">
-                                <span class="badge badge-soft-success font-size-16 m-1">
-                                    Вазифа тасдиқланди
-                                </span>
-                            </div>
-                               
+                                <div class="d-flex align-items-center">
+                                    <span class="badge badge-soft-success font-size-16 m-1">
+                                        Вазифа тасдиқланди
+                                    </span>
+                                </div>
                             @elseif($item->order->checked_status == 2)
-                               
                                 <div class="d-flex align-items-center">
                                     <span class="badge badge-soft-danger font-size-16 m-1">
                                         Вазифа рад этилди

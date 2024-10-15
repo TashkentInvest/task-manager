@@ -115,7 +115,7 @@
                                     {{-- <p class="card-text"><strong>Категория:</strong> <span
                                             class="text-muted">{{ $item->category->name ?? 'Не указана' }}</span></p> --}}
 
-                                 
+
                                     <p class="card-text"><strong>Закрепленный файл:</strong>
                                         @if ($item->attached_file)
                                             <a href="{{ Storage::url($item->attached_file) }}" target="_blank"
@@ -130,6 +130,8 @@
                             <div class="col-6">
                                 <div class="mb-3">
 
+
+
                                     @php
                                         $remainingDays = $item->planned_completion_date
                                             ? now()->diffInDays($item->planned_completion_date, false)
@@ -142,12 +144,27 @@
                                             class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}
 
                                             @if (is_int($remainingDays))
-                                                {{ $remainingDays > 0 ? "{$remainingDays} дней осталось" : ($remainingDays < 0 ? abs($remainingDays) . ' дней просрочено' : 'Срок сегодня') }}
+                                                @if ($remainingDays > 0)
+                                                <span class="badge badge-soft-warning font-size-16 m-1">
+                                                    {{ $remainingDays }} дней осталось
+                                                </span>
+                                                @elseif ($remainingDays < 0)
+                                                    <span class="badge badge-soft-danger font-size-16 m-1">
+                                                        {{ abs($remainingDays) }} дней просрочено
+                                                    </span>
+                                                @else
+                                                    <span class="badge badge-soft-warning font-size-16 m-1">
+                                                        Срок сегодня
+                                                    </span>
+                                                @endif
                                             @else
                                                 N/A
                                             @endif
                                         </span>
                                     </p>
+
+
+
 
 
 
@@ -167,20 +184,21 @@
 
                         </div>
 
-                            <div class="mt-4 border p-3 rounded bg-light">
-                                <p class="card-text"><strong>Примечание:</strong></p>
-                                <blockquote class="blockquote">
-                                    <p class="mb-0">{{ $item->note }}</p>
-                                </blockquote>
-                            
-                            </div>
+                        <div class="mt-4 border p-3 rounded bg-light">
+                            <p class="card-text"><strong>Примечание:</strong></p>
+                            <blockquote class="blockquote">
+                                <p class="mb-0">{{ $item->note }}</p>
+                            </blockquote>
+
+                        </div>
 
                         {{-- Admin Status Section --}}
                         @if ($item->order)
                             @if ($item->order->checked_status == 2)
-                              
                                 <div class="mt-4 border p-3 rounded bg-light">
-                                    <h5 class="text-danger">  <h3>И.О статус</h3> Отказ по поручению</h5>
+                                    <h5 class="text-danger">
+                                        <h3>И.О статус</h3> Отказ по поручению
+                                    </h5>
                                     <p class="card-text"><strong>Комментарий об отказе:</strong></p>
                                     <blockquote class="blockquote">
                                         <p class="mb-0">{{ $item->order->checked_comment }}</p>
@@ -189,15 +207,14 @@
                                             class="text-muted">{{ $item->reject_time }}</span></p>
                                 </div>
                             @elseif($item->order->checked_status == 1)
-                                
-                            <div class="mt-4 border p-3 rounded bg-light">
-                                <p class="card-text"><strong>И.О статус:</strong></p>
-                                <blockquote class="blockquote text-success">
-                                    <p class="mb-0"><h3>И.О статус</h3> Вазифа тасдиқланди</p>
-                                </blockquote>
-                            
-                            </div>
-                            
+                                <div class="mt-4 border p-3 rounded bg-light">
+                                    <p class="card-text"><strong>И.О статус:</strong></p>
+                                    <blockquote class="blockquote text-success">
+                                        <p class="mb-0">
+                                        <h3>И.О статус</h3> Вазифа тасдиқланди</p>
+                                    </blockquote>
+
+                                </div>
                             @endif
 
                             {{-- Employee Rejection Comments --}}
@@ -229,19 +246,20 @@
                                             class="text-muted">{{ $item->reject_time }}</span></p>
                                 </div>
                             @else
-                            @if($item->status->id == 4)
-                                <div class="mt-4 border p-3 rounded bg-light">
-                                    <h5 class="text-success">Завершено</h5>
-                                    <p class="card-text"><strong>Кто закончил:</strong> <span
-                                            class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
-                                    <blockquote class="blockquote text-success">
-                                        <p class="mb-0">Вазифа якунланди</p>
-                                    </blockquote>
+                                @if ($item->status->id == 4)
+                                    <div class="mt-4 border p-3 rounded bg-light">
+                                        <h5 class="text-success">Завершено</h5>
+                                        <p class="card-text"><strong>Кто закончил:</strong> <span
+                                                class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span>
+                                        </p>
+                                        <blockquote class="blockquote text-success">
+                                            <p class="mb-0">Вазифа якунланди</p>
+                                        </blockquote>
 
-                                    <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
-                                            class="text-muted">{{ $item->reject_time }}</span></p>
-                                </div>
-                            @endif
+                                        <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
+                                                class="text-muted">{{ $item->reject_time }}</span></p>
+                                    </div>
+                                @endif
                             @endif
                         @endif
 
