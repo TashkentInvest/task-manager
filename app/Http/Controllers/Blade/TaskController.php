@@ -261,21 +261,25 @@ class TaskController extends Controller
     public function deleteFile($fileId)
     {
         $file = File::findOrFail($fileId);
-
-        // Build the file path
-        $filePath = public_path('porucheniya/' . $file->file_name); // Ensure you're using the correct attribute for the filename
-
+    
+        // Attempt to build the file paths
+        $filePath1 = public_path('porucheniya/' . $file->file_name);
+        $filePath2 = public_path('porucheniya/reject/' . $file->file_name);
+    
+        // Determine which path to use
+        $filePath = file_exists($filePath1) ? $filePath1 : $filePath2;
+    
         // Check if the file exists and is a file, then delete it
         if (file_exists($filePath) && is_file($filePath)) {
             unlink($filePath); // Delete the file from storage
         }
-
+    
         // Delete the file record from the database
         $file->delete();
-
+    
         return redirect()->back()->with('success', 'File deleted successfully!');
     }
-
+    
 
 
     public function destroy($id)

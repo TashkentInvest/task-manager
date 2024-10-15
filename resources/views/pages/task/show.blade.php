@@ -115,30 +115,30 @@
                                     {{-- <p class="card-text"><strong>Категория:</strong> <span
                                             class="text-muted">{{ $item->category->name ?? 'Не указана' }}</span></p> --}}
 
-                                            <p class="card-text"><strong>Закрепленный файл:</strong>
-                                                @if ($item->files && $item->files->count() > 0)
-                                                    @foreach ($item->files as $file)
-                                                        <li>
-        
-                                                            <span class="badge badge-soft-primary font-size-16 m-1">
-                                                            {{ $file->name }}
-        
-                                                            </span>
-                                                            <a href="{{ asset('porucheniya/' . $file->file_name) }}"
-                                                                target="_blank">View</a>
-                                                            @if (auth()->user()->roles[0]->name == 'Super Admin')
-                                                                <form action="{{ route('file.delete', $file->id) }}" method="POST"
-                                                                    style="display:inline;">
-                                                                    @csrf
-                                                                    @method('delete')
-                                                                    <button type="submit"
-                                                                        class="btn btn-link text-danger">Delete</button>
-                                                                </form>
-                                                            @endif
-                                                        </li>
-                                                    @endforeach
-                                                @endif
-                                            </p>
+                                    <p class="card-text"><strong>Закрепленный файл:</strong>
+                                        @if ($item->files && $item->files->count() > 0)
+                                            @foreach ($item->files as $file)
+                                                <li>
+
+                                                    <span class="badge badge-soft-primary font-size-16 m-1">
+                                                        {{ $file->name }}
+
+                                                    </span>
+                                                    <a href="{{ asset('porucheniya/' . $file->file_name) }}"
+                                                        target="_blank">View</a>
+                                                    @if (auth()->user()->roles[0]->name == 'Super Admin')
+                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
+                                                            style="display:inline;">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="submit"
+                                                                class="btn btn-link text-danger">Delete</button>
+                                                        </form>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </p>
                                 </div>
 
                             </div>
@@ -193,7 +193,7 @@
                                     </p>
 
 
-                                   
+
                                 </div>
 
                             </div>
@@ -248,16 +248,16 @@
                                     @if ($item->files && count($item->files) > 0)
                                         <h5>Загруженные файлы:</h5>
                                         <ul class="list-group">
-                                            @foreach ($item->files as $file)
-                                                <li class="list-group-item">
-                                                    <strong>{{ $file->name }}</strong>
-                                                    <a href="{{ Storage::url($file->file_name) }}" target="_blank"
-                                                        class="btn btn-link">Скачать</a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>Нет загруженных файлов.</p>
+                                            <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}"
+                                                class="btn btn-primary" target="_blank">View</a>
+                                            <form action="{{ route('files.delete', $file->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        @else
+                                            <p>Нет загруженных файлов.</p>
                                     @endif
                                     <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
                                             class="text-muted">{{ $item->reject_time }}</span></p>
