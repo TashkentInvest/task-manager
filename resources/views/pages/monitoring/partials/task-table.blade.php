@@ -109,13 +109,19 @@
                     <td>
                         @if (isset($item->order))
                             @if ($item->order->checked_status == 1)
-                                <blockquote class="blockquote text-success">
-                                    <p class="mb-0">Вазифа тасдиқланди</p>
-                                </blockquote>
+                            <div class="d-flex align-items-center">
+                                <span class="badge badge-soft-success font-size-16 m-1">
+                                    Вазифа тасдиқланди
+                                </span>
+                            </div>
+                               
                             @elseif($item->order->checked_status == 2)
-                                <blockquote class="blockquote text-danger">
-                                    <p class="mb-0">Вазифа рад этилди</p>
-                                </blockquote>
+                               
+                                <div class="d-flex align-items-center">
+                                    <span class="badge badge-soft-danger font-size-16 m-1">
+                                        Вазифа рад этилди
+                                    </span>
+                                </div>
                             @else
                                 <p></p>
                             @endif
