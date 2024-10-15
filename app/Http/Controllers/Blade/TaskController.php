@@ -96,7 +96,7 @@ class TaskController extends Controller
                 foreach ($request->file('attached_file') as $file) {
                     $fileName = time() . '_' . $file->getClientOriginalName(); // Create a unique name
                     $file->move(public_path('porucheniya'), $fileName); // Move file to the directory
-            
+
                     // Save file information to the database
                     File::create([
                         'user_id' => auth()->user()->id,
@@ -108,7 +108,7 @@ class TaskController extends Controller
                     ]);
                 }
             }
-            
+
 
             // Assign roles or users based on selection
             if ($request->input('assign_type') == 'role') {
@@ -262,9 +262,11 @@ class TaskController extends Controller
     {
         $file = File::findOrFail($fileId);
 
-        // Optionally, you can delete the file from storage
-        $filePath = public_path('porucheniya/' . $file->name_name);
-        if (file_exists($filePath)) {
+        // Build the file path
+        $filePath = public_path('porucheniya/' . $file->file_name); // Ensure you're using the correct attribute for the filename
+
+        // Check if the file exists and is a file, then delete it
+        if (file_exists($filePath) && is_file($filePath)) {
             unlink($filePath); // Delete the file from storage
         }
 

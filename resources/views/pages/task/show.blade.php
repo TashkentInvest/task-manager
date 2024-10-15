@@ -130,7 +130,7 @@
                                                                 <form action="{{ route('file.delete', $file->id) }}" method="POST"
                                                                     style="display:inline;">
                                                                     @csrf
-                                                                    @method('POST')
+                                                                    @method('delete')
                                                                     <button type="submit"
                                                                         class="btn btn-link text-danger">Delete</button>
                                                                 </form>
