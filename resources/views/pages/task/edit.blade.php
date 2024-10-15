@@ -142,30 +142,30 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Закрепленный файл (опционально)</label>
-                                <input type="file" name="attached_file[]" class="form-control"
-                                     multiple>
+                                <input type="file" name="attached_file[]" class="form-control" multiple>
                                 @error('attached_file.*')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             @if ($task->files && $task->files->count() > 0)
-                         
                                 @foreach ($task->files as $file)
                                     <li>
-                                        {{ $file->name }} 
+                                        {{ $file->name }}
                                         <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank">View</a>
-                                        <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-link text-danger">Delete</button>
-                                        </form>
+                                        @if (auth()->user()->roles[0]->name == 'Super Admin')
+                                            <form action="{{ route('file.delete', $file->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('POST')
+                                                <button type="submit" class="btn btn-link text-danger">Delete</button>
+                                            </form>
+                                        @endif
                                     </li>
                                 @endforeach
-                  
-                        @endif
-                        
-                        
+                            @endif
+
+
                         </div>
 
 

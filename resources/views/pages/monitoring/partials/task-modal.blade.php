@@ -73,17 +73,6 @@
                                     <p class="mb-0">{{ $item->reject_comment }}</p>
                                 </blockquote>
 
-                                @if ($item->files && $item->files->count() > 0)
-                                <h5>Attached Files:</h5>
-                                <ul>
-                                    @foreach ($task->files as $file)
-                                        <li>{{ $file->name }} <a href="{{ asset('porucheniya/' . $file->file_name) }}"
-                                                target="_blank">View</a></li>
-                                    @endforeach
-                                </ul>
-                                @else
-                                    <p>Нет загруженных файлов.</p>
-                                @endif
 
                                 <p class="card-text mt-3"><strong>Дата отказа:</strong> <span class="text-muted">{{ $item->reject_time }}</span></p>
                             </div>

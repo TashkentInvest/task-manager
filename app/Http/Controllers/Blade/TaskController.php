@@ -262,7 +262,7 @@ class TaskController extends Controller
         $file = File::findOrFail($fileId);
 
         // Optionally, you can delete the file from storage
-        $filePath = public_path('porucheniya/' . $file->name);
+        $filePath = public_path('porucheniya/' . $file->name_name);
         if (file_exists($filePath)) {
             unlink($filePath); // Delete the file from storage
         }
