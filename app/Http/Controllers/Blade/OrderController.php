@@ -36,56 +36,50 @@ class OrderController extends Controller
 
     public function reject(Request $request)
     {
-
+        // Validate the request
         $request->validate([
             'reject_comment' => 'required|string|max:255',
-            'files.*' => 'nullable', // Adjust file types and size as needed
+            'attached_file.*' => 'nullable', // Adjust file types and size as needed
         ]);
-        // dd('das');
 
-        // Find the order and update it
+        // Find the order and update its status
         $order = Tasks::findOrFail($request->task_id);
 
+        // Set the status to rejected
         $status = \App\Models\TaskStatus::where('name', 'XODIM_REJECT')->first();
         if ($status) {
-            // dd($request);
             $order->status_id = $status->id;
-            $order->save();
         }
+
+        // Save the rejection comment and time
         $order->reject_comment = $request->reject_comment;
         $order->reject_time = now();
         $order->save();
 
         // Handle file uploads
-         // Handle file uploads
-         if ($request->hasFile('files')) {
-            // Ensure the directory exists
-            $directoryPath = public_path('porucheniya/reject');
-            if (!file_exists($directoryPath)) {
-                mkdir($directoryPath, 0755, true); // Create the directory if it doesn't exist
-            }
-        
-            foreach ($request->file('files') as $file) {
-                // Generate a unique name
-                $fileName = time() . '_' . Str::random(5) . '_' . $file->getClientOriginalName();
-                
-                // Move the file to the directory
-                $file->move($directoryPath, $fileName);
-        
-                // Save file information to the database
-                File::create([
-                    'user_id' => auth()->user()->id,
-                    'task_id' => $order->id,
-                    'name' => $file->getClientOriginalName(),
-                    'file_name' => $fileName,
-                    'department' => null, // Set this as needed
-                    'slug' => null, // Generate a slug if necessary
-                ]);
+        if ($request->hasFile('attached_file')) {
+            foreach ($request->file('attached_file') as $file) {
+                // Check if the file is valid
+                if ($file->isValid()) {
+                    $fileName = time() . '_' . Str::random(5) . '_' . $file->getClientOriginalName(); // Create a unique name
+                    $file->move(public_path('porucheniya/reject'), $fileName); // Move file to the directory
+
+                    // Save file information to the database
+                    File::create([
+                        'user_id' => auth()->user()->id,
+                        'task_id' => $order->id,
+                        'name' => $file->getClientOriginalName(), // Store the original name
+                        'file_name' => $fileName, // Store the unique name
+                        'department' => null, // Set this as needed
+                        'slug' => null, // Generate a slug if necessary
+                    ]);
+                }
             }
         }
 
         return redirect()->back()->with('success', 'Order rejected and files uploaded successfully!');
     }
+
 
     public function complete(Request $request)
     {
@@ -110,7 +104,7 @@ class OrderController extends Controller
             $task->status_id = $status->id; // Update the task status
             $task->reject_comment = null; // Update the task status
             $task->reject_time = now(); // Update the task status
-            
+
             $order->finished_user_id = auth()->id(); // Set the finished user ID
             $task->save(); // Save the task
             $order->save(); // Save the order

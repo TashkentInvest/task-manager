@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quruvchi va qurilish obyekti bo'yicha malumotlar</title>
+    <style>
+        body {
+            font-family: Calibri, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+            padding: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4px;
+        }
+
+        th, td {
+            padding: 2px 4px;
+            border: 1px solid #ddd;
+            font-size: 13px;
+        }
+
+        .card-header {
+            text-align: center;
+            padding-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .bg-secondary {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Quruvchi va qurilish obyekti bo'yicha malumotlar 
+                <span style="float: right;">22-07-2024 Yil</span>
+            </h3>
+        </div>
+        
+        <div class="card-body">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="bold">FIO:</td>
+                        <td>Alimov G’ulomjon Alimovich</td>
+                    </tr>
+                                            <tr>
+                            <td class="bold">Yuridik manzil:</td>
+                            <td>Shayxontohur rayon,</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Kompaniya nomi:</td>
+                            <td>“Comfort-house-builders”MCHJ</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">OKED:</td>
+                            <td>41201</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Lavozim:</td>
+                            <td>Rahbar</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Bank ko'di:</td>
+                            <td>01183</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Bank nomi:</td>
+                            <td>Anor bank</td>
+                        </tr>
+                    
+                    <tr>
+                        <td class="bold">STIR:</td>
+                        <td>309804867</td>
+                    </tr>
+
+                                            <tr>
+                            <td class="bold">Ariza raqami:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Loyiha Nomi:</td>
+                            <td>Янгихаёт тумани Хушнуд МФИ Дустлик кучаси 58а-сонли уйда курилиши режалаштирилаётган куп каватли турар жой бинос</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Obyekt turi:</td>
+                            <td>Mazkur bo‘limning 1–5-qatorlarida ko‘rsatilmagan boshqa obyektlar</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Obyekt manzili:</td>
+                            <td>Yangi hayot tumani, Xushnud MFY, Dustlik 58-a</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Shaharsozlik normalari va qoidalariga muvofiq binoning (inshootning) qurilish hajmi (m³):</td>
+                            <td>266000</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Ruxsat etilgan qavatlar sonidan yuqori bo‘lgan bino (inshoot) qurilish hajmi (m³):</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Binoning (inshootning) avtoturargoh qismi umumiy hajmi (m³):</td>
+                            <td>45500</td>
+                        </tr>
+                        <tr>
+                            <td class="bold"> Binoning texnik qavatlari, inshootlari va xonalari qismi umumiy hajmi (m³):</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="bold">turar joy binosining umumiy foydalanishdagi qismi umumiy hajmi (m³):</td>
+                            <td>72200</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Qurilish turi:</td>
+                            <td>Yangi kapital qurilish</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Koeffitsient:</td>
+                            <td>0.50</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Hududiy zona:</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Qurilish xajmi ( m³ ):</td>
+                            <td>148,300.0</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Jami to'lanishi kerak bo'lgan miqdor ( so\'m ):</td>
+                            <td class="formatted-number">25211000000</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Bo'lib tolash foizi oldindan:</td>
+                            <td>20%</td>
+                        </tr>
+                                    </tbody>
+
+
+              
+            </table>
+
+            
+            <table style="width: 100%; text-align: center; font-family: 'Arial', sans-serif;">
+                <tr>
+                    <td style="width: 50%; padding: 10px; border:none;">
+                        <div style="font-size: 1.2em; margin-bottom: 5px;">
+                            ___________________
+                        </div>
+                        <p style="font-weight: bold; color: #333; margin: 0;">Imzo</p>
+                    </td>
+                    <td style="width: 50%; padding: 10px; border:none;">
+                        <div style="font-size: 1.2em; margin-bottom: 5px;">
+                            ___________________
+                        </div>
+                        <p style="font-weight: bold; color: #333; margin: 0;">F.I.O</p>
+                    </td>
+                </tr>
+            </table>
+                        
+        </div>
+    </div>
+</body>
+
+</html>
