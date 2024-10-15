@@ -8,7 +8,7 @@
                 <li class="menu-title">MENU</li>
 
                 <!-- Dashboard -->
-                @can('dashboard.show')
+                {{-- @can('dashboard.show')
                 <li class="{{ Request::is('dashboard*') ? 'mm-active':'' }}">
                     <a href="{{ route('dashboardIndex') }}" class=" waves-effect {{ Request::is('dashboard*') ? 'mm-active':'' }}">
                         <i class="bx bxs-pie-chart-alt-2"></i>
@@ -16,14 +16,14 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                @endcan
+                @endcan --}}
                 <!-- Monitoring -->
                 @can('monitoring.show')
                 <li class="{{ Request::is('monitoring*') ?  'mm-active':'' }}">
                     <a href="{{ route('monitoringIndex') }}" class=" waves-effect {{ Request::is('monitoring*') ? 'mm-active':'' }}">
                         <i class="bx bxs-bar-chart-alt-2"></i>
                         <!-- <sub><i class="fas fa-child"></i></sub> -->
-                        <span>Monitoring</span>
+                        <span>Мониторинг</span>
                     </a>
                 </li>
                 @endcan
@@ -33,7 +33,7 @@
                     <a href="{{ route('files.index') }}" class=" waves-effect {{ Request::is('files*') ? 'mm-active':'' }}">
                         <i class="bx bxs-file"></i>
                         <!-- <sub><i class="fas fa-child"></i></sub> -->
-                        <span>Files</span>
+                        <span>Файлы</span>
                     </a>
                 </li>
 
@@ -48,34 +48,34 @@
                 <li class="{{ (Request::is('company*') || Request::is('category*') || Request::is('driver*') || Request::is('cheque*') || Request::is('long*') || Request::is('employee*') ) ? 'mm-active':''}}">
                     <a href="javascript: void(0);" class="has-arrow waves-effect {{ (Request::is('company*') || Request::is('category*') || Request::is('driver*') || Request::is('cheque*') || Request::is('long*') || Request::is('employee*') ) ? 'mm-active':''}}">
                         <i class="bx bxs-magic-wand"></i>
-                        <span>Manage</span>
+                        <span>Управлять</span>
                     </a>
                     <ul class="sub-menu {{ (Request::is('company*') || Request::is('category*') || Request::is('driver*') || Request::is('cheque*') || Request::is('long*') || Request::is('employee*') ) ? ' ':'d-none'}}" aria-expanded="false">
                         @can('category.show')
                         <li>
                             <a href="{{ route('categoryIndex') }}" class="{{ Request::is('category*') ? 'mm-active':'' }}">
                                 <i class="bx bx-border-all" style="min-width: auto;"></i>
-                                Category
+                                Категория
                             </a>
                         </li>
                         @endcan
 
                         
                   
-                        @can('long-text.show')
+                        {{-- @can('long-text.show')
                         <li>
                             <a href="{{ route('longTextIndex') }}" class="{{ Request::is('long*') ? 'mm-active':'' }}">
                                 <i class="bx bx-text" style="min-width: auto;"></i>
                                 Long Texts
                             </a>
                         </li>
-                        @endcan
+                        @endcan --}}
 
                         @can('employee.show')
                         <li>
                             <a href="{{ route('employeeIndex') }}" class="{{ Request::is('employee*') ? 'mm-active':'' }}">
                                 <i class="bx bxs-user-plus" style="min-width: auto;"></i>
-                                Employee
+                                Сотрудники
                             </a>
                         </li>
                         @endcan
@@ -109,21 +109,23 @@
                             <a href="{{ route('userSetTheme',[auth()->id(),'theme' => 'default']) }}">
                                 <!-- <i class="fas fa-key"></i> -->
                                 <i class="nav-icon fas fa-circle text-info"></i>
-                                Default {{ auth()->user()->theme == 'default' ? '✅':'' }}
+                                По умолчанию
+ {{ auth()->user()->theme == 'default' ? '✅':'' }}
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('userSetTheme',[auth()->id(),'theme' => 'light']) }}">
                                 <!-- <i class="fas fa-key"></i> -->
                                 <i class="nav-icon fas fa-circle text-white"></i>
-                                Light {{ auth()->user()->theme == 'light' ? '✅':'' }}
+                                Светлый {{ auth()->user()->theme == 'light' ? '✅':'' }}
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('userSetTheme',[auth()->id(),'theme' => 'dark']) }}">
                                 <!-- <i class="fas fa-key"></i> -->
                                 <i class="nav-icon fas fa-circle text-gray"></i>
-                                Dark {{ auth()->user()->theme == 'dark' ? '✅':'' }}
+                                Темный
+ {{ auth()->user()->theme == 'dark' ? '✅':'' }}
                             </a>
                         </li>
                     </ul>

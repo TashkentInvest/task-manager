@@ -130,8 +130,6 @@
                             <div class="col-6">
                                 <div class="mb-3">
 
-
-
                                     @php
                                         $remainingDays = $item->planned_completion_date
                                             ? now()->diffInDays($item->planned_completion_date, false)
@@ -141,12 +139,10 @@
                                         $isRejected = !is_null($item->reject_time);
                                     @endphp
 
-
                                     <p class="card-text"><strong>Дата выдачи:</strong> <span
                                             class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span></p>
                                     <p class="card-text"><strong>Срок выполнения:</strong> <span
                                             class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}
-
 
                                             @if (is_int($remainingDays))
                                                 @if ($isRejected)
