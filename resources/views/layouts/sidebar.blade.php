@@ -29,13 +29,13 @@
                 @endcan
 
                 {{-- files start --}}
-                <li class="{{ Request::is('files*') ? 'mm-active':'' }}">
+                {{-- <li class="{{ Request::is('files*') ? 'mm-active':'' }}">
                     <a href="{{ route('files.index') }}" class=" waves-effect {{ Request::is('files*') ? 'mm-active':'' }}">
                         <i class="bx bxs-file"></i>
                         <!-- <sub><i class="fas fa-child"></i></sub> -->
                         <span>Файлы</span>
                     </a>
-                </li>
+                </li> --}}
 
                 {{-- files end --}}
                 <!-- Manage -->
