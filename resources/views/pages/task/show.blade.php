@@ -197,7 +197,7 @@
                             @if ($item->order->checked_status == 2)
                                 <div class="mt-4 border p-3 rounded bg-light">
                                     <h5 class="text-danger">
-                                        <h3>И.О статус</h3> Отказ по поручению
+                                        <h3>Председатель правления статус</h3> Отказ по поручению
                                     </h5>
                                     <p class="card-text"><strong>Комментарий об отказе:</strong></p>
                                     <blockquote class="blockquote">
@@ -208,10 +208,10 @@
                                 </div>
                             @elseif($item->order->checked_status == 1)
                                 <div class="mt-4 border p-3 rounded bg-light">
-                                    <p class="card-text"><strong>И.О статус:</strong></p>
+                                    <p class="card-text"><strong>Председатель правления статус:</strong></p>
                                     <blockquote class="blockquote text-success">
                                         <p class="mb-0">
-                                        <h3>И.О статус</h3> Вазифа тасдиқланди</p>
+                                        <h3>Председатель правления статус</h3> Вазифа тасдиқланди</p>
                                     </blockquote>
 
                                 </div>

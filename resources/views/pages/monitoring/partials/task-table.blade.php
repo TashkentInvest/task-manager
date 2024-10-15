@@ -11,7 +11,7 @@
                 <th scope="col">Дата окончания</th>
                 <th scope="col">Оставшиеся дни</th>
                 <th scope="col">Статус</th>
-                <th scope="col">И.О</th>
+                <th scope="col">Председатель правления</th>
                 <th scope="col">Действия</th>
             </tr>
         </thead>
