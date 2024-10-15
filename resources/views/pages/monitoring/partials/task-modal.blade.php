@@ -72,8 +72,6 @@
                                 <blockquote class="blockquote">
                                     <p class="mb-0">{{ $item->reject_comment }}</p>
                                 </blockquote>
-
-
                                 <p class="card-text mt-3"><strong>Дата отказа:</strong> <span class="text-muted">{{ $item->reject_time }}</span></p>
                             </div>
                         @endif

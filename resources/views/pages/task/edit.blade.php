@@ -28,8 +28,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form id="taskForm" action="{{ route('taskUpdate', $task->id) }}" method="post"
-                        enctype="multipart/form-data">
+                    <form action="{{ route('taskUpdate', $task->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('POST') <!-- Use PUT for update -->
 
@@ -55,62 +54,53 @@
                                 <label>Назначить</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="assign_type" id="assign_role"
-                                        value="role" {{ $task->assign_type == 'role' ? 'checked' : '' }}>
+                                        value="role" {{ old('assign_type', $task->assign_type) == 'role' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="assign_role">Назначить по ролям</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="assign_type"
                                         id="assign_custom_users" value="custom"
-                                        {{ $task->assign_type == 'custom' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="assign_custom_users">Назначить конкретным
-                                        пользователям</label>
+                                        {{ old('assign_type', $task->assign_type) == 'custom' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="assign_custom_users">Назначить конкретным пользователям</label>
                                 </div>
                             </div>
                         </div>
 
-                        @if ($task->assign_type == 'role')
-                            <!-- Roles select field -->
-                            <div class="row" id="rolesSection">
-                                <div class="col-md-12 mb-3">
-                                    <label>Роли</label>
-                                    <select name="roles[]" class="select2 form-control select2-multiple" multiple="multiple"
-                                        style="width: 100%;">
-                                        @foreach ($roles as $role)
-                                            <option value="{{ $role->name }}"
-                                                {{ in_array($role->name, old('roles', $task->roles->pluck('name')->toArray())) ? 'selected' : '' }}>
-                                                {{ $role->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('roles')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                        <!-- Roles select field -->
+                        <div class="row" id="rolesSection" style="{{ old('assign_type', $task->assign_type) == 'role' ? 'display:block;' : 'display:none;' }}">
+                            <div class="col-md-12 mb-3">
+                                <label>Роли</label>
+                                <select name="roles[]" class="select2 form-control select2-multiple" multiple="multiple" style="width: 100%;">
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->name }}"
+                                            {{ in_array($role->name, old('roles', $task->roles->pluck('name')->toArray())) ? 'selected' : '' }}>
+                                            {{ $role->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('roles')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                        @elseif ($task->assign_type == 'custom')
-                            <!-- Custom users select field -->
-                            <div class="row" id="customUsersSection"
-                                style="{{ $task->assign_type == 'custom' ? 'display:block;' : 'display:none;' }}">
-                                <div class="col-md-12 mb-3">
-                                    <label>Custom Users</label>
-                                    <select name="users[]" class="form-control select2" multiple="multiple"
-                                        style="width: 100%;">
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->id }}"
-                                                {{ in_array($user->id, old('users', $task->task_users->pluck('id')->toArray())) ? 'selected' : '' }}>
-                                                {{ $user->name }} ({{ $user->email }})
-                                            </option>
-                                        @endforeach
-                                    </select>
+                        </div>
 
-                                    @error('users')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                        <!-- Custom users select field -->
+                        <div class="row" id="customUsersSection" style="{{ old('assign_type', $task->assign_type) == 'custom' ? 'display:block;' : 'display:none;' }}">
+                            <div class="col-md-12 mb-3">
+                                <label>Пользователи</label>
+                                <select name="users[]" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ in_array($user->id, old('users', $task->task_users->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                            {{ $user->name }} ({{ $user->email }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('users')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                        @else
-                            No data
-                        @endif
+                        </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -147,27 +137,30 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
-                            @if ($task->files && $task->files->count() > 0)
-                                @foreach ($task->files as $file)
-                                    <li>
-                                        {{ $file->name }}
-                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank">View</a>
-                                        @if (auth()->user()->roles[0]->name == 'Super Admin')
-                                            <form action="{{ route('file.delete', $file->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf
-                                                @method('POST')
-                                                <button type="submit" class="btn btn-link text-danger">Delete</button>
-                                            </form>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            @endif
-
-
                         </div>
 
+                        <div class="row">
+                                @if ($task->files && $task->files->count() > 0)
+                                <div class="col-md-12">
+                                    <h5>Закрепленные файлы</h5>
+                                    <ul>
+                                        @foreach ($task->files as $file)
+                                            <li>
+                                                {{ $file->name }}
+                                                <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank">View</a>
+                                                {{-- @if (auth()->user()->roles[0]->name == 'Super Admin')
+                                                    <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-link text-danger">Delete</button>
+                                                    </form>
+                                                @endif --}}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+                            </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -177,16 +170,11 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
-
                         </div>
 
-
                         <div class="form-group mt-2">
-                            <button type="submit" id="submitBtn"
-                                class="btn btn-success float-right">@lang('global.update')</button>
-                            <a href="{{ route('monitoringIndex') }}"
-                                class="btn btn-light waves-effect float-left">@lang('global.cancel')</a>
+                            <button type="submit" id="submitBtn" class="btn btn-success float-right">@lang('global.update')</button>
+                            <a href="{{ route('monitoringIndex') }}" class="btn btn-light waves-effect float-left">@lang('global.cancel')</a>
                         </div>
                     </form>
                 </div>
