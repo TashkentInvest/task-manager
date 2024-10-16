@@ -10,7 +10,7 @@
                 <th scope="col">Дата задачи</th>
                 <th scope="col">Дата окончания</th>
                 <th scope="col">Оставшиеся дни</th>
-                <th scope="col">Статус</th>
+                <th scope="col">Исполнитель</th>
                 <th scope="col">Председатель правления</th>
                 <th scope="col">Действия</th>
             </tr>
@@ -83,58 +83,81 @@
                     </td>
                     <td>
                         @php
-                        $remainingDays = $item->planned_completion_date
-                            ? now()->diffInDays($item->planned_completion_date, false)
-                            : 'N/A';
-                    
-                        // Check if reject_time exists
-                        $isRejected = !is_null($item->reject_time);
-                    @endphp
-                    
-                    @if (is_int($remainingDays))
-                        @if ($isRejected)
-                            @if ($remainingDays >= 0)
-                                <span class="badge badge-soft-success font-size-16 m-1">
-                                     Срок выполнения еще не истек: {{ $remainingDays }} дней осталось
-                                </span>
+                            $remainingDays = $item->planned_completion_date
+                                ? now()->diffInDays($item->planned_completion_date, false)
+                                : 'N/A';
+
+                            // Check if reject_time exists
+                            $isRejected = !is_null($item->reject_time);
+                        @endphp
+
+                        @if (is_int($remainingDays))
+                            @if ($isRejected)
+                                @if ($remainingDays >= 0)
+                                    <span class="badge badge-soft-success font-size-16 m-1">
+                                        Срок выполнения еще не истек: {{ $remainingDays }} дней осталось
+                                    </span>
+                                @else
+                                    <span class="badge badge-soft-danger font-size-16 m-1">
+                                        Срок завершения был {{ abs($remainingDays) }} дней назад
+                                    </span>
+                                @endif
                             @else
-                                <span class="badge badge-soft-danger font-size-16 m-1">
-                                     Срок завершения был {{ abs($remainingDays) }} дней назад
-                                </span>
+                                @if ($remainingDays > 0)
+                                    <span class="badge badge-soft-warning font-size-16 m-1">
+                                        {{ $remainingDays }} дней осталось
+                                    </span>
+                                @elseif ($remainingDays < 0)
+                                    <span class="badge badge-soft-danger font-size-16 m-1">
+                                        {{ abs($remainingDays) }} дней просрочено
+                                    </span>
+                                @else
+                                    <span class="badge badge-soft-warning font-size-16 m-1">
+                                        Срок сегодня
+                                    </span>
+                                @endif
                             @endif
                         @else
-                            @if ($remainingDays > 0)
-                                <span class="badge badge-soft-warning font-size-16 m-1">
-                                    {{ $remainingDays }} дней осталось
-                                </span>
-                            @elseif ($remainingDays < 0)
-                                <span class="badge badge-soft-danger font-size-16 m-1">
-                                    {{ abs($remainingDays) }} дней просрочено
-                                </span>
-                            @else
-                                <span class="badge badge-soft-warning font-size-16 m-1">
-                                    Срок сегодня
-                                </span>
-                            @endif
+                            N/A
                         @endif
-                    @else
-                        N/A
-                    @endif
-                    
+
                     </td>
-                    <td>
+                    {{-- <td>
                         <div class="d-flex align-items-center">
                             <span class="badge badge-soft-{{ $item->status->getColor() }} font-size-16 m-1">
                                 {{ $item->status->name }}
                             </span>
-                            {{-- <span class="badge badge-soft-success }} font-size-16 m-1">
-                                Completed
+                    
+                        </div>
+                    </td> --}}
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <span class="badge badge-soft-{{ $item->status->getColor() }} font-size-16 m-1">
+                                @if ($item->status->name == 'Active')
+                                    Активный
+                                @elseif($item->status->name == 'Canceled')
+                                    Отмененный
+                                @elseif($item->status->name == 'Accepted')
+                                    Принятый
+                                @elseif($item->status->name == 'Completed')
+                                    Завершенный
+                                @elseif($item->status->name == 'Deleted')
+                                    Удаленный
+                                @elseif($item->status->name == 'ORDER_ACTIVE')
+                                    Заказ активен
+                                @elseif($item->status->name == 'TIME_IS_OVER')
+                                    Время истекло
+                                @elseif($item->status->name == 'ADMIN_REJECT')
+                                    Отклонен администратором
+                                @elseif($item->status->name == 'XODIM_REJECT')
+                                    Отклонен сотрудником
+                                @else
+                                    {{ $item->status->name }} <!-- Default to original name if not matched -->
+                                @endif
                             </span>
-                            <span class="badge badge-soft-primary }} font-size-16 m-1">
-                                Active
-                            </span> --}}
                         </div>
                     </td>
+
                     <td>
                         @if (isset($item->order))
                             @if ($item->order->checked_status == 1)
