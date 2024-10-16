@@ -222,13 +222,13 @@
                             @if ($item->order->checked_status == 2)
                                 <div class="mt-4 border p-3 rounded bg-light">
                                     <h5 class="text-danger">
-                                        <h3>Председатель правления статус</h3> Отказ по поручению
+                                        <h3>Председатель правления статус</h3> Восстановить по поручению
                                     </h5>
-                                    <p class="card-text"><strong>Комментарий об отказе:</strong></p>
+                                    <p class="card-text"><strong>Комментарий об восстановление:</strong></p>
                                     <blockquote class="blockquote">
                                         <p class="mb-0">{{ $item->order->checked_comment }}</p>
                                     </blockquote>
-                                    <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
+                                    <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
                                             class="text-muted">{{ $item->reject_time }}</span></p>
                                 </div>
                             @elseif($item->order->checked_status == 1)
@@ -246,10 +246,10 @@
                             @if ($item->reject_comment != null)
                                 <h3>Ходим статус</h3>
                                 <div class="mt-4 border p-3 rounded bg-light">
-                                    <h5 class="text-danger">Отказ по поручению</h5>
+                                    <h5 class="text-danger">Восстановить по поручению</h5>
                                     <p class="card-text"><strong>Кто отклонил:</strong> <span
                                             class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
-                                    <p class="card-text"><strong>Комментарий об отказе:</strong></p>
+                                    <p class="card-text"><strong>Комментарий об восстановление:</strong></p>
                                     <blockquote class="blockquote">
                                         <p class="mb-0">{{ $item->reject_comment }}</p>
                                     </blockquote>
@@ -285,7 +285,7 @@
                                         <p>Нет загруженных файлов.</p>
                                     @endif
 
-                                    <p class="card-text mt-3"><strong>Дата отказа:</strong> <span
+                                    <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
                                             class="text-muted">{{ $item->reject_time }}</span></p>
                                 </div>
                             @else
@@ -325,7 +325,7 @@
                                     <button type="submit" class="btn btn-success">Принят</button>
                                 </form>
                                 <button class="btn btn-danger mx-2" data-bs-toggle="modal"
-                                    data-bs-target="#rejectModal">Отказ</button>
+                                    data-bs-target="#rejectModal">Восстановить</button>
                             @else
                                 @if ($item->status->name == 'Active' && auth()->user()->roles[0]->name != 'Super Admin')
                                     <form action="{{ route('orders.store') }}" method="POST">
@@ -345,7 +345,7 @@
                                     <button type="submit" class="btn btn-success">Закончить</button>
                                 </form>
                                 <button class="btn btn-danger mx-2" data-bs-toggle="modal"
-                                    data-bs-target="#rejectModalEmp">Отказ</button>
+                                    data-bs-target="#rejectModalEmp">Восстановить</button>
                             @endif
                         </div>
                     </div>
@@ -358,7 +358,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="rejectModalLabel">Отказ по поручению ID: {{ $item->id }}</h5>
+                        <h5 class="modal-title" id="rejectModalLabel">Восстановить по поручению ID: {{ $item->id }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -367,13 +367,13 @@
                             <input type="hidden" name="task_id" value="{{ $item->id }}">
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                             <div class="mb-3">
-                                <label for="checked_comment" class="form-label">Комментарий об отказе</label>
+                                <label for="checked_comment" class="form-label">Комментарий об восстановление</label>
                                 <textarea class="form-control" id="checked_comment" name="checked_comment" rows="3" required></textarea>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Отменить</button>
-                                <button type="submit" class="btn btn-danger">Отказ</button>
+                                <button type="submit" class="btn btn-danger">Восстановить</button>
                             </div>
                         </form>
                     </div>
@@ -387,7 +387,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="rejectModalEmpLabel">Отказ по поручению ID: {{ $item->id }}</h5>
+                        <h5 class="modal-title" id="rejectModalEmpLabel">Восстановить по поручению ID: {{ $item->id }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -396,7 +396,7 @@
                             <input type="hidden" name="task_id" value="{{ $item->id }}">
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                             <div class="mb-3">
-                                <label for="reject_comment" class="form-label">Комментарий об отказе</label>
+                                <label for="reject_comment" class="form-label">Комментарий об восстановление</label>
                                 <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required></textarea>
                             </div>
                             <div class="mb-3">
@@ -406,7 +406,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Отменить</button>
-                                <button type="submit" class="btn btn-danger">Отказ</button>
+                                <button type="submit" class="btn btn-danger">Восстановить</button>
                             </div>
                         </form>
                     </div>

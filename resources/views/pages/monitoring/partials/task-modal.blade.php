@@ -64,15 +64,15 @@
 
                         @if ($item->reject_comment)
                             <div class="mt-4 border p-3 rounded bg-light">
-                                <h5 class="text-danger"><i class="bi bi-exclamation-circle"></i> Отказ по поручению</h5>
+                                <h5 class="text-danger"><i class="bi bi-exclamation-circle"></i> Восстановить по поручению</h5>
                                 @if (isset($item->order))
                                     <p class="card-text"><strong>Кто отклонил:</strong> <span class="text-warning">{{ $item->order->user->name }}</span></p>
                                 @endif
-                                <p class="card-text"><strong>Комментарий об отказе:</strong></p>
+                                <p class="card-text"><strong>Комментарий об восстановление:</strong></p>
                                 <blockquote class="blockquote">
                                     <p class="mb-0">{{ $item->reject_comment }}</p>
                                 </blockquote>
-                                <p class="card-text mt-3"><strong>Дата отказа:</strong> <span class="text-muted">{{ $item->reject_time }}</span></p>
+                                <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span class="text-muted">{{ $item->reject_time }}</span></p>
                             </div>
                         @endif
                     </tbody>
