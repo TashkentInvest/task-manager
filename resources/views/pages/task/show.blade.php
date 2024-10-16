@@ -229,7 +229,8 @@
                                         <p class="mb-0">{{ $item->order->checked_comment }}</p>
                                     </blockquote>
                                     <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
-                                            class="text-muted">{{ $item->checked_time ?? '' }}</span></p>
+                                            class="text-muted">{{ $item->order->checked_time ?? '' }}</span></p>
+                                            
                                 </div>
                             @elseif($item->order->checked_status == 1)
                                 <div class="mt-4 border p-3 rounded bg-light">
@@ -239,6 +240,8 @@
                                         <h3>Председатель правления статус</h3> Вазифа тасдиқланди</p>
                                     </blockquote>
 
+                                    <p class="card-text mt-3"><strong>Дата одобрения:</strong> <span
+                                        class="text-muted">{{ $item->order->checked_time ?? '' }}</span></p>
                                 </div>
                             @endif
 
