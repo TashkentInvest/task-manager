@@ -21,6 +21,7 @@ class Order extends Model
         'completed_time',
         'checked_status',
         'checked_comment',
+        'checked_time'
     ];
 
     public static function deepFilters()

@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
             
             $table->integer('checked_status')->default(0); // ceo will check and will approve
             $table->text('checked_comment')->nullable(); 
+            $table->dateTime('checked_time')->nullable(); 
 
             $table->softDeletes();
 

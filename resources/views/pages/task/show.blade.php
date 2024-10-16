@@ -229,7 +229,7 @@
                                         <p class="mb-0">{{ $item->order->checked_comment }}</p>
                                     </blockquote>
                                     <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
-                                            class="text-muted">{{ $item->reject_time }}</span></p>
+                                            class="text-muted">{{ $item->checked_time ?? '' }}</span></p>
                                 </div>
                             @elseif($item->order->checked_status == 1)
                                 <div class="mt-4 border p-3 rounded bg-light">
@@ -317,14 +317,14 @@
                                 </form>
                             @endif --}}
                             @if (auth()->user()->roles[0]->name == 'Super Admin' && $item->status->name != 'Active')
-                                <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info mx-2">Редактировать</a>
+                                <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-warning mx-2">Редактировать</a>
                                 <form action="{{ route('orders.admin_confirm') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="task_id" value="{{ $item->id }}">
                                     <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                                     <button type="submit" class="btn btn-success">Принят</button>
                                 </form>
-                                <button class="btn btn-danger mx-2" data-bs-toggle="modal"
+                                <button class="btn btn-primary mx-2" data-bs-toggle="modal"
                                     data-bs-target="#rejectModal">Восстановить</button>
                             @else
                                 @if ($item->status->name == 'Active' && auth()->user()->roles[0]->name != 'Super Admin')
@@ -344,7 +344,7 @@
                                     <input type="hidden" name="task_id" value="{{ $item->id }}">
                                     <button type="submit" class="btn btn-success">Закончить</button>
                                 </form>
-                                <button class="btn btn-danger mx-2" data-bs-toggle="modal"
+                                <button class="btn btn-primary mx-2" data-bs-toggle="modal"
                                     data-bs-target="#rejectModalEmp">Восстановить</button>
                             @endif
                         </div>
@@ -357,7 +357,7 @@
         <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
+                    <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="rejectModalLabel">Восстановить по поручению ID: {{ $item->id }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -373,7 +373,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Отменить</button>
-                                <button type="submit" class="btn btn-danger">Восстановить</button>
+                                <button type="submit" class="btn btn-primary">Восстановить</button>
                             </div>
                         </form>
                     </div>
@@ -386,7 +386,7 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
+                    <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="rejectModalEmpLabel">Восстановить по поручению ID: {{ $item->id }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -406,7 +406,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Отменить</button>
-                                <button type="submit" class="btn btn-danger">Восстановить</button>
+                                <button type="submit" class="btn btn-primary">Восстановить</button>
                             </div>
                         </form>
                     </div>

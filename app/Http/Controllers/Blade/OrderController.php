@@ -125,9 +125,10 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Order not found!');
         }
 
-        // Update the order status and save
         $order->checked_status = 1; // Confirmed
-        $order->checked_comment = null; // Clear any comment if needed
+        $order->checked_comment = null; 
+        $order->checked_time = now(); 
+
         $order->save();
 
         return redirect()->back()->with('success', 'Order confirmed!');
@@ -145,9 +146,10 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Order not found!');
         }
 
-        // Update the order status and save
         $order->checked_status = 2; // Rejected
-        $order->checked_comment = $request->checked_comment; // Store the rejection comment
+        $order->checked_comment = $request->checked_comment; 
+        $order->checked_time = now(); 
+
         $order->save();
 
         return redirect()->back()->with('success', 'Order rejected with comment!');
