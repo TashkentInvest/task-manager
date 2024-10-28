@@ -302,6 +302,39 @@
                                             <p class="mb-0">Вазифа якунланди</p>
                                         </blockquote>
 
+                                        @if ($item->files && count($item->files) > 0)
+                                        <h5>Загруженные файлы:</h5>
+                                        <ul class="list-group">
+                                            @foreach ($item->files as $file)
+                                            @dd($file)
+                                                @php
+                                                    // Build the file path
+                                                    $filePath = public_path('porucheniya/complete/' . $file->file_name);
+                                                @endphp
+
+                                                @if (file_exists($filePath))
+                                                    <!-- Check if the file exists in the specified directory -->
+                                                    <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <span>
+                                                            <a href="{{ asset('porucheniya/complete/' . $file->file_name) }}"
+                                                                class="btn btn-primary" target="_blank">{{$file->name}} Посмотреть</a>
+                                                            <form action="{{ route('file.delete', $file->id) }}"
+                                                                method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Удалить</button>
+                                                            </form>
+                                                        </span>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p>Нет загруженных файлов.</p>
+                                    @endif
+
                                         <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
                                                 class="text-muted">{{ $item->reject_time }}</span></p>
                                     </div>
@@ -342,13 +375,18 @@
                                 @endif
                             @endif
                             @if (auth()->user()->roles[0]->name != 'Super Admin' && $item->status->name != 'Active')
-                                <form action="{{ route('orders.complete') }}" method="POST">
+                                {{-- <form action="{{ route('orders.complete') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="task_id" value="{{ $item->id }}">
                                     <button type="submit" class="btn btn-success">Закончить</button>
-                                </form>
-                                <button class="btn btn-primary mx-2" data-bs-toggle="modal"
-                                    data-bs-target="#rejectModalEmp">Восстановить</button>
+                                </form> --}}
+
+                                <button class="btn btn-success mx-2" data-bs-toggle="modal"
+                                data-bs-target="#finishModalEmp">Завершить</button>
+
+                                {{-- finishModalEmp --}}
+                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#rejectModalEmp">Отказ</button>
                             @endif
                         </div>
                     </div>
@@ -389,8 +427,8 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title" id="rejectModalEmpLabel">Восстановить по поручению ID: {{ $item->id }}</h5>
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="rejectModalEmpLabel">Отказ по поручению ID: {{ $item->id }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -399,7 +437,7 @@
                             <input type="hidden" name="task_id" value="{{ $item->id }}">
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                             <div class="mb-3">
-                                <label for="reject_comment" class="form-label">Комментарий об восстановление</label>
+                                <label for="reject_comment" class="form-label">Комментарий об Отказе</label>
                                 <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required></textarea>
                             </div>
                             <div class="mb-3">
@@ -409,13 +447,45 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Отменить</button>
-                                <button type="submit" class="btn btn-primary">Восстановить</button>
+                                <button type="submit" class="btn btn-danger">Отказ</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="finishModalEmp" tabindex="-1" aria-labelledby="finishModalEmpLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="finishModalEmpLabel">Восстановить по поручению ID: {{ $item->id }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('orders.complete') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="task_id" value="{{ $item->id }}">
+                        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                        <div class="mb-3">
+                            <label for="reject_comment" class="form-label">Комментарий об восстановление</label>
+                            <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="attached_file" class="form-label">Загрузить файл</label>
+                            <input type="file" class="form-control" id="attached_file" name="attached_file[]" multiple>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Отменить</button>
+                            <button type="submit" class="btn btn-success">Завершить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     </div>
 @endsection

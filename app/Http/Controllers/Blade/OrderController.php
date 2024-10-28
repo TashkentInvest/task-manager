@@ -85,10 +85,15 @@ class OrderController extends Controller
     {
         $request->validate([
             'task_id' => 'required|exists:tasks,id',
+            'reject_comment' => 'required|string|max:255',
+            'attached_file.*' => 'nullable', // Adjust file types and size as needed
         ]);
 
+     
         // Find the task first
         $task = Tasks::findOrFail($request->task_id);
+        $task->reject_comment = $request->reject_comment;
+
         $task->reject_time = now(); // Update the task status
 
 
@@ -108,6 +113,26 @@ class OrderController extends Controller
             $order->finished_user_id = auth()->id(); // Set the finished user ID
             $task->save(); // Save the task
             $order->save(); // Save the order
+        }
+
+        if ($request->hasFile('attached_file')) {
+            foreach ($request->file('attached_file') as $file) {
+                // Check if the file is valid
+                if ($file->isValid()) {
+                    $fileName = time() . '_' . Str::random(5) . '_' . $file->getClientOriginalName(); // Create a unique name
+                    $file->move(public_path('porucheniya/complete'), $fileName); // Move file to the directory
+
+                    // Save file information to the database
+                    File::create([
+                        'user_id' => auth()->user()->id,
+                        'task_id' => $order->id,
+                        'name' => $file->getClientOriginalName(), // Store the original name
+                        'file_name' => $fileName, // Store the unique name
+                        'department' => null, // Set this as needed
+                        'slug' => null, // Generate a slug if necessary
+                    ]);
+                }
+            }
         }
 
         return redirect()->back()->with('success', 'Task status updated to Completed!');
