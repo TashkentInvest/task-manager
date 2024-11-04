@@ -306,10 +306,11 @@
                                         <h5>Загруженные файлы:</h5>
                                         <ul class="list-group">
                                             @foreach ($item->files as $file)
-                                            @dd($file)
+                                            {{-- @dd($file) --}}
                                                 @php
                                                     // Build the file path
                                                     $filePath = public_path('porucheniya/complete/' . $file->file_name);
+                                                    // dd($filePath)
                                                 @endphp
 
                                                 @if (file_exists($filePath))
