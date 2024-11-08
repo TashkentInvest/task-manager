@@ -158,6 +158,17 @@ class OrderController extends Controller
             'checked_comment' => 'required|string|max:255',
         ]);
 
+        $task = Tasks::findOrFail($request->task_id);
+        $task->reject_comment = $request->reject_comment;
+        $task->reject_time = now(); // Update the task status
+
+        // Get the 'Completed' status
+        $status = \App\Models\TaskStatus::where('name', 'Active')->first();
+        if ($status) {
+            $task->status_id = $status->id; // Update the task status
+            $task->save(); // Save the task
+        }
+
         $order = Order::where('task_id', $request->task_id)->first();
         if (!$order) {
             return redirect()->back()->with('error', 'Order not found!');
