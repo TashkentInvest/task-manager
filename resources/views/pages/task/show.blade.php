@@ -411,7 +411,7 @@
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                             <div class="mb-3">
                                 <label for="reject_comment" class="form-label">Комментарий об Отказе</label>
-                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required></textarea>
+                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required>{{old('reject_comment',$item->reject_comment)}}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="attached_file" class="form-label">Загрузить файл</label>
@@ -445,7 +445,7 @@
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                             <div class="mb-3">
                                 <label for="reject_comment" class="form-label">Комментарий об завершении</label>
-                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required></textarea>
+                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required> {{old('reject_comment',$item->reject_comment)}}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="attached_file" class="form-label">Загрузить файл</label>
