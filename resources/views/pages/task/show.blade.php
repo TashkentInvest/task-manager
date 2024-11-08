@@ -250,7 +250,7 @@
                             @endif
 
                             {{-- Employee Rejection Comments --}}
-                            @if ($item->status->id == 4)
+                            @if ($item->status->id != 4)
                                 <h3>Ходим статус</h3>
                                 <div class="mt-4 border p-3 rounded bg-light">
                                     <h5 class="text-danger">Восстановить по поручению</h5>
@@ -306,18 +306,18 @@
                                         <p class="mb-0">Вазифа якунланди</p>
                                     </blockquote>
 
-                                    {{-- @if ($item->files && count($item->files) > 0) --}}
+                                    @if ($item->files && count($item->files) > 0)
                                         <h5>Загруженные файлы:</h5>
                                         <ul class="list-group">
                                             @foreach ($item->files as $file)
                                                 {{-- @dd($file) --}}
-                                                {{-- @php
+                                                @php
                                                     // Build the file path
                                                     $filePath = public_path('porucheniya/complete/' . $file->file_name);
                                                     // dd($filePath)
-                                                @endphp --}}
+                                                @endphp
 
-                                                {{-- @if (file_exists($filePath)) --}}
+                                                @if (file_exists($filePath))
                                                     <!-- Check if the file exists in the specified directory -->
                                                     <li
                                                         class="list-group-item d-flex justify-content-between align-items-center">
@@ -334,12 +334,12 @@
                                                             </form>
                                                         </span>
                                                     </li>
-                                                {{-- @endif --}}
+                                                @endif
                                             @endforeach
                                         </ul>
-                                    {{-- @else
+                                    @else
                                         <p>Нет загруженных файлов.</p>
-                                    @endif --}}
+                                    @endif
 
                                     <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
                                             class="text-muted">{{ $item->reject_time }}</span></p>
