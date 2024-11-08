@@ -7,7 +7,6 @@ use App\Models\File;
 use App\Models\Order;
 use App\Models\Tasks;
 use Illuminate\Http\Request;
-use Str;
 
 class OrderController extends Controller
 {
@@ -61,7 +60,7 @@ class OrderController extends Controller
             foreach ($request->file('attached_file') as $file) {
                 // Check if the file is valid
                 if ($file->isValid()) {
-                    $fileName = time() . '_' . Str::random(5) . '_' . $file->getClientOriginalName(); // Create a unique name
+                    $fileName = time() . '_' . '_' . $file->getClientOriginalName(); // Create a unique name
                     $file->move(public_path('porucheniya/reject'), $fileName); // Move file to the directory
 
                     // Save file information to the database
@@ -107,7 +106,7 @@ class OrderController extends Controller
         $status = \App\Models\TaskStatus::where('name', 'Completed')->first();
         if ($status) {
             $task->status_id = $status->id; // Update the task status
-            $task->reject_comment = null; // Update the task status
+            $task->reject_comment = $request->reject_comment; // Update the task status
             $task->reject_time = now(); // Update the task status
 
             $order->finished_user_id = auth()->id(); // Set the finished user ID
@@ -119,7 +118,7 @@ class OrderController extends Controller
             foreach ($request->file('attached_file') as $file) {
                 // Check if the file is valid
                 if ($file->isValid()) {
-                    $fileName = time() . '_' . Str::random(5) . '_' . $file->getClientOriginalName(); // Create a unique name
+                    $fileName = time() . '_' . '_' . $file->getClientOriginalName(); // Create a unique name
                     $file->move(public_path('porucheniya/complete'), $fileName); // Move file to the directory
 
                     // Save file information to the database
