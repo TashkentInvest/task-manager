@@ -237,4 +237,31 @@ class Tasks extends Model
     {
         return $this->hasMany(File::class, 'task_id'); // Assuming 'task_id' is the foreign key in the files table
     }
+
+    public function getFilesInDirectory($subDirectory = '')
+    {
+        $filesInDirectory = collect();
+        foreach ($this->files as $file) {
+            $filePath = public_path('porucheniya' . ($subDirectory ? '/' . $subDirectory : '') . '/' . $file->file_name);
+            if (file_exists($filePath)) {
+                $filesInDirectory->push($file);
+            }
+        }
+        return $filesInDirectory;
+    }
+
+    public function getCompleteFiles()
+    {
+        return $this->getFilesInDirectory('complete');
+    }
+
+    public function getRejectFiles()
+    {
+        return $this->getFilesInDirectory('reject');
+    }
+
+    public function getInitialFiles()
+    {
+        return $this->getFilesInDirectory();
+    }
 }

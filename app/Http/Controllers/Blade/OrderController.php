@@ -37,40 +37,40 @@ class OrderController extends Controller
     {
         // Validate the request
         $request->validate([
-            'reject_comment' => 'required|string|max:255',
-            'attached_file.*' => 'nullable', // Adjust file types and size as needed
+            'reject_comment'   => 'required|string|max:255',
+            'attached_file.*'  => 'nullable|file', // Adjust file types and size as needed
         ]);
 
-        // Find the order and update its status
-        $order = Tasks::findOrFail($request->task_id);
+        // Find the task and update its status
+        $task = Tasks::findOrFail($request->task_id);
 
         // Set the status to rejected
         $status = \App\Models\TaskStatus::where('name', 'XODIM_REJECT')->first();
         if ($status) {
-            $order->status_id = $status->id;
+            $task->status_id = $status->id;
         }
 
         // Save the rejection comment and time
-        $order->reject_comment = $request->reject_comment;
-        $order->reject_time = now();
-        $order->save();
+        $task->reject_comment = $request->reject_comment;
+        $task->reject_time = now();
+        $task->save();
 
         // Handle file uploads
         if ($request->hasFile('attached_file')) {
             foreach ($request->file('attached_file') as $file) {
                 // Check if the file is valid
                 if ($file->isValid()) {
-                    $fileName = time() . '_' . '_' . $file->getClientOriginalName(); // Create a unique name
+                    $fileName = time() . '_' . $file->getClientOriginalName(); // Create a unique name
                     $file->move(public_path('porucheniya/reject'), $fileName); // Move file to the directory
 
                     // Save file information to the database
                     File::create([
-                        'user_id' => auth()->user()->id,
-                        'task_id' => $order->id,
-                        'name' => $file->getClientOriginalName(), // Store the original name
+                        'user_id'   => auth()->user()->id,
+                        'task_id'   => $task->id,
+                        'name'      => $file->getClientOriginalName(), // Store the original name
                         'file_name' => $fileName, // Store the unique name
-                        'department' => null, // Set this as needed
-                        'slug' => null, // Generate a slug if necessary
+                        'department'=> null, // Set this as needed
+                        'slug'      => null, // Generate a slug if necessary
                     ]);
                 }
             }
@@ -79,56 +79,49 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Order rejected and files uploaded successfully!');
     }
 
-
     public function complete(Request $request)
     {
         $request->validate([
-            'task_id' => 'required|exists:tasks,id',
+            'task_id'        => 'required|exists:tasks,id',
             'reject_comment' => 'required|string|max:255',
-            'attached_file.*' => 'nullable', // Adjust file types and size as needed
+            'attached_file.*'=> 'nullable|file', // Adjust file types and size as needed
         ]);
 
-     
         // Find the task first
         $task = Tasks::findOrFail($request->task_id);
         $task->reject_comment = $request->reject_comment;
-
         $task->reject_time = now(); // Update the task status
-
-
-        // Find the order associated with this task
-        $order = Order::where('task_id', $task->id)->first();
-        if (!$order) {
-            return redirect()->back()->with('error', 'Order not found!');
-        }
 
         // Get the 'Completed' status
         $status = \App\Models\TaskStatus::where('name', 'Completed')->first();
         if ($status) {
             $task->status_id = $status->id; // Update the task status
-            $task->reject_comment = $request->reject_comment; // Update the task status
-            $task->reject_time = now(); // Update the task status
-
-            $order->finished_user_id = auth()->id(); // Set the finished user ID
             $task->save(); // Save the task
+        }
+
+        // Update order information
+        $order = Order::where('task_id', $task->id)->first();
+        if ($order) {
+            $order->finished_user_id = auth()->id(); // Set the finished user ID
             $order->save(); // Save the order
         }
 
+        // Handle file uploads
         if ($request->hasFile('attached_file')) {
             foreach ($request->file('attached_file') as $file) {
                 // Check if the file is valid
                 if ($file->isValid()) {
-                    $fileName = time() . '_' . '_' . $file->getClientOriginalName(); // Create a unique name
+                    $fileName = time() . '_' . $file->getClientOriginalName(); // Create a unique name
                     $file->move(public_path('porucheniya/complete'), $fileName); // Move file to the directory
 
                     // Save file information to the database
                     File::create([
-                        'user_id' => auth()->user()->id,
-                        'task_id' => $order->id,
-                        'name' => $file->getClientOriginalName(), // Store the original name
+                        'user_id'   => auth()->user()->id,
+                        'task_id'   => $task->id,
+                        'name'      => $file->getClientOriginalName(), // Store the original name
                         'file_name' => $fileName, // Store the unique name
-                        'department' => null, // Set this as needed
-                        'slug' => null, // Generate a slug if necessary
+                        'department'=> null, // Set this as needed
+                        'slug'      => null, // Generate a slug if necessary
                     ]);
                 }
             }
@@ -161,7 +154,7 @@ class OrderController extends Controller
     public function adminReject(Request $request)
     {
         $request->validate([
-            'task_id' => 'required|exists:tasks,id',
+            'task_id'         => 'required|exists:tasks,id',
             'checked_comment' => 'required|string|max:255',
         ]);
 
