@@ -292,7 +292,7 @@
                                             class="text-muted">{{ $item->reject_time }}</span></p>
                                 </div>
                             @else
-                                @if ($item->status->id == 4)
+                                {{-- @if ($item->status->id == 4) --}}
                                     <div class="mt-4 border p-3 rounded bg-light">
                                         <h5 class="text-success">Завершено</h5>
                                         <p class="card-text"><strong>Кто закончил:</strong> <span
@@ -339,7 +339,7 @@
                                         <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
                                                 class="text-muted">{{ $item->reject_time }}</span></p>
                                     </div>
-                                @endif
+                                {{-- @endif --}}
                             @endif
                         @endif
 
