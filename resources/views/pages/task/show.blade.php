@@ -118,7 +118,7 @@
 
                                     <p class="card-text"><strong>Закрепленный файл:</strong>
                                         @php
-                                            $initialFiles = $item->files->filter(function($file) {
+                                            $initialFiles = $item->files->filter(function ($file) {
                                                 return file_exists(public_path('porucheniya/' . $file->file_name));
                                             });
                                         @endphp
@@ -130,7 +130,8 @@
                                                         <span class="badge badge-soft-primary font-size-16 m-1">
                                                             {{ $file->name }}
                                                         </span>
-                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank"> Скачать </a>
+                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}"
+                                                            target="_blank"> Скачать </a>
                                                         @if (auth()->user()->roles[0]->name == 'Super Admin')
                                                             <form action="{{ route('file.delete', $file->id) }}"
                                                                 method="POST" style="display:inline;">
@@ -247,7 +248,7 @@
                                         <p class="mb-0">{{ $item->reject_comment }}</p>
                                     </blockquote>
                                     @php
-                                        $rejectFiles = $item->files->filter(function($file) {
+                                        $rejectFiles = $item->files->filter(function ($file) {
                                             return file_exists(public_path('porucheniya/reject/' . $file->file_name));
                                         });
                                     @endphp
@@ -255,17 +256,17 @@
                                         <h5>Загруженные файлы:</h5>
                                         <ul class="list-group">
                                             @foreach ($rejectFiles as $file)
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
                                                     <span>
                                                         <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}"
                                                             class="btn btn-primary" target="_blank">{{ $file->name }}
                                                             Посмотреть</a>
-                                                        <form action="{{ route('file.delete', $file->id) }}"
-                                                            method="POST" style="display:inline;">
+                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
+                                                            style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit"
-                                                                class="btn btn-danger">Удалить</button>
+                                                            <button type="submit" class="btn btn-danger">Удалить</button>
                                                         </form>
                                                     </span>
                                                 </li>
@@ -284,12 +285,15 @@
                                     <p class="card-text"><strong>Кто закончил:</strong> <span
                                             class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span>
                                     </p>
+
+
                                     <blockquote class="blockquote text-success">
                                         <p class="mb-0">Вазифа якунланди</p>
+                                        <p class="mb-0">{{ $item->reject_comment }}</p>
                                     </blockquote>
 
                                     @php
-                                        $completeFiles = $item->files->filter(function($file) {
+                                        $completeFiles = $item->files->filter(function ($file) {
                                             return file_exists(public_path('porucheniya/complete/' . $file->file_name));
                                         });
                                     @endphp
@@ -298,17 +302,17 @@
                                         <h5>Загруженные файлы:</h5>
                                         <ul class="list-group">
                                             @foreach ($completeFiles as $file)
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
                                                     <span>
                                                         <a href="{{ asset('porucheniya/complete/' . $file->file_name) }}"
                                                             class="btn btn-primary" target="_blank">{{ $file->name }}
                                                             Посмотреть</a>
-                                                        <form action="{{ route('file.delete', $file->id) }}"
-                                                            method="POST" style="display:inline;">
+                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
+                                                            style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit"
-                                                                class="btn btn-danger">Удалить</button>
+                                                            <button type="submit" class="btn btn-danger">Удалить</button>
                                                         </form>
                                                     </span>
                                                 </li>
