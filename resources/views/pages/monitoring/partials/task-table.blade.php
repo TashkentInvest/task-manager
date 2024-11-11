@@ -93,7 +93,7 @@
 
                         @if (is_int($remainingDays))
                             @if ($isRejected)
-                                @if ($remainingDays >= 0)
+                                @if ($remainingDays >= 0 && $item->order->$order->checked_status == 1)
                                     <span class="badge badge-soft-success font-size-16 m-1">
                                         Срок выполнения еще не истек: {{ $remainingDays }} дней осталось
                                     </span>
