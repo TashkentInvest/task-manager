@@ -1,9 +1,21 @@
 <!-- resources/views/partials/task-table.blade.php -->
 <div class="table-responsive">
+    <style>
+        th,
+        td {
+            width: 100px;
+            max-width: 100px;
+            word-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
     <table class="table table-nowrap align-middle table-borderless">
         <thead class="table-light">
             <tr>
-                <th scope="col">#</th>
+                {{-- <th scope="col">#</th> --}}
                 <th scope="col">Поручитель</th>
                 <th scope="col">Департамент / Исполнитель</th>
                 <th scope="col">Краткое название</th>
@@ -18,7 +30,7 @@
         <tbody>
             @forelse ($tasks as $item)
                 <tr>
-                    <td>{{ $item->id }}</td>
+                    {{-- <td>{{ $item->id }}</td> --}}
                     <td>{{ $item->user->name }}</td>
                     <td>
                         @if ($item->assign_type == 'role')
@@ -59,7 +71,7 @@
                                         </span>
                                         <span class="badge bg-secondary text-light p-2 m-1">
                                             <i class="fas fa-users"></i> {{ $users->count() }} пользователей
-                                            назначено
+                                                назначено
                                         </span>
                                     @else
                                         <span class="badge bg-primary text-light p-2 m-1">
@@ -79,8 +91,7 @@
 
                     <td>{{ $item->short_title }}</td>
                     <td>{{ $item->issue_date ?? 'Не указана' }}</td>
-                    <td>{{ $item->planned_completion_date ?? 'Не указана' }}
-                    </td>
+                    <td>{{ $item->planned_completion_date ?? 'Не указана' }}</td>
                     <td>
                         @php
                             $remainingDays = $item->planned_completion_date
@@ -127,7 +138,6 @@
                             <span class="badge badge-soft-{{ $item->status->getColor() }} font-size-16 m-1">
                                 {{ $item->status->name }}
                             </span>
-                    
                         </div>
                     </td> --}}
                     <td>
@@ -152,7 +162,7 @@
                                 @elseif($item->status->name == 'XODIM_REJECT')
                                     Отклонен сотрудником
                                 @else
-                                    {{ $item->status->name }} <!-- Default to original name if not matched -->
+                                    {{ $item->status->name }}
                                 @endif
                             </span>
                         </div>
@@ -219,7 +229,9 @@
 
                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Посмотреть">
                                 <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">
-                                    <i class="bx bxs-link"></i> Посмотреть
+                                    {{-- <i class="bx bxs-link"></i>  --}}
+                                    <i class="bx bxs-show"></i>
+
                                 </a>
                             </li>
 
@@ -232,7 +244,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" class="text-center">
+                    <td colspan="9" class="text-center">
                         <img src="{{ asset('assets/images/empty.png') }}" alt="No Data" width="50%">
                     </td>
                 </tr>
