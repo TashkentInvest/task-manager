@@ -19,11 +19,11 @@
                 <th scope="col">Поручитель</th>
                 <th scope="col">Департамент / Исполнитель</th>
                 <th scope="col">Краткое название</th>
-                <th scope="col">Дата задачи</th>
-                <th scope="col">Дата окончания</th>
+                <th scope="col">Дата задачи / Дата окончания</th>
+                {{-- <th scope="col"></th> --}}
                 <th scope="col">Оставшиеся дни</th>
                 <th scope="col">Исполнитель</th>
-                <th scope="col">Председатель правления</th>
+                <th scope="col">Председатель</th>
                 <th scope="col">Действия</th>
             </tr>
         </thead>
@@ -90,8 +90,8 @@
                     </td>
 
                     <td>{{ $item->short_title }}</td>
-                    <td>{{ $item->issue_date ?? 'Не указана' }}</td>
-                    <td>{{ $item->planned_completion_date ?? 'Не указана' }}</td>
+                    <td>{{ $item->issue_date ?? 'Не указана' }} / {{ $item->planned_completion_date ?? 'Не указана' }}</td>
+                    {{-- <td></td> --}}
                     <td>
                         @php
                             $remainingDays = $item->planned_completion_date
@@ -173,13 +173,13 @@
                             @if ($item->order->checked_status == 1)
                                 <div class="d-flex align-items-center">
                                     <span class="badge badge-soft-success font-size-16 m-1">
-                                        Вазифа тасдиқланди
+                                        Тасдиқланди
                                     </span>
                                 </div>
                             @elseif($item->order->checked_status == 2)
                                 <div class="d-flex align-items-center">
                                     <span class="badge badge-soft-danger font-size-16 m-1">
-                                        Вазифа рад этилди
+                                        Рад этилди
                                     </span>
                                 </div>
                             @else
@@ -204,7 +204,7 @@
                                     </li>
                                 @endif
                             @else
-                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
+                                {{-- <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
                                     <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info">
                                         <i class="bx bxs-edit"></i>
                                     </a>
@@ -218,7 +218,7 @@
                                             <i class="bx bxs-trash"></i>
                                         </button>
                                     </form>
-                                </li>
+                                </li> --}}
                             @endif
                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Подробности">
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
@@ -229,8 +229,8 @@
 
                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Посмотреть">
                                 <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">
-                                    {{-- <i class="bx bxs-link"></i>  --}}
-                                    <i class="bx bxs-show"></i>
+                                    {{-- <i class="bx bxs-right-"></i>  --}}
+                                    Посмотреть
 
                                 </a>
                             </li>

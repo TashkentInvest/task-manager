@@ -100,6 +100,8 @@
         <div class="row mb-4">
             <div class="col-lg-12">
                 <div class="card shadow-lg border-0 rounded">
+
+
                     <div class="card-header bg-primary text-white">
                         <h3 class="mb-0">Детали поручения ID: {{ $item->id }}</h3>
                     </div>
@@ -362,6 +364,19 @@
                             @endif
                         </div>
                     </div>
+
+                    @if(auth()->user()->roles[0]->name == 'Super Admin')
+                   
+                    <div class="card-body">
+                        <form action="{{ route('taskDestroy', $item->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bx bxs-trash"></i> Удалить
+                            </button>
+                        </form>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -411,7 +426,7 @@
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                             <div class="mb-3">
                                 <label for="reject_comment" class="form-label">Комментарий об Отказе</label>
-                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required>{{old('reject_comment',$item->reject_comment)}}</textarea>
+                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required>{{ old('reject_comment', $item->reject_comment) }}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="attached_file" class="form-label">Загрузить файл</label>
@@ -445,7 +460,7 @@
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                             <div class="mb-3">
                                 <label for="reject_comment" class="form-label">Комментарий об завершении</label>
-                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required> {{old('reject_comment',$item->reject_comment)}}</textarea>
+                                <textarea class="form-control" id="reject_comment" name="reject_comment" rows="3" required> {{ old('reject_comment', $item->reject_comment) }}</textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="attached_file" class="form-label">Загрузить файл</label>
