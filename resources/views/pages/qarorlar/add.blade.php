@@ -2,7 +2,7 @@
 
 @section('content')
     <h1 class="text-center">Янги Қарор Қўшиш</h1>
-    <form action="{{ route('qarorlarCreate') }}" method="POST" enctype="multipart/form-data" class="mt-4">
+    <form action="{{ route('qarorlarStore') }}" method="POST" enctype="multipart/form-data" class="mt-4">
         @csrf
         <div class="mb-3">
             <label for="user_id" class="form-label">Фойдаланувчи</label>

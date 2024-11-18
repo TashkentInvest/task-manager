@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\QarorFile;
 use App\Models\Qarorlar;
 use App\Models\User;
@@ -11,23 +10,27 @@ use Illuminate\Support\Facades\Storage;
 
 class QarorlarController extends Controller
 {
+    // Display a list of Qarorlar
     public function index()
     {
         $qarorlar = Qarorlar::with(['user', 'files'])->get(); // Load user and file relationships
         return view('pages.qarorlar.index', compact('qarorlar'));
     }
 
+    // Show form to add a new Qaror
     public function add()
     {
+        // dd('dw');
         $users = User::all();
         return view('pages.qarorlar.add', compact('users'));
     }
 
+    // Store a new Qaror in the database
     public function store(Request $request)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'category_id' => 'required',
+            'category_id' => 'nullable|exists:categories,id',
             'unique_code' => 'required|unique:qarorlars',
             'sana' => 'required|date',
             'short_name' => 'required|string|max:255',
@@ -37,6 +40,7 @@ class QarorlarController extends Controller
 
         $qaror = Qarorlar::create($request->except('files'));
 
+        // Save associated files
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $filePath = $file->store('qarorlar', 'public');
@@ -48,27 +52,30 @@ class QarorlarController extends Controller
             }
         }
 
-        return redirect()->route('qarorlar.index')->with('success', 'Qaror created successfully with files!');
+        return redirect()->route('qarorlarIndex')->with('success', 'Қарор ва файллар муваффақиятли сақланди!');
     }
 
+    // Show details of a specific Qaror
     public function show(Qarorlar $qarorlar)
     {
-        $qarorlar->load('files'); // Load files for the qaror
+        $qarorlar->load('files'); // Load files for the Qaror
         return view('pages.qarorlar.show', compact('qarorlar'));
     }
 
+    // Show form to edit an existing Qaror
     public function edit(Qarorlar $qarorlar)
     {
         $users = User::all();
-        $qarorlar->load('files'); // Load files for the qaror
+        $qarorlar->load('files'); // Load files for the Qaror
         return view('pages.qarorlar.edit', compact('qarorlar', 'users'));
     }
 
+    // Update an existing Qaror in the database
     public function update(Request $request, Qarorlar $qarorlar)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'category_id' => 'required',
+            'category_id' => 'nullable|exists:categories,id',
             'unique_code' => 'required|unique:qarorlars,unique_code,' . $qarorlar->id,
             'sana' => 'required|date',
             'short_name' => 'required|string|max:255',
@@ -78,6 +85,7 @@ class QarorlarController extends Controller
 
         $qarorlar->update($request->except('files'));
 
+        // Save new files if uploaded
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $filePath = $file->store('qarorlar', 'public');
@@ -89,9 +97,10 @@ class QarorlarController extends Controller
             }
         }
 
-        return redirect()->route('qarorlar.index')->with('success', 'Qaror updated successfully!');
+        return redirect()->route('qarorlarIndex')->with('success', 'Қарор муваффақиятли янгиланди!');
     }
 
+    // Delete a Qaror and its associated files
     public function destroy(Qarorlar $qarorlar)
     {
         // Delete related files from storage and database
@@ -102,9 +111,10 @@ class QarorlarController extends Controller
 
         $qarorlar->delete();
 
-        return redirect()->route('qarorlar.index')->with('success', 'Qaror and associated files deleted successfully!');
+        return redirect()->route('qarorlarIndex')->with('success', 'Қарор ва тегишли файллар муваффақиятли ўчирилди!');
     }
 
+    // Delete a specific file from a Qaror
     public function deleteFile($fileId)
     {
         $file = QarorFile::findOrFail($fileId);
@@ -114,6 +124,6 @@ class QarorlarController extends Controller
 
         $file->delete();
 
-        return redirect()->back()->with('success', 'File deleted successfully!');
+        return redirect()->back()->with('success', 'Файл муваффақиятли ўчирилди!');
     }
 }

@@ -120,7 +120,7 @@ Route::group(['middleware' => 'auth'],function (){
     // qarorlarIndex
     Route::get('/qarorlar',[QarorlarController::class,'index'])->name('qarorlarIndex');
     Route::get('/qarorlar/add',[QarorlarController::class,'add'])->name('qarorlarAdd');
-    Route::post('/qarorlar/create',[QarorlarController::class,'create'])->name('qarorlarCreate');
+    Route::post('/qarorlar/store',[QarorlarController::class,'store'])->name('qarorlarStore');
     Route::get('/qarorlar/{id}',[QarorlarController::class,'show'])->name('qarorlarShow');
     Route::get('/qarorlar/{id}/edit',[QarorlarController::class,'edit'])->name('qarorlarEdit');
     Route::post('/qarorlar/update/{qarorlar_id}',[QarorlarController::class,'update'])->name('qarorlarUpdate');
