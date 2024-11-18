@@ -123,7 +123,7 @@ Route::group(['middleware' => 'auth'],function (){
     Route::post('/qarorlar/store',[QarorlarController::class,'store'])->name('qarorlarStore');
     Route::get('/qarorlar/{id}',[QarorlarController::class,'show'])->name('qarorlarShow');
     Route::get('/qarorlar/{id}/edit',[QarorlarController::class,'edit'])->name('qarorlarEdit');
-    Route::post('/qarorlar/update/{qarorlar_id}',[QarorlarController::class,'update'])->name('qarorlarUpdate');
+    Route::post('/qarorlar/update/{id}', [QarorlarController::class, 'update'])->name('qarorlarUpdate');
     Route::delete('/qarorlar/delete/{id}', [QarorlarController::class, 'destroy'])->name('qarorlarDestroy');
 
     // Order controller

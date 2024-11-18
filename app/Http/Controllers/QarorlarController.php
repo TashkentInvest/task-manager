@@ -56,17 +56,17 @@ class QarorlarController extends Controller
     }
 
     // Show details of a specific Qaror
-    public function show(Qarorlar $qarorlar)
+    public function show($id)
     {
-        $qarorlar->load('files'); // Load files for the Qaror
+        $qarorlar = Qarorlar::where('id', $id)->with('files')->first(); // Use 'first' to return a single model instance
         return view('pages.qarorlar.show', compact('qarorlar'));
     }
-
+    
     // Show form to edit an existing Qaror
-    public function edit(Qarorlar $qarorlar)
+    public function edit($id)
     {
         $users = User::all();
-        $qarorlar->load('files'); // Load files for the Qaror
+        $qarorlar = Qarorlar::where('id', $id)->with('files')->first(); // Use first() to get the actual model instance
         return view('pages.qarorlar.edit', compact('qarorlar', 'users'));
     }
 
