@@ -71,34 +71,43 @@ class QarorlarController extends Controller
     }
 
     // Update an existing Qaror in the database
-    public function update(Request $request, Qarorlar $qarorlar)
+    public function update(Request $request, $id)
     {
+        // Validate the incoming request
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'category_id' => 'nullable|exists:categories,id',
-            'unique_code' => 'required|unique:qarorlars,unique_code,' . $qarorlar->id,
+            'unique_code' => 'required|unique:qarorlars,unique_code,' . $id,
             'sana' => 'required|date',
             'short_name' => 'required|string|max:255',
             'comment' => 'nullable|string',
-            'files.*' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+            'files.*' => 'nullable',
         ]);
-
+    
+        // Find the specific Qaror by its ID
+        $qarorlar = Qarorlar::findOrFail($id);
+    
+        // Update the Qarorlar record with the validated request data, excluding files
         $qarorlar->update($request->except('files'));
-
+    
         // Save new files if uploaded
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
+                // Store the file in the 'qarorlar' directory under the public disk
                 $filePath = $file->store('qarorlar', 'public');
-
+    
+                // Associate the file with the Qarorlar model
                 QarorFile::create([
-                    'qaror_id' => $qarorlar->id,
-                    'file_path' => $filePath,
+                    'qaror_id' => $qarorlar->id, // Associate with the updated Qaror
+                    'file_path' => $filePath,    // Store the file path
                 ]);
             }
         }
-
+    
+        // Redirect back to the index with a success message
         return redirect()->route('qarorlarIndex')->with('success', 'Қарор муваффақиятли янгиланди!');
     }
+    
 
     // Delete a Qaror and its associated files
     public function destroy($id)
