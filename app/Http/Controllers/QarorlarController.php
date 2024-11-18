@@ -17,10 +17,10 @@ class QarorlarController extends Controller
         return view('pages.qarorlar.index', compact('qarorlar'));
     }
 
-    public function create()
+    public function add()
     {
         $users = User::all();
-        return view('pages.qarorlar.create', compact('users'));
+        return view('pages.qarorlar.add', compact('users'));
     }
 
     public function store(Request $request)
