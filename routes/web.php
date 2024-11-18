@@ -19,6 +19,7 @@ use App\Http\Controllers\DemoController;
 use App\Http\Controllers\FileDownloadController;
 use App\Http\Controllers\FinesController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\QarorlarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,6 +114,17 @@ Route::group(['middleware' => 'auth'],function (){
     Route::get('/task/{id}/edit',[TaskController::class,'edit'])->name('taskEdit');
     Route::post('/task/update/{task_id}',[TaskController::class,'update'])->name('taskUpdate');
     Route::delete('/task/delete/{id}', [TaskController::class, 'destroy'])->name('taskDestroy');
+
+
+    
+    // qarorlarIndex
+    Route::get('/qarorlar',[QarorlarController::class,'index'])->name('qarorlarIndex');
+    Route::get('/qarorlar/add',[QarorlarController::class,'add'])->name('qarorlarAdd');
+    Route::post('/qarorlar/create',[QarorlarController::class,'create'])->name('qarorlarCreate');
+    Route::get('/qarorlar/{id}',[QarorlarController::class,'show'])->name('qarorlarShow');
+    Route::get('/qarorlar/{id}/edit',[QarorlarController::class,'edit'])->name('qarorlarEdit');
+    Route::post('/qarorlar/update/{qarorlar_id}',[QarorlarController::class,'update'])->name('qarorlarUpdate');
+    Route::delete('/qarorlar/delete/{id}', [QarorlarController::class, 'destroy'])->name('qarorlarDestroy');
 
     // Order controller
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
