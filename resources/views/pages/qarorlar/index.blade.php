@@ -4,7 +4,7 @@
     <h1 class="text-center">Қарорлар Рўйхати</h1>
     <a href="{{ route('qarorlarAdd') }}" class="btn btn-success mb-3">Янги Қарор Қўшиш</a>
     <table class="table table-striped table-bordered">
-        <thead class="table-dark">
+        <thead class="table-light">
             <tr>
                 <th>#</th>
                 <th>Уникал Код</th>

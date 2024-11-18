@@ -35,7 +35,7 @@ class QarorlarController extends Controller
             'sana' => 'required|date',
             'short_name' => 'required|string|max:255',
             'comment' => 'nullable|string',
-            'files.*' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+            'files.*' => 'nullable',
         ]);
 
         $qaror = Qarorlar::create($request->except('files'));
