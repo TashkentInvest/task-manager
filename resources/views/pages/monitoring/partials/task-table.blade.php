@@ -204,12 +204,12 @@
                                     </li>
                                 @endif
                             @else
-                                {{-- <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
+                                 <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
                                     <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info">
                                         <i class="bx bxs-edit"></i>
                                     </a>
                                 </li>
-                                <li data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить">
+                              {{--  <li data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить">
                                     <form action="{{ route('taskDestroy', $item->id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
