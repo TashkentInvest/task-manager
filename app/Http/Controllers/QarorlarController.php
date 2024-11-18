@@ -101,14 +101,9 @@ class QarorlarController extends Controller
     }
 
     // Delete a Qaror and its associated files
-    public function destroy(Qarorlar $qarorlar)
+    public function destroy($id)
     {
-        // Delete related files from storage and database
-        foreach ($qarorlar->files as $file) {
-            Storage::disk('public')->delete($file->file_path);
-            $file->delete();
-        }
-
+        $qarorlar = Qarorlar::findOrFail($id);
         $qarorlar->delete();
 
         return redirect()->route('qarorlarIndex')->with('success', 'Қарор ва тегишли файллар муваффақиятли ўчирилди!');

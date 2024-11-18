@@ -4,14 +4,7 @@
     <h1 class="text-center">Янги Қарор Қўшиш</h1>
     <form action="{{ route('qarorlarStore') }}" method="POST" enctype="multipart/form-data" class="mt-4">
         @csrf
-        <div class="mb-3">
-            <label for="user_id" class="form-label">Фойдаланувчи</label>
-            <select name="user_id" id="user_id" class="form-select" required>
-                @foreach($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                @endforeach
-            </select>
-        </div>
+       <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
 
         <div class="mb-3">
             <label for="unique_code" class="form-label">Уникал Код</label>

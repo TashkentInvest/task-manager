@@ -7,24 +7,25 @@
         <thead class="table-light">
             <tr>
                 <th>#</th>
+                <th>Файл</th>
                 <th>Уникал Код</th>
                 <th>Қисқача Ном</th>
+                <th>Қарор сана</th>
+                <th>Яратилган сана</th>
                 <th>Ҳаракатлар</th>
-                <th>time</th>
-                <th>fayl</th>
             </tr>
         </thead>
         <tbody>
             @foreach($qarorlar as $qaror)
                 <tr>
                     <td>{{ $qaror->id }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="storage/{{ $qaror->files->first()->file_path ?? '' }}">Кориш</a>
+                    </td>
                     <td>{{ $qaror->unique_code }}</td>
                     <td>{{ $qaror->short_name }}</td>
+                    <td>{{ $qaror->sana }}</td>
                     <td>{{ $qaror->created_at }}</td>
-                    <td>
-                        <a href="storage/{{ $qaror->files->first()->file_path ?? '' }}">{{ $qaror->files->first()->file_path ?? '' }}</a>
-                    
-                    </td>
                     <td>
                         <a href="{{ route('qarorlarShow', $qaror->id) }}" class="btn btn-info btn-sm">Кўриш</a>
                         <a href="{{ route('qarorlarEdit', $qaror->id) }}" class="btn btn-warning btn-sm">Таҳрирлаш</a>

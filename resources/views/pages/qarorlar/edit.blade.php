@@ -4,7 +4,7 @@
     <h1 class="text-center">Қарорни Таҳрирлаш</h1>
     <form action="{{ route('qarorlarUpdate', $qarorlar->id) }}" method="POST" enctype="multipart/form-data" class="mt-4">
         @csrf
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <label for="user_id" class="form-label">Фойдаланувчи</label>
             <select name="user_id" id="user_id" class="form-select" required>
                 @foreach($users as $user)
@@ -13,7 +13,9 @@
                     </option>
                 @endforeach
             </select>
-        </div>
+        </div> --}}
+
+        <input type="hidden" name="user_id" value="{{ $qarorlar->user_id ?? ''}}"> 
 
         <div class="mb-3">
             <label for="unique_code" class="form-label">Уникал Код</label>
