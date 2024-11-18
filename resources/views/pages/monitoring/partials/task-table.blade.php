@@ -3,8 +3,8 @@
     <style>
         th,
         td {
-            width: 100px;
-            max-width: 100px;
+            width: 150px !important;
+            max-width: 150px !important;
             word-wrap: break-word;
             word-break: break-word;
             white-space: normal;
