@@ -15,7 +15,7 @@
     <table class="table table-nowrap align-middle table-borderless">
         <thead class="table-light">
             <tr>
-                {{-- <th scope="col">#</th> --}}
+                <th scope="col">#</th>
                 <th scope="col">Поручитель</th>
                 <th scope="col">Департамент / Исполнитель</th>
                 <th scope="col">Краткое название</th>
@@ -30,7 +30,7 @@
         <tbody>
             @forelse ($tasks as $item)
                 <tr>
-                    {{-- <td>{{ $item->id }}</td> --}}
+                    <td>{{ $item->id }}</td>
                     <td>{{ $item->user->name }}</td>
                     <td>
                         @if ($item->assign_type == 'role')
