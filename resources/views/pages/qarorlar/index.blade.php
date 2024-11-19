@@ -20,7 +20,7 @@
                 <tr>
                     <td>{{ $qaror->id }}</td>
                     <td>
-                        <a class="btn btn-primary btn-sm" href="storage/{{ $qaror->files->first()->file_path ?? '' }}">Кориш</a>
+                        <a target="_blank" class="btn btn-primary btn-sm" href="storage/{{ $qaror->files->first()->file_path ?? '' }}">Кориш</a>
                     </td>
                     <td>{{ $qaror->unique_code }}</td>
                     <td>{{ $qaror->short_name }}</td>

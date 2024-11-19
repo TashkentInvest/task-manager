@@ -21,16 +21,18 @@
             <label for="unique_code" class="form-label">Уникал Код</label>
             <input type="text" name="unique_code" id="unique_code" value="{{ $qarorlar->unique_code }}" class="form-control" required>
         </div>
+        
+        <div class="mb-3">
+            <label for="sana" class="form-label">Сана</label>
+            <input type="date" name="sana" id="sana" value="{{ $qarorlar->sana }}" class="form-control" required>
+        </div>
 
         <div class="mb-3">
             <label for="short_name" class="form-label">Қисқача Ном</label>
             <input type="text" name="short_name" id="short_name" value="{{ $qarorlar->short_name }}" class="form-control" required>
         </div>
 
-        <div class="mb-3">
-            <label for="sana" class="form-label">Сана</label>
-            <input type="date" name="sana" id="sana" value="{{ $qarorlar->sana }}" class="form-control" required>
-        </div>
+       
 
         <div class="mb-3">
             <label for="comment" class="form-label">Изоҳ</label>

@@ -16,17 +16,7 @@
                 <div class="form-text">Уникал код билан янгиликларни аниқ белгилашга ёрдам беради.</div>
             </div>
 
-            <div class="col-md-6">
-                <label for="short_name" class="form-label">Қисқача Ном</label>
-                <input type="text" name="short_name" id="short_name" class="form-control @error('short_name') is-invalid @enderror" required>
-                @error('short_name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-                <div class="form-text">Қисқача ва тушунарли ном киритинг.</div>
-            </div>
-        </div>
 
-        <div class="row mb-4">
             <div class="col-md-6">
                 <label for="sana" class="form-label">Сана</label>
                 <input type="date" name="sana" id="sana" class="form-control @error('sana') is-invalid @enderror" required>
@@ -35,6 +25,18 @@
                 @enderror
             </div>
 
+        </div>
+
+        <div class="row mb-4">
+           
+            <div class="col-md-6">
+                <label for="short_name" class="form-label">Қисқача Ном</label>
+                <input type="text" name="short_name" id="short_name" class="form-control @error('short_name') is-invalid @enderror" required>
+                @error('short_name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+                <div class="form-text">Қисқача ва тушунарли ном киритинг.</div>
+            </div>
             <div class="col-md-6">
                 <label for="comment" class="form-label">Изоҳ</label>
                 <textarea name="comment" id="comment" class="form-control @error('comment') is-invalid @enderror" rows="4" placeholder="Қарорга изоҳ киритинг..."></textarea>
