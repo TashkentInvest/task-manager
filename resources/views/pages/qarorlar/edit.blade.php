@@ -15,7 +15,7 @@
             </select>
         </div> --}}
 
-        <input type="hidden" name="user_id" value="{{ $qarorlar->user_id ?? ''}}"> 
+        <input type="hidden" name="user_id" value="{{auth()->user()->id}}"> 
 
         <div class="mb-3">
             <label for="unique_code" class="form-label">Уникал Код</label>
