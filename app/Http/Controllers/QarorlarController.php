@@ -13,9 +13,14 @@ class QarorlarController extends Controller
     // Display a list of Qarorlar
     public function index()
     {
-        $qarorlar = Qarorlar::with(['user', 'files'])->orderBy('id', 'desc')->get(); // Load user and file relationships
+        // Order by the numeric part before the first dash in `unique_code`
+        $qarorlar = Qarorlar::with(['user', 'files'])
+            ->orderByRaw('CAST(SUBSTRING_INDEX(unique_code, "-", 1) AS UNSIGNED) DESC')
+            ->get();
+    
         return view('pages.qarorlar.index', compact('qarorlar'));
     }
+    
 
     // Show form to add a new Qaror
     public function add()

@@ -18,7 +18,7 @@
         <tbody>
             @foreach($qarorlar as $qaror)
                 <tr>
-                    <td>{{ $qaror->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>
                         <a target="_blank" class="btn btn-primary btn-sm" href="storage/{{ $qaror->files->first()->file_path ?? '' }}">Кориш</a>
                     </td>
