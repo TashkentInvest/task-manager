@@ -13,7 +13,7 @@ class QarorlarController extends Controller
     // Display a list of Qarorlar
     public function index()
     {
-        $qarorlar = Qarorlar::with(['user', 'files'])->get(); // Load user and file relationships
+        $qarorlar = Qarorlar::with(['user', 'files'])->orderBy('id', 'desc')->get(); // Load user and file relationships
         return view('pages.qarorlar.index', compact('qarorlar'));
     }
 
@@ -43,7 +43,8 @@ class QarorlarController extends Controller
         // Save associated files
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-                $filePath = $file->store('qarorlar', 'public');
+                // Use the original file name and store it in the 'qarorlar' directory under 'public'
+                $filePath = $file->storeAs('qarorlar', $file->getClientOriginalName(), 'public');
 
                 QarorFile::create([
                     'qaror_id' => $qaror->id,
@@ -55,13 +56,14 @@ class QarorlarController extends Controller
         return redirect()->route('qarorlarIndex')->with('success', 'Қарор ва файллар муваффақиятли сақланди!');
     }
 
+
     // Show details of a specific Qaror
     public function show($id)
     {
         $qarorlar = Qarorlar::where('id', $id)->with('files')->first(); // Use 'first' to return a single model instance
         return view('pages.qarorlar.show', compact('qarorlar'));
     }
-    
+
     // Show form to edit an existing Qaror
     public function edit($id)
     {
@@ -83,19 +85,32 @@ class QarorlarController extends Controller
             'comment' => 'nullable|string',
             'files.*' => 'nullable',
         ]);
-    
+
         // Find the specific Qaror by its ID
         $qarorlar = Qarorlar::findOrFail($id);
-    
+
         // Update the Qarorlar record with the validated request data, excluding files
         $qarorlar->update($request->except('files'));
-    
+
+        // Remove any old associated files (if required, add logic to delete files you no longer need)
+        if ($request->has('remove_files')) {
+            foreach ($request->remove_files as $fileId) {
+                $qarorFile = QarorFile::find($fileId);
+                if ($qarorFile) {
+                    // Delete the file from storage
+                    Storage::disk('public')->delete($qarorFile->file_path);
+                    // Remove the record from the database
+                    $qarorFile->delete();
+                }
+            }
+        }
+
         // Save new files if uploaded
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-                // Store the file in the 'qarorlar' directory under the public disk
-                $filePath = $file->store('qarorlar', 'public');
-    
+                // Store the file in the 'qarorlar' directory under the public disk with the original file name
+                $filePath = $file->storeAs('qarorlar', $file->getClientOriginalName(), 'public');
+
                 // Associate the file with the Qarorlar model
                 QarorFile::create([
                     'qaror_id' => $qarorlar->id, // Associate with the updated Qaror
@@ -103,11 +118,12 @@ class QarorlarController extends Controller
                 ]);
             }
         }
-    
+
         // Redirect back to the index with a success message
         return redirect()->route('qarorlarIndex')->with('success', 'Қарор муваффақиятли янгиланди!');
     }
-    
+
+
 
     // Delete a Qaror and its associated files
     public function destroy($id)
