@@ -15,8 +15,13 @@ class QarorlarController extends Controller
     {
         // Order by the numeric part before the first dash in `unique_code`
         $qarorlar = Qarorlar::with(['user', 'files'])
-            ->orderByRaw('CAST(SUBSTRING_INDEX(unique_code, "-", 1) AS UNSIGNED) DESC')
-            ->get();
+        // Order by the numeric part before the first dash in `unique_code` (in descending order)
+        ->orderByRaw('CAST(SUBSTRING_INDEX(unique_code, "-", 1) AS UNSIGNED) DESC')
+        // Then order by the `sana` field (in descending order)
+        ->orderBy('sana', 'desc')
+        ->get();
+    
+    
     
         return view('pages.qarorlar.index', compact('qarorlar'));
     }
