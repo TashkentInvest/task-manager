@@ -29,7 +29,7 @@
                 <label for="amount" class="form-label">Нархи</label>
                 <input type="number" name="amount" id="amount" 
                        class="form-control @error('amount') is-invalid @enderror" 
-                       value="{{ old('amount', $qarorlar->amount) }}" 
+                       value="{{ old('amount') }}" 
                         min="0" max="9999999999999999999999999999.99" required>
                 @error('amount')
                     <div class="invalid-feedback">{{ $message }}</div>
