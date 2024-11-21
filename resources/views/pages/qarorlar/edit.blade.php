@@ -28,6 +28,16 @@
         </div>
 
         <div class="mb-3">
+            <label for="amount" class="form-label">Нархи</label>
+            <input type="number" name="amount" id="amount" 
+            class="form-control" 
+            value="{{ old('amount', $qarorlar->amount) }}" 
+            min="0" 
+            max="9999999999999999999999999999.99" 
+            required>
+             </div>
+
+        <div class="mb-3">
             <label for="short_name" class="form-label">Қисқача Ном</label>
             <input type="text" name="short_name" id="short_name" value="{{ $qarorlar->short_name }}" class="form-control" required>
         </div>

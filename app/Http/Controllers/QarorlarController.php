@@ -40,6 +40,7 @@ class QarorlarController extends Controller
             'sana' => 'required|date',
             'short_name' => 'required|string|max:255',
             'comment' => 'nullable|string',
+            'amount' => 'nullable',
             'files.*' => 'nullable',
         ]);
 
@@ -88,6 +89,7 @@ class QarorlarController extends Controller
             'sana' => 'required|date',
             'short_name' => 'required|string|max:255',
             'comment' => 'nullable|string',
+            'amount' => 'nullable',
             'files.*' => 'nullable',
         ]);
 

@@ -18,6 +18,7 @@ class Qarorlar extends Model
         'sana',
         'short_name',
         'comment',
+        'amount'
     ];
 
     // Define the relationship to the User model

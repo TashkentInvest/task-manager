@@ -9,8 +9,9 @@
                 <th>#</th>
                 <th>Файл</th>
                 <th>Уникал Код</th>
-                <th>Қисқача Ном</th>
                 <th>Қарор сана</th>
+                <th>Нархи</th>
+                <th>Қисқача Ном</th>
                 <th>Яратилган сана</th>
                 <th>Ҳаракатлар</th>
             </tr>
@@ -23,8 +24,9 @@
                         <a target="_blank" class="btn btn-primary btn-sm" href="storage/{{ $qaror->files->first()->file_path ?? '' }}">Кориш</a>
                     </td>
                     <td>{{ $qaror->unique_code }}</td>
-                    <td>{{ $qaror->short_name }}</td>
                     <td>{{ $qaror->sana }}</td>
+                    <td>{{ number_format($qaror->amount ?? 0, 2, '.', ' ') }}</td>
+                    <td>{{ $qaror->short_name }}</td>
                     <td>{{ $qaror->created_at }}</td>
                     <td>
                         <a href="{{ route('qarorlarShow', $qaror->id) }}" class="btn btn-info btn-sm">Кўриш</a>

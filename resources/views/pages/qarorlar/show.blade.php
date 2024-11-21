@@ -11,6 +11,7 @@
                     <div class="col-md-6">
                         <p><strong>Уникал Код:</strong> {{ $qarorlar->unique_code }}</p>
                         <p><strong>Қисқача Ном:</strong> {{ $qarorlar->short_name }}</p>
+                        <p><strong>Нархи:</strong> {{ $qarorlar->amount }}</p>
                         <p><strong>Сана:</strong> {{ \Carbon\Carbon::parse($qarorlar->sana)->format('d-m-Y') }}</p>
                     </div>
                     <div class="col-md-6">

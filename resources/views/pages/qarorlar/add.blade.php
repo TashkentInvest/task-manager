@@ -25,6 +25,17 @@
                 @enderror
             </div>
 
+            <div class="col-md-6">
+                <label for="amount" class="form-label">Нархи</label>
+                <input type="number" name="amount" id="amount" 
+                       class="form-control @error('amount') is-invalid @enderror" 
+                       value="{{ old('amount', $qarorlar->amount) }}" 
+                        min="0" max="9999999999999999999999999999.99" required>
+                @error('amount')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            
         </div>
 
         <div class="row mb-4">
