@@ -9,6 +9,7 @@
                 <tr>
                     <th>#</th>
                     <th>Файл</th>
+                    <th>Кузатув кенгашининг қарори</th>
                     <th>Уникал Код</th>
                     <th>Қарор сана</th>
                     <th>Нархи</th>
@@ -18,11 +19,28 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($qarorlar as $qaror)
+                @foreach ($qarorlar as $qaror)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                            <a target="_blank" class="btn btn-primary btn-sm" href="storage/{{ $qaror->files->first()->file_path ?? '' }}">Кориш</a>
+                            <a target="_blank" class="btn btn-primary btn-sm"
+                                href="storage/{{ $qaror->files->first()->file_path ?? '' }}">Кориш</a>
+                        </td>
+                        <td>
+                            @if ($qaror->files->isNotEmpty())
+                                <ul>
+                                    @foreach ($qaror->files->whereNotIn('file_path', 'like', '%Кузатув кенгашининг қарори%') as $file)
+                                        <li>
+                                            <a target="_blank" class="btn btn-primary btn-sm"
+                                                href="{{ asset('storage/' . $file->file_path) }}">
+                                                Кориш
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <span>Файл мавжуд эмас</span>
+                            @endif
                         </td>
                         <td>{{ $qaror->unique_code }}</td>
                         <td>{{ $qaror->sana }}</td>
@@ -32,10 +50,12 @@
                         <td>
                             <a href="{{ route('qarorlarShow', $qaror->id) }}" class="btn btn-info btn-sm">Кўриш</a>
                             <a href="{{ route('qarorlarEdit', $qaror->id) }}" class="btn btn-warning btn-sm">Таҳрирлаш</a>
-                            <form action="{{ route('qarorlarDestroy', $qaror->id) }}" method="POST" style="display:inline-block;">
+                            <form action="{{ route('qarorlarDestroy', $qaror->id) }}" method="POST"
+                                style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Қарорни ўчиришга ишончингиз комилми?')">Ўчириш</button>
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Қарорни ўчиришга ишончингиз комилми?')">Ўчириш</button>
                             </form>
                         </td>
                     </tr>
@@ -61,7 +81,7 @@
                 width: 100% !important;
                 max-width: 100% !important;
                 word-break: normal !important;
-        
+
             }
         }
     </style>

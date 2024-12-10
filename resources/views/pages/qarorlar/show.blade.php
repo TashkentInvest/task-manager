@@ -21,7 +21,7 @@
 
                 <h4 class="mt-4">Файллар:</h4>
                 <div class="list-group">
-                    @foreach($qarorlar->files as $file)
+                    @foreach($qarorlar->files->whereNotIn('file_path', 'like', '%Кузатув кенгашининг қарори%') as $file)
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-link">
                                 {{ basename($file->file_path) }} - <strong>Файлни Кўриш</strong>
@@ -36,7 +36,26 @@
                         </div>
                     @endforeach
                 </div>
+
+                <h4 class="mt-4">Кузатув кенгашининг қарори Файллари:</h4>
+                <div class="list-group">
+                    @foreach($qarorlar->files->where('file_path', 'like', '%Кузатув кенгашининг қарори%') as $kuzatuvFile)
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{{ asset('storage/' . $kuzatuvFile->file_path) }}" target="_blank" class="btn btn-link">
+                                {{ basename($kuzatuvFile->file_path) }} - <strong>Файлни Кўриш</strong>
+                            </a>
+
+                            <!-- Display image if the file is an image -->
+                            @if(in_array(pathinfo($kuzatuvFile->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
+                                <img src="{{ asset('storage/' . $kuzatuvFile->file_path) }}" alt="Image" width="50" class="ml-2">
+                            @else
+                                <span class="badge badge-info">{{ pathinfo($kuzatuvFile->file_path, PATHINFO_EXTENSION) }}</span>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
 @endsection
+    
