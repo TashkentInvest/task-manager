@@ -9,7 +9,7 @@
                 <tr>
                     <th>#</th>
                     <th>Файл</th>
-                    <th>Кузатув кенгашининг қарори</th>
+                    {{-- <th>Кузатув кенгашининг қарори</th> --}}
                     <th>Уникал Код</th>
                     <th>Қарор сана</th>
                     <th>Нархи</th>
@@ -26,28 +26,7 @@
                             <a target="_blank" class="btn btn-primary btn-sm"
                                 href="storage/{{ $qaror->files->first()->file_path ?? '' }}">Кориш</a>
                         </td>
-                        <td>
-                            @if ($qaror->files->isNotEmpty())
-                                <ul>
-                                    @foreach($qaror->files->where('file_path', 'like', '%Кузатув кенгашининг қарори%') as $kuzatuvFile)
-                                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                                        <a href="{{ asset('storage/' . $kuzatuvFile->file_path) }}" target="_blank" class="btn btn-link">
-                                            {{ basename($kuzatuvFile->file_path) }} - <strong>Файлни Кўриш</strong>
-                                        </a>
-            
-                                        <!-- Display image if the file is an image -->
-                                        @if(in_array(pathinfo($kuzatuvFile->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
-                                            <img src="{{ asset('storage/' . $kuzatuvFile->file_path) }}" alt="Image" width="50" class="ml-2">
-                                        @else
-                                            <span class="badge badge-info">{{ pathinfo($kuzatuvFile->file_path, PATHINFO_EXTENSION) }}</span>
-                                        @endif
-                                    </div>
-                                @endforeach
-                                </ul>
-                            @else
-                                <span>Файл мавжуд эмас</span>
-                            @endif
-                        </td>
+                     {{-- <td></td> --}}
                         <td>{{ $qaror->unique_code }}</td>
                         <td>{{ $qaror->sana }}</td>
                         <td>{{ number_format($qaror->amount ?? 0, 2, '.', ' ') }}</td>
