@@ -29,7 +29,7 @@
                         <td>
                             @if ($qaror->files->isNotEmpty())
                                 <ul>
-                                    @foreach ($qaror->files->whereNotIn('file_path', 'like', '%Кузатув кенгашининг қарори%') as $file)
+                                    @foreach ($qaror->files->whereIn('file_path', 'like', '%Кузатув кенгашининг қарори%') as $file)
                                         <li>
                                             <a target="_blank" class="btn btn-primary btn-sm"
                                                 href="{{ asset('storage/' . $file->file_path) }}">
