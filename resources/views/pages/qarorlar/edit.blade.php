@@ -7,7 +7,7 @@
         {{-- <div class="mb-3">
             <label for="user_id" class="form-label">Фойдаланувчи</label>
             <select name="user_id" id="user_id" class="form-select" required>
-                @foreach($users as $user)
+                @foreach ($users as $user)
                     <option value="{{ $user->id }}" {{ $qarorlar->user_id == $user->id ? 'selected' : '' }}>
                         {{ $user->name }}
                     </option>
@@ -15,13 +15,14 @@
             </select>
         </div> --}}
 
-        <input type="hidden" name="user_id" value="{{auth()->user()->id}}"> 
+        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
         <div class="mb-3">
             <label for="unique_code" class="form-label">Уникал Код</label>
-            <input type="text" name="unique_code" id="unique_code" value="{{ $qarorlar->unique_code }}" class="form-control" required>
+            <input type="text" name="unique_code" id="unique_code" value="{{ $qarorlar->unique_code }}"
+                class="form-control" required>
         </div>
-        
+
         <div class="mb-3">
             <label for="sana" class="form-label">Сана</label>
             <input type="date" name="sana" id="sana" value="{{ $qarorlar->sana }}" class="form-control" required>
@@ -29,20 +30,18 @@
 
         <div class="mb-3">
             <label for="amount" class="form-label">Нархи</label>
-            <input type="number" name="amount" id="amount" 
-            class="form-control" 
-            value="{{ old('amount', $qarorlar->amount) }}" 
-            min="0" 
-            max="9999999999999999999999999999.99" 
-            required>
-             </div>
+            <input type="number" name="amount" id="amount" class="form-control"
+                value="{{ old('amount', $qarorlar->amount) }}" min="0" max="9999999999999999999999999999.99"
+                required>
+        </div>
 
         <div class="mb-3">
             <label for="short_name" class="form-label">Қисқача Ном</label>
-            <input type="text" name="short_name" id="short_name" value="{{ $qarorlar->short_name }}" class="form-control" required>
+            <input type="text" name="short_name" id="short_name" value="{{ $qarorlar->short_name }}" class="form-control"
+                required>
         </div>
 
-       
+
 
         <div class="mb-3">
             <label for="comment" class="form-label">Изоҳ</label>
@@ -56,16 +55,39 @@
 
         <h3>Файллар:</h3>
         <ul>
-            @foreach($qarorlar->files as $file)
-                <li>    
+            @foreach ($qarorlar->files as $file)
+                <li>
                     <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-link">
                         {{ basename($file->file_path) }} - Файлни Кўриш
                     </a>
-                    
+
                     <!-- Display image if the file is an image -->
-                    @if(in_array(pathinfo($file->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
+                    @if (in_array(pathinfo($file->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
                         <br>
                         <img src="{{ asset('storage/' . $file->file_path) }}" alt="Image" width="200">
+                    @endif
+                </li>
+            @endforeach
+        </ul>
+
+
+        <div class="mb-3">
+            <label for="kuzatuv_files" class="form-label">Кузатув кенгашининг қарори</label>
+            <input type="file" name="kuzatuv_files[]" id="kuzatuv_files" class="form-control" multiple>
+        </div>
+
+        <h3>Кузатув кенгашининг қарори Файллари:</h3>
+        <ul>
+            @foreach ($qarorlar->files->where('file_path', 'like', '%Кузатув кенгашининг қарори%') as $kuzatuvFile)
+                <li>
+                    <a href="{{ asset('storage/' . $kuzatuvFile->file_path) }}" target="_blank" class="btn btn-link">
+                        {{ basename($kuzatuvFile->file_path) }} - Файлни Кўриш
+                    </a>
+
+                    <!-- Display image if the file is an image -->
+                    @if (in_array(pathinfo($kuzatuvFile->file_path, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
+                        <br>
+                        <img src="{{ asset('storage/' . $kuzatuvFile->file_path) }}" alt="Image" width="200">
                     @endif
                 </li>
             @endforeach

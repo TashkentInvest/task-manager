@@ -66,6 +66,15 @@
             <div class="form-text">PDF, DOC, JPG, PNG форматларини қўшишингиз мумкин. Бир неча файлни ҳам юклаш мумкин.</div>
         </div>
 
+        <div class="mb-4">
+            <label for="kuzatuv_files" class="form-label">Кузатув кенгашининг қарори</label>
+            <input type="file" name="kuzatuv_files[]" id="kuzatuv_files" class="form-control @error('kuzatuv_files') is-invalid @enderror" multiple>
+            @error('kuzatuv_files')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+            <div class="form-text">PDF, DOC, JPG, PNG форматларини қўшишингиз мумкин. Бир неча файлни ҳам юклаш мумкин.</div>
+        </div>
+
         <div class="text-center">
             <button type="submit" class="btn btn-success btn-lg">Сақлаш</button>
         </div>
