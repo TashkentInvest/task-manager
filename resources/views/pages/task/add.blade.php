@@ -139,7 +139,7 @@
                             <div class="col-md-6 mb-3">
                                 <label>Дата выдачи</label>
                                 <input type="datetime-local" name="issue_date" class="form-control"
-                                    value="{{ old('issue_date', now()->format('Y-m-d H:i:s')) }}" required>
+                                    value="{{ old('issue_date') }}" required>
                                 @error('issue_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
