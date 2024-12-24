@@ -135,19 +135,20 @@
                         <br><br>
                         <div class="row">
                             <div class="col-7">
-                                <div class="mb-3 task-details border rounded shadow-sm p-3 bg-light">
+                                <div class="mb-4 task-details border rounded shadow-sm p-4 bg-white">
                                     <p class="card-text">
-                                        <strong class="text-primary">Поручитель:</strong> <span
-                                            class="text-muted">{{ $item->user->name }}</span>
+                                        <strong class="text-primary h5">Поручитель:</strong>
+                                        <span class="text-dark h6">{{ $item->user->name }}</span>
                                     </p>
 
-                                    <h3 class="mb-3 text-success">Исполнитель поручения:</h3>
+                                    <h3 class="text-success border-bottom pb-2 mb-4">Исполнитель поручения:</h3>
                                     @if ($item->task_users->isNotEmpty())
-                                        <ul class="mt-2 list-unstyled">
+                                        <ul class="mt-3 ps-3">
                                             @foreach ($item->task_users as $i)
-                                                <li class="mb-2">
-                                                    <span class="badge bg-info text-dark">{{ $i->name ?? '' }}</span>
-                                                    <small class="text-muted"> — {{ $i->about ?? '' }}</small>
+                                                <li class="mb-3">
+                                                    <span
+                                                        class="badge bg-info text-dark px-2 py-1">{{ $i->name ?? '' }}</span>
+                                                    <small class="text-muted d-block mt-1">{{ $i->about ?? '' }}</small>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -155,7 +156,8 @@
                                         <p class="text-muted">Нет исполнителей.</p>
                                     @endif
 
-                                    <p class="card-text mt-4"><strong class="text-primary">Закрепленный файл:</strong></p>
+                                    <p class="card-text mt-5"><strong class="text-primary h5">Закрепленный файл:</strong>
+                                    </p>
                                     @php
                                         $initialFiles = $item->files->filter(function ($file) {
                                             return file_exists(public_path('porucheniya/' . $file->file_name));
@@ -163,15 +165,16 @@
                                     @endphp
 
                                     @if ($initialFiles->count() > 0)
-                                        <ul class="list-group list-group-flush">
+                                        <ul class="list-group list-group-flush mt-3">
                                             @foreach ($initialFiles as $file)
                                                 <li
                                                     class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span>
-                                                        <span class="badge bg-primary text-white">{{ $file->name }}</span>
+                                                    <div>
+                                                        <span
+                                                            class="badge bg-primary text-white me-2">{{ $file->name }}</span>
                                                         <a href="{{ asset('porucheniya/' . $file->file_name) }}"
-                                                            target="_blank" class="text-decoration-none ms-2">Скачать</a>
-                                                    </span>
+                                                            target="_blank" class="text-decoration-none">Скачать</a>
+                                                    </div>
                                                     @if (auth()->user()->roles[0]->name == 'Super Admin')
                                                         <form action="{{ route('file.delete', $file->id) }}" method="POST"
                                                             style="display:inline;">
@@ -185,10 +188,10 @@
                                             @endforeach
                                         </ul>
                                     @else
-                                        <p class="text-muted">Нет загруженных файлов.</p>
+                                        <p class="text-muted mt-3">Нет загруженных файлов.</p>
                                     @endif
 
-                                    <div class="mt-4">
+                                    <div class="mt-5">
                                         @php
                                             $remainingDays = $item->planned_completion_date
                                                 ? now()->diffInDays($item->planned_completion_date, false)
@@ -198,76 +201,205 @@
                                         @endphp
 
                                         <p class="card-text">
-                                            <strong class="text-primary">Дата выдачи:</strong>
-                                            <span class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span>
+                                            <strong class="text-primary h5">Дата выдачи:</strong>
+                                            <span class="text-dark h6">{{ $item->issue_date ?? 'Не указана' }}</span>
                                         </p>
                                         <p class="card-text">
-                                            <strong class="text-primary">Срок выполнения:</strong>
+                                            <strong class="text-primary h5">Срок выполнения:</strong>
                                             <span
-                                                class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}</span>
+                                                class="text-dark h6">{{ $item->planned_completion_date ?? 'Не указана' }}</span>
 
                                             @if (is_int($remainingDays))
                                                 @if ($isRejected)
                                                     @if ($remainingDays >= 0)
-                                                        <span class="badge bg-success ms-2">Срок выполнения еще не истек:
+                                                        <span class="badge bg-success ms-3">Срок выполнения еще не истек:
                                                             {{ $remainingDays }} дней осталось</span>
                                                     @else
-                                                        <span class="badge bg-danger ms-2">Срок завершения был
+                                                        <span class="badge bg-danger ms-3">Срок завершения был
                                                             {{ abs($remainingDays) }} дней назад</span>
                                                     @endif
                                                 @else
                                                     @if ($remainingDays > 0)
-                                                        <span class="badge bg-warning ms-2">{{ $remainingDays }} дней
+                                                        <span class="badge bg-warning ms-3">{{ $remainingDays }} дней
                                                             осталось</span>
                                                     @elseif ($remainingDays < 0)
-                                                        <span class="badge bg-danger ms-2">{{ abs($remainingDays) }} дней
+                                                        <span class="badge bg-danger ms-3">{{ abs($remainingDays) }} дней
                                                             просрочено</span>
                                                     @else
-                                                        <span class="badge bg-warning ms-2">Срок сегодня</span>
+                                                        <span class="badge bg-warning ms-3">Срок сегодня</span>
                                                     @endif
                                                 @endif
                                             @else
-                                                <span class="badge bg-secondary ms-2">N/A</span>
+                                                <span class="badge bg-secondary ms-3">N/A</span>
                                             @endif
                                         </p>
                                     </div>
                                 </div>
 
-                                @if (isset($item->document))
-                                    <div class="mb-4 task-details border rounded shadow-sm p-3 bg-ligh">
-                                        <h3 class="my-2">{{$item->document->status_type}}</h3>
-                                        <p><strong>Сарлавха:</strong> {{ $item->document->title }}</p>
-                                        <p><strong>Категория:</strong>
-                                            {{ $item->document->category ? $item->document->category->name : 'Категория танланмаган' }}
-                                        </p>
-                                        <p><strong>Хат Рақами:</strong> {{ $item->document->letter_number }}</p>
-                                        <p><strong>Қабул Қилинган Санаси:</strong>
-                                            {{ \Carbon\Carbon::parse($item->document->received_date)->format('d-m-Y H:i') }}
-                                        </p>
+                                <div class="mb-4 task-details border rounded shadow-sm p-4 bg-white">
+                                    {{-- Admin Status Section --}}
+                                    @if ($item->order)
+                                        @if ($item->order->checked_status == 2)
+                                            <div class="mt-4 border p-3 rounded bg-light">
+                                                <h3 class="text-danger">Председатель правления статус: Восстановить по
+                                                    поручению</h3>
+                                                <p class="card-text"><strong>Комментарий об восстановление:</strong></p>
+                                                <blockquote class="blockquote">
+                                                    <p class="mb-0">{{ $item->order->checked_comment }}</p>
+                                                </blockquote>
+                                                <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
+                                                        class="text-muted">{{ $item->order->checked_time ?? '' }}</span>
+                                                </p>
 
-                                        <h4>Қўшимча Файллар:</h4>
+                                            </div>
+                                        @elseif($item->order->checked_status == 1)
+                                            <div class="mt-4 border p-3 rounded bg-light">
+                                                <h3 class="text-success">Председатель правления статус: Вазифа тасдиқланди
+                                                </h3>
+                                                <p class="card-text mt-3"><strong>Дата одобрения:</strong> <span
+                                                        class="text-muted">{{ $item->order->checked_time ?? '' }}</span>
+                                                </p>
+                                            </div>
+                                        @endif
+
+                                        {{-- Employee Rejection Comments --}}
+                                        @if ($item->status->id != 4 && $item->status->name == 'XODIM_REJECT')
+                                            <h3>Ходим статус</h3>
+                                            <div class="mt-4 border p-3 rounded bg-light">
+                                                <h5 class="text-danger">Восстановить по поручению</h5>
+                                                <p class="card-text"><strong>Кто отклонил:</strong> <span
+                                                        class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span>
+                                                </p>
+                                                <p class="card-text"><strong>Комментарий об восстановление:</strong></p>
+                                                <blockquote class="blockquote">
+                                                    <p class="mb-0">{{ $item->reject_comment }}</p>
+                                                </blockquote>
+                                                @php
+                                                    $rejectFiles = $item->files->filter(function ($file) {
+                                                        return file_exists(
+                                                            public_path('porucheniya/reject/' . $file->file_name),
+                                                        );
+                                                    });
+                                                @endphp
+                                                @if ($rejectFiles->count() > 0)
+                                                    <h5>Загруженные файлы:</h5>
+                                                    <ul class="list-group">
+                                                        @foreach ($rejectFiles as $file)
+                                                            <li
+                                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <span>
+                                                                    <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}"
+                                                                        class="btn btn-primary"
+                                                                        target="_blank">{{ $file->name }}
+                                                                        Посмотреть</a>
+                                                                    <form action="{{ route('file.delete', $file->id) }}"
+                                                                        method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn btn-danger">Удалить</button>
+                                                                    </form>
+                                                                </span>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    <p>Нет загруженных файлов.</p>
+                                                @endif
+
+                                                <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
+                                                        class="text-muted">{{ $item->reject_time }}</span></p>
+                                            </div>
+                                        @elseif($item->status->name == 'Completed')
+                                            <div class="mt-4 border p-3 rounded bg-light">
+                                                <h5 class="text-success">Завершено</h5>
+                                                <p class="card-text"><strong>Кто закончил:</strong> <span
+                                                        class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span>
+                                                </p>
+
+
+                                                <blockquote class="blockquote text-success">
+                                                    <p class="mb-0">Вазифа якунланди</p>
+                                                    <p class="mb-0">{{ $item->reject_comment }}</p>
+                                                </blockquote>
+
+                                                @php
+                                                    $completeFiles = $item->files->filter(function ($file) {
+                                                        return file_exists(
+                                                            public_path('porucheniya/complete/' . $file->file_name),
+                                                        );
+                                                    });
+                                                @endphp
+
+                                                @if ($completeFiles->count() > 0)
+                                                    <h5>Загруженные файлы:</h5>
+                                                    <ul class="list-group">
+                                                        @foreach ($completeFiles as $file)
+                                                            <li
+                                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <span>
+                                                                    <a href="{{ asset('porucheniya/complete/' . $file->file_name) }}"
+                                                                        class="btn btn-primary"
+                                                                        target="_blank">{{ $file->name }}
+                                                                        Посмотреть</a>
+                                                                    <form action="{{ route('file.delete', $file->id) }}"
+                                                                        method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn btn-danger">Удалить</button>
+                                                                    </form>
+                                                                </span>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    <p>Нет загруженных файлов.</p>
+                                                @endif
+
+                                                <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
+                                                        class="text-muted">{{ $item->reject_time }}</span></p>
+                                            </div>
+                                        @endif
+                                    @endif
+
+                                </div>
+
+                                @if (isset($item->document))
+                                    <div class="mb-4 task-details border rounded shadow-sm p-4 bg-white">
+                                        <h3 class="text-primary">{{ $item->document->status_type }}</h3>
+                                        <p><strong>Сарлавха:</strong> <span
+                                                class="text-dark">{{ $item->document->title }}</span></p>
+                                        <p><strong>Категория:</strong>
+                                            <span
+                                                class="text-dark">{{ $item->document->category ? $item->document->category->name : 'Категория танланмаган' }}</span>
+                                        </p>
+                                        <p><strong>Хат Рақами:</strong> <span
+                                                class="text-dark">{{ $item->document->letter_number }}</span></p>
+                                        <p><strong>Қабул Қилинган Санаси:</strong> <span
+                                                class="text-dark">{{ $item->document->received_date }}</span></p>
+
+                                        <h4 class="mt-4">Қўшимча Файллар:</h4>
                                         @if ($item->document->files->count())
-                                            <ul class="list-group">
+                                            <ul class="list-group mt-2">
                                                 @foreach ($item->document->files as $file)
                                                     <li class="list-group-item">
-                                                        <a href="{{ Storage::url($file->file_path) }}" target="_blank">
+                                                        <a href="{{ Storage::url($file->file_path) }}" target="_blank"
+                                                            class="text-decoration-none">
                                                             {{ basename($file->file_path) }}
                                                         </a>
                                                     </li>
                                                 @endforeach
                                             </ul>
                                         @else
-                                            <p>Файллар қўшилмаган.</p>
+                                            <p class="text-muted mt-2">Файллар қўшилмаган.</p>
                                         @endif
                                     </div>
 
                                     <hr>
-
-                             
-
                                 @endif
-                                {{-- @dd($item) --}}
                             </div>
+
 
                             <div class="col-5 ">
                                 <div class="card">
@@ -331,13 +463,14 @@
 
                                             <div class="WordSection1">
 
-                                                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0"
-                                                    width="100%" style="width:100%; none">
+                                                <table class="MsoTableGrid" border="1" cellspacing="0"
+                                                    cellpadding="0" width="100%" style="width:100%; none">
                                                     <tr style="height:482.1pt">
-                                                        <td width="737" valign="top" style="width:100%; padding:20px">
+                                                        <td width="737" valign="top"
+                                                            style="width:100%; padding:20px">
                                                             <div align="center">
-                                                                <table class="MsoNormalTable" border="0" cellspacing="0"
-                                                                    cellpadding="0" align="center"
+                                                                <table class="MsoNormalTable" border="0"
+                                                                    cellspacing="0" cellpadding="0" align="center"
                                                                     style="border-collapse:collapse">
                                                                     <tr style="height:12.9pt">
                                                                         <td
@@ -371,7 +504,8 @@
                                                                     </tr> --}}
                                                                 </table>
                                                             </div>
-                                                            <p class="MsoNormal" align="center" style="text-align:center">
+                                                            <p class="MsoNormal" align="center"
+                                                                style="text-align:center">
                                                                 <b><span lang="EN-US"
                                                                         style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b>
                                                             </p>
@@ -386,7 +520,8 @@
                                                                     </ul>
                                                                 @endif
                                                             </p>
-                                                            <p class="MsoNormal" align="center" style="text-align:center">
+                                                            <p class="MsoNormal" align="center"
+                                                                style="text-align:center">
                                                                 <span lang="EN-US"
                                                                     style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black">&nbsp;</span>
                                                             </p>
@@ -486,118 +621,6 @@
 
 
 
-                        {{-- Admin Status Section --}}
-                        @if ($item->order)
-                            @if ($item->order->checked_status == 2)
-                                <div class="mt-4 border p-3 rounded bg-light">
-                                    <h3 class="text-danger">Председатель правления статус: Восстановить по поручению</h3>
-                                    <p class="card-text"><strong>Комментарий об восстановление:</strong></p>
-                                    <blockquote class="blockquote">
-                                        <p class="mb-0">{{ $item->order->checked_comment }}</p>
-                                    </blockquote>
-                                    <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
-                                            class="text-muted">{{ $item->order->checked_time ?? '' }}</span></p>
-
-                                </div>
-                            @elseif($item->order->checked_status == 1)
-                                <div class="mt-4 border p-3 rounded bg-light">
-                                    <h3 class="text-success">Председатель правления статус: Вазифа тасдиқланди</h3>
-                                    <p class="card-text mt-3"><strong>Дата одобрения:</strong> <span
-                                            class="text-muted">{{ $item->order->checked_time ?? '' }}</span></p>
-                                </div>
-                            @endif
-
-                            {{-- Employee Rejection Comments --}}
-                            @if ($item->status->id != 4 && $item->status->name == 'XODIM_REJECT')
-                                <h3>Ходим статус</h3>
-                                <div class="mt-4 border p-3 rounded bg-light">
-                                    <h5 class="text-danger">Восстановить по поручению</h5>
-                                    <p class="card-text"><strong>Кто отклонил:</strong> <span
-                                            class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span></p>
-                                    <p class="card-text"><strong>Комментарий об восстановление:</strong></p>
-                                    <blockquote class="blockquote">
-                                        <p class="mb-0">{{ $item->reject_comment }}</p>
-                                    </blockquote>
-                                    @php
-                                        $rejectFiles = $item->files->filter(function ($file) {
-                                            return file_exists(public_path('porucheniya/reject/' . $file->file_name));
-                                        });
-                                    @endphp
-                                    @if ($rejectFiles->count() > 0)
-                                        <h5>Загруженные файлы:</h5>
-                                        <ul class="list-group">
-                                            @foreach ($rejectFiles as $file)
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span>
-                                                        <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}"
-                                                            class="btn btn-primary" target="_blank">{{ $file->name }}
-                                                            Посмотреть</a>
-                                                        <form action="{{ route('file.delete', $file->id) }}"
-                                                            method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Удалить</button>
-                                                        </form>
-                                                    </span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>Нет загруженных файлов.</p>
-                                    @endif
-
-                                    <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
-                                            class="text-muted">{{ $item->reject_time }}</span></p>
-                                </div>
-                            @elseif($item->status->name == 'Completed')
-                                <div class="mt-4 border p-3 rounded bg-light">
-                                    <h5 class="text-success">Завершено</h5>
-                                    <p class="card-text"><strong>Кто закончил:</strong> <span
-                                            class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span>
-                                    </p>
-
-
-                                    <blockquote class="blockquote text-success">
-                                        <p class="mb-0">Вазифа якунланди</p>
-                                        <p class="mb-0">{{ $item->reject_comment }}</p>
-                                    </blockquote>
-
-                                    @php
-                                        $completeFiles = $item->files->filter(function ($file) {
-                                            return file_exists(public_path('porucheniya/complete/' . $file->file_name));
-                                        });
-                                    @endphp
-
-                                    @if ($completeFiles->count() > 0)
-                                        <h5>Загруженные файлы:</h5>
-                                        <ul class="list-group">
-                                            @foreach ($completeFiles as $file)
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span>
-                                                        <a href="{{ asset('porucheniya/complete/' . $file->file_name) }}"
-                                                            class="btn btn-primary" target="_blank">{{ $file->name }}
-                                                            Посмотреть</a>
-                                                        <form action="{{ route('file.delete', $file->id) }}"
-                                                            method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Удалить</button>
-                                                        </form>
-                                                    </span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>Нет загруженных файлов.</p>
-                                    @endif
-
-                                    <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
-                                            class="text-muted">{{ $item->reject_time }}</span></p>
-                                </div>
-                            @endif
-                        @endif
 
 
                         {{-- Action Buttons --}}
