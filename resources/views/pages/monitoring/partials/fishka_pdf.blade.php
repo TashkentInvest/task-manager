@@ -76,7 +76,7 @@
                                     </p>
                                 </td>
                             </tr>
-                            <tr style="height:12.9pt">
+                            {{-- <tr style="height:12.9pt">
                                 <td width="348"
                                     style="width:261.25pt; border:none; border-bottom:double windowtext 6.0pt; padding:0cm 0cm 0cm 1.5pt; height:12.9pt; text-align:center; vertical-align:middle;">
                                     <p class="MsoNormal" align="center"
@@ -86,7 +86,7 @@
                                                 RAISI VAZIFASINI BAJARUVCHI</span></b>
                                     </p>
                                 </td>
-                            </tr>
+                            </tr> --}}
                         </table>
                     </div>
                     <p class="MsoNormal" align="center" style="text-align:center"><b><span lang="EN-US"
@@ -133,7 +133,7 @@
                             lang="EN-US"
                             style="font-size:12.0pt;line-height:150%;font-family: 'DejaVu Sans', sans-serif;color:black;">{{ $task->note }}
                         </span><span lang="UZ-CYR"
-                            style="font-size:12.0pt; line-height:150%; font-family: 'DejaVu Sans', sans-serif;color:black;background:yellow">
+                            style="font-size:12.0pt; line-height:150%; font-family: 'DejaVu Sans', sans-serif;color:black;">
                     </p>
                     <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="EN-US"
                             style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span>
@@ -144,7 +144,7 @@
                     <p class="MsoNormal" align="right"
                         style="margin-right:15.75pt;text-align:right; text-indent:15.65pt">
                         <b><span lang="EN-US"
-                                style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif">B.&nbsp;Shakirov</span></b>
+                                style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif">Boshqaruv raisi v.b. B.&nbsp;Shakirov</span></b>
                     </p>
                     <p class="MsoNormal" style="margin-right:15.75pt;text-indent:15.65pt"><b><span lang="EN-US"
                                 style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b>
@@ -153,13 +153,13 @@
                                 style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b>
                     </p>
                     <p class="MsoNormal" style="margin-right:15.75pt"><i><span lang="EN-US"
-                                style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;background:yellow">2024</span></i><i><span
-                                lang="EN-US"
-                                style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif">-yil
-                                “___”-<span style="background:yellow">oktabr</span></span></i></p>
-                    <p class="MsoNormal"><i><span lang="EN-US"
+                                style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">{{$task->created_at->day}} 
+                                {{ $monthNames[$task->created_at->month - 1] }} 
+                                {{$task->created_at->year}}</span></i><i>
+                                    <br>
+                                    <span lang="EN-US"
                                 style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif"><span
-                                    style="background:yellow">19-son</span></span></i></p>
+                                    style="">{{$task->id + 26}}-son</span></span></i></p>
                 </td>
             </tr>
         </table>

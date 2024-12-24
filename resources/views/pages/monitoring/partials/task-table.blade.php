@@ -1,36 +1,84 @@
-<!-- resources/views/partials/task-table.blade.php -->
 <div class="table-responsive">
     <style>
+        /* Compact table styling */
         th,
         td {
-            width: 150px !important;
-            max-width: 150px !important;
-            word-wrap: break-word;
-            word-break: break-word;
-            white-space: normal;
-            overflow: hidden;
+            font-size: 12px;
+            padding: 8px !important;
+            white-space: nowrap;
             text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+        }
+
+        .badge {
+            font-size: 10px;
+            padding: 5px 8px;
+        }
+
+        .btn {
+            font-size: 12px;
+            padding: 4px 6px;
+        }
+
+        .btn-primary,
+        .btn-info,
+        .btn-success,
+        .btn-warning {
+            font-size: 10px;
+        }
+
+        /* Tooltip styling */
+        [data-bs-toggle="tooltip"] {
+            cursor: pointer;
+        }
+
+        /* Responsive scrolling */
+        @media screen and (max-width: 768px) {
+            th,
+            td {
+                font-size: 10px;
+            }
+
+            .btn {
+                padding: 2px 4px;
+            }
+
+            .badge {
+                font-size: 8px;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
         }
     </style>
+
     <table class="table table-nowrap align-middle table-borderless">
         <thead class="table-light">
             <tr>
-                {{-- <th scope="col">#</th> --}}
-                <th scope="col">Поручитель</th>
-                <th scope="col">Департамент / Исполнитель</th>
-                <th scope="col">Дата задачи / Дата окончания</th>
-                {{-- <th scope="col"></th> --}}
-                <th scope="col">Оставшиеся дни</th>
-                <th scope="col">Исполнитель</th>
-                <th scope="col">Председатель</th>
-                <th scope="col">Действия</th>
+                <th>Поручитель</th>
+                <th>Департамент / Исполнитель</th>
+                <th>Дата задачи / Дата окончания</th>
+                <th>Оставшиеся дни</th>
+                <th>Исполнитель</th>
+                <th>Председатель</th>
+                <th>Note</th>
+                <th>Действия</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($tasks as $item)
                 <tr>
-                    {{-- <td>{{ $item->id }}</td> --}}
-                    <td>{{ $item->user->name }}</td>
+                    <td title="{{ $item->user->name }}">{{ $item->user->name }}</td>
                     <td>
                         @if ($item->assign_type == 'role')
                             @if ($roleNamesByTask[$item->id] ?? false)
@@ -38,23 +86,18 @@
                                     $roles = $roleNamesByTask[$item->id];
                                 @endphp
 
-                                <div class="d-flex align-items-center flex-wrap" style="max-width: 250px;">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <span class="badge bg-primary text-light" title="{{ $roles->first() }}">
+                                        <i class="fas fa-user-tag"></i> {{ $roles->first() }}
+                                    </span>
                                     @if ($roles->count() > 1)
-                                        <span class="badge bg-primary text-light p-2 m-1">
-                                            <i class="fas fa-user-tag"></i> {{ $roles->first() }} и
-                                        </span>
-                                        <span class="badge bg-secondary text-light p-2 m-1">
-                                            <i class="fas fa-users"></i> {{ $roles->count() }} роли
-                                            назначены
-                                        </span>
-                                    @else
-                                        <span class="badge bg-primary text-light p-2 m-1">
-                                            <i class="fas fa-user-tag"></i> {{ $roles->first() }}
+                                        <span class="badge bg-secondary text-light" title="Назначены роли">
+                                            <i class="fas fa-users"></i> +{{ $roles->count() - 1 }}
                                         </span>
                                     @endif
                                 </div>
                             @else
-                                <span class="badge bg-secondary text-light p-2 m-1">
+                                <span class="badge bg-secondary text-light">
                                     <i class="fas fa-times-circle"></i> Роли не назначены
                                 </span>
                             @endif
@@ -63,199 +106,74 @@
                                 $users = $item->task_users;
                             @endphp
                             @if ($users->isNotEmpty())
-                                <div class="d-flex align-items-center flex-wrap" style="max-width: 250px;">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <span class="badge bg-primary text-light" title="{{ $users->first()->name }}">
+                                        <i class="fas fa-user"></i> {{ $users->first()->name }}
+                                    </span>
                                     @if ($users->count() > 1)
-                                        <span class="badge bg-primary text-light p-2 m-1">
-                                            <i class="fas fa-user"></i> {{ $users->first()->name }} и
-                                        </span>
-                                        <span class="badge bg-secondary text-light p-2 m-1">
-                                            <i class="fas fa-users"></i> {{ $users->count() }} пользователей
-                                                назначено
-                                        </span>
-                                    @else
-                                        <span class="badge bg-primary text-light p-2 m-1">
-                                            <i class="fas fa-user"></i> {{ $users->first()->name }}
+                                        <span class="badge bg-secondary text-light" title="Назначены пользователи">
+                                            <i class="fas fa-users"></i> +{{ $users->count() - 1 }}
                                         </span>
                                     @endif
                                 </div>
                             @else
-                                <span class="badge bg-secondary text-light p-2 m-1">
+                                <span class="badge bg-secondary text-light">
                                     <i class="fas fa-times-circle"></i> Нет назначенных пользователей
                                 </span>
                             @endif
                         @else
-                            <span class="badge bg-warning text-dark p-2 m-1">Не найдено</span>
+                            <span class="badge bg-warning text-dark">Не найдено</span>
                         @endif
                     </td>
-
                     <td>{{ $item->issue_date ?? 'Не указана' }} / {{ $item->planned_completion_date ?? 'Не указана' }}</td>
-                    {{-- <td></td> --}}
                     <td>
                         @php
                             $remainingDays = $item->planned_completion_date
                                 ? now()->diffInDays($item->planned_completion_date, false)
                                 : 'N/A';
-
-                            // Check if reject_time exists
-                            $isRejected = !is_null($item->reject_time);
                         @endphp
-
                         @if (is_int($remainingDays))
-                            @if ($isRejected)
-                                @if ($remainingDays >= 0 || $item->order->checked_status == 1)
-                                    <span class="badge badge-soft-success font-size-16 m-1">
-                                        Срок выполнения еще не истек: {{ $remainingDays }} дней осталось
-                                    </span>
-                                @else
-                                    <span class="badge badge-soft-danger font-size-16 m-1">
-                                        Срок завершения был {{ abs($remainingDays) }} дней назад
-                                    </span>
-                                @endif
+                            @if ($remainingDays > 0)
+                                <span class="badge bg-warning">Осталось: {{ $remainingDays }} дней</span>
+                            @elseif ($remainingDays < 0)
+                                <span class="badge bg-danger">Просрочено на {{ abs($remainingDays) }} дней</span>
                             @else
-                                @if ($remainingDays > 0)
-                                    <span class="badge badge-soft-warning font-size-16 m-1">
-                                        {{ $remainingDays }} дней осталось
-                                    </span>
-                                @elseif ($remainingDays < 0)
-                                    <span class="badge badge-soft-danger font-size-16 m-1">
-                                        {{ abs($remainingDays) }} дней просрочено
-                                    </span>
-                                @else
-                                    <span class="badge badge-soft-warning font-size-16 m-1">
-                                        Срок сегодня
-                                    </span>
-                                @endif
+                                <span class="badge bg-warning">Срок сегодня</span>
                             @endif
                         @else
                             N/A
                         @endif
-
                     </td>
-                    {{-- <td>
-                        <div class="d-flex align-items-center">
-                            <span class="badge badge-soft-{{ $item->status->getColor() }} font-size-16 m-1">
-                                {{ $item->status->name }}
-                            </span>
-                        </div>
-                    </td> --}}
                     <td>
-                        <div class="d-flex align-items-center">
-                            <span class="badge badge-soft-{{ $item->status->getColor() }} font-size-16 m-1">
-                                @if ($item->status->name == 'Active')
-                                    Активный
-                                @elseif($item->status->name == 'Canceled')
-                                    Отмененный
-                                @elseif($item->status->name == 'Accepted')
-                                    Принятый
-                                @elseif($item->status->name == 'Completed')
-                                    Завершенный
-                                @elseif($item->status->name == 'Deleted')
-                                    Удаленный
-                                @elseif($item->status->name == 'ORDER_ACTIVE')
-                                    Заказ активен
-                                @elseif($item->status->name == 'TIME_IS_OVER')
-                                    Время истекло
-                                @elseif($item->status->name == 'ADMIN_REJECT')
-                                    Отклонен администратором
-                                @elseif($item->status->name == 'XODIM_REJECT')
-                                    Отклонен сотрудником
-                                @else
-                                    {{ $item->status->name }}
-                                @endif
-                            </span>
-                        </div>
+                        <span class="badge bg-{{ $item->status->getColor() }}">
+                            {{ $item->status->name }}
+                        </span>
                     </td>
-
                     <td>
-                        @if (isset($item->order))
-                            @if ($item->order->checked_status == 1)
-                                <div class="d-flex align-items-center">
-                                    <span class="badge badge-soft-success font-size-16 m-1">
-                                        Тасдиқланди
-                                    </span>
-                                </div>
-                            @elseif($item->order->checked_status == 2)
-                                <div class="d-flex align-items-center">
-                                    <span class="badge badge-soft-danger font-size-16 m-1">
-                                        Рад этилди
-                                    </span>
-                                </div>
-                            @else
-                                <p></p>
-                            @endif
+                        @if (isset($item->order) && $item->order->checked_status == 1)
+                            <span class="badge bg-success">Тасдиқланди</span>
+                        @elseif(isset($item->order) && $item->order->checked_status == 2)
+                            <span class="badge bg-danger">Рад этилди</span>
                         @endif
-
-
-               
                     </td>
-
+                    <td>
+                        {{$item->note}}
+                    </td>
                     <td class="text-center">
-                        <ul class="list-unstyled d-flex gap-2  justify-content-center">
-                            @if (auth()->user()->roles[0]->name != 'Super Admin')
-                                @if ($item->status->name == 'Active')
-                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
-                                        <form action="{{ route('orders.store') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="task_id" value="{{ $item->id }}">
-                                            <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                                            <button type="submit" class="btn btn-success">
-                                                <i class="bx bxs-badge-check"></i>
-                                            </button>
-                                        </form>
-                                    </li>
-                                @endif
-                            @else
-                                 <li data-bs-toggle="tooltip" data-bs-placement="top" title="Редактировать">
-                                    <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-info">
-                                        <i class="bx bxs-edit"></i>
-                                    </a>
-                                </li>
-                              {{--  <li data-bs-toggle="tooltip" data-bs-placement="top" title="Удалить">
-                                    <form action="{{ route('taskDestroy', $item->id) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="bx bxs-trash"></i>
-                                        </button>
-                                    </form>
-                                </li> --}}
-                            @endif
-                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Подробности">
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal_{{ $item->id }}">
-                                    <i class="bx bxs-show"></i>
-                                </button>
-                            </li>
-
-                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Посмотреть">
-                                <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">
-                                    {{-- <i class="bx bxs-right-"></i>  --}}
-                                    Посмотреть
-
-                                </a>
-                            </li>
-
-                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Посмотреть">
-                                <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-primary">
-                                    {{-- <i class="bx bxs-right-"></i>  --}}
-                                    PDF
-
-                                </a>
-                            </li>
-                            
-
-                        </ul>
-                        @include('pages.monitoring.partials.task-modal', [
-                            'item' => $item,
-                            'roleNamesByTask' => $roleNamesByTask,
-                        ])
+                        <div class="d-flex flex-wrap gap-1 justify-content-center">
+                            <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary" title="Посмотреть">
+                                Посмотреть
+                            </a>
+                            <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-primary" title="PDF">
+                                PDF
+                            </a>
+                        </div>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="9" class="text-center">
-                        <img src="{{ asset('assets/images/empty.png') }}" alt="No Data" width="50%">
+                    <td colspan="7" class="text-center">
+                        <img src="{{ asset('assets/images/empty.png') }}" alt="No Data" style="width: 50%;">
                     </td>
                 </tr>
             @endforelse
