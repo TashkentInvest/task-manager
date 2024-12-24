@@ -41,6 +41,12 @@
             cursor: pointer;
         }
 
+        td.note-column {
+            max-width: 200px; /* Set a maximum width for the column */
+            word-break: break-word;
+            white-space: normal;
+            line-height: 1.6; /* Add line-height for better spacing */
+        }
         /* Responsive scrolling */
         @media screen and (max-width: 768px) {
             th,
@@ -71,7 +77,7 @@
                 <th>Оставшиеся дни</th>
                 <th>Исполнитель</th>
                 <th>Председатель</th>
-                <th>Note</th>
+                <th style="width: 300px !important">Note</th>
                 <th>Действия</th>
             </tr>
         </thead>
@@ -156,8 +162,8 @@
                             <span class="badge bg-danger">Рад этилди</span>
                         @endif
                     </td>
-                    <td>
-                        {{$item->note}}
+                    <td class="note-column">
+                        {{ $item->note }}
                     </td>
                     <td class="text-center">
                         <div class="d-flex flex-wrap gap-1 justify-content-center">
