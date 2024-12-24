@@ -14,7 +14,20 @@
                 class="form-control" required>
         </div>
 
-   
+        <!-- Status Type Dropdown -->
+        <div class="mb-3">
+            <label for="status_type" class="form-label">Ҳужжат Турини Танланг:</label>
+            <select name="status_type" id="status_type" class="form-select" required>
+                <option value="">-- Ҳужжат Турини Танланг --</option>
+                <option value="kiruvchi"
+                    {{ old('status_type', isset($document) ? $document->status_type : '') == 'kiruvchi' ? 'selected' : '' }}>
+                    Кирувчи</option>
+                <option value="chiquvchi"
+                    {{ old('status_type', isset($document) ? $document->status_type : '') == 'chiquvchi' ? 'selected' : '' }}>
+                    Чиқувчи</option>
+            </select>
+        </div>
+
 
         <!-- Letter Number Field -->
         <div class="mb-3">
@@ -74,7 +87,7 @@
             </select>
         </div>
 
-      
+
 
         <!-- File Upload Field -->
         <div class="mb-3">
@@ -137,7 +150,5 @@
                 ministryContainer.style.display = 'none';
             }
         });
-
-      
     </script>
 @endsection

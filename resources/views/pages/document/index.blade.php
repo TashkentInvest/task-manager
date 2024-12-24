@@ -20,6 +20,7 @@
                 <thead>
                     <tr class="table-info">
                         <th>ID</th>
+                        <th>Ҳужжат Тури</th>
                         <th>Асосий Категория</th>
                         <th>Қўшимча Категория</th>
                         <th>Вазирлик</th>
@@ -34,6 +35,7 @@
                     @forelse($documents as $document)
                         <tr>
                             <td>{{ $document->id }}</td>
+                            <td>{{ $document->status_type }}</td>
                             <td>
                                 {{ $document->category ? $document->category->parent->name ?? $document->category->name : 'Йўқ' }}
                             </td>

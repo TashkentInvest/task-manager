@@ -6,6 +6,16 @@
 <form action="{{ route('documents.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
+
+    <div class="mb-3">
+        <label for="status_type" class="form-label">Ҳужжат Турини Танланг:</label>
+        <select name="status_type" id="status_type" class="form-select" required>
+            <option value="">-- Ҳужжат Турини Танланг --</option>
+            <option value="kiruvchi" {{ old('status_type') == 'kiruvchi' ? 'selected' : '' }}>Кирувчи</option>
+            <option value="chiquvchi" {{ old('status_type') == 'chiquvchi' ? 'selected' : '' }}>Чиқувчи</option>
+        </select>
+    </div>
+    
     <!-- Title Field -->
     <div class="mb-3">
         <label for="title" class="form-label">Сарлавха:</label>
