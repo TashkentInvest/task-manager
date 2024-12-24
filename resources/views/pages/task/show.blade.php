@@ -234,6 +234,32 @@
                                         @endif
                                     </div>
                                 @endif
+
+                                {{-- order action --}}
+                                <h4 class="text-primary mt-5">Order Action History</h4>
+                                @php
+                                    // Make sure we have the order for this task_id
+                                    $order = \App\Models\Order::where('task_id', $item->id)->first();
+                                @endphp
+                        
+                                @if ($order && $order->actions->count() > 0)
+                                    <ul class="list-group list-group-flush mt-3">
+                                        @foreach ($order->actions as $action)
+                                            <li class="list-group-item">
+                                                <strong>{{ $action->user->name }}</strong>
+                                                <br>
+                                                <span class="text-muted">{{ $action->created_at->format('d.m.Y H:i') }}</span>
+                                                <br>
+                                                <em>{{ $action->action }}</em>
+                                                @if($action->comment)
+                                                    &mdash; <small>{{ $action->comment }}</small>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p class="text-muted mt-3">No actions recorded yet.</p>
+                                @endif
                             </div>
                             
 

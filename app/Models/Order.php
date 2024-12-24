@@ -24,6 +24,12 @@ class Order extends Model
         'checked_time'
     ];
 
+    public function actions()
+    {
+        return $this->hasMany(OrderAction::class);
+    }
+
+
     public static function deepFilters()
     {
 
