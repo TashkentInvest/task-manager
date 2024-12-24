@@ -24,7 +24,7 @@
                     <a href="{{ route('documents.index') }}" class=" waves-effect {{ Request::is('documents*') ? 'mm-active':'' }}">
                         <i class="bx bxs-file"></i>
                         <!-- <sub><i class="fas fa-child"></i></sub> -->
-                        <span>Documents</span>
+                        <span>Хатлар</span>
                     </a>
                 </li>
                 @endcan

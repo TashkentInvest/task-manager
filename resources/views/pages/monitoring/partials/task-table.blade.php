@@ -178,7 +178,7 @@
                     @endif
                 </p>
 
-                <p><strong>Note:</strong> {{ $item->note }}</p>
+                <p><strong>Примечание:</strong> {{ $item->note }}</p>
             </div>
 
             <!-- Card Footer -->

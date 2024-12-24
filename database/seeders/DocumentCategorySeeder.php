@@ -64,6 +64,7 @@ class DocumentCategorySeeder extends Seeder
         $kompaniyaCategory = DocumentCategory::create(['name' => 'Korxona va fuqorolar murojatlar']);
         $this->createSubcategories($kompaniyaCategory, [
             'Tadbirkorlar',
+            'Banklar',
         ]);
 
         // $document = Document::create([
