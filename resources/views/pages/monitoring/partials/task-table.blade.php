@@ -75,14 +75,14 @@
             font-size: 10px;
             padding: 4px 8px;
             color: #fff;
-            background-color: #007bff;
             text-decoration: none;
             border-radius: 4px;
             transition: 0.3s;
         }
 
         .kanban-card-footer .btn:hover {
-            background-color: #0056b3;
+            background-color: #fff;
+            color: #000 ;
         }
 
         /* Tooltip on Hover */
@@ -154,6 +154,13 @@
             <div class="kanban-card-footer">
                 <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">Посмотреть</a>
                 <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-warning">PDF</a>
+                <form action="{{ route('taskDestroy', $item->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bx bxs-trash"></i> Удалить
+                    </button>
+                </form>
             </div>
         </div>
     @endforeach
