@@ -125,8 +125,8 @@
                     @endif
                 </p>
 
-                <p><strong>Дата задачи:</strong> {{ $item->issue_date ?? 'Не указана' }}</p>
-                <p><strong>Дата окончания:</strong> {{ $item->planned_completion_date ?? 'Не указана' }}</p>
+                <p><strong>Дата задачи:</strong> {{ $item->issue_date->format('d.m.Y H:i:s') ?? 'Не указана' }}</p>
+                <p><strong>Дата окончания:</strong> {{ $item->planned_completion_date->format('d.m.Y H:i:s') ?? 'Не указана' }}</p>
 
                 <p><strong>Оставшиеся дни:</strong>
                     @php

@@ -36,7 +36,7 @@ class Tasks extends Model
 
 
     protected $casts = [
-        'issue_date',
+        'issue_date'=>'datetime',
         'planned_completion_date' =>'date'
     ];
 
