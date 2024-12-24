@@ -1,127 +1,127 @@
 @extends('layouts.admin')
 
 @section('content')
-<style>
-    /* General Styles */
-    .card {
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        transition: transform 0.2s ease-in-out;
-    }
+    <style>
+        /* General Styles */
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease-in-out;
+        }
 
-    .card:hover {
-        transform: scale(1.02);
-    }
+        .card:hover {
+            transform: scale(1.02);
+        }
 
-    .card-header {
-        background: linear-gradient(120deg, #4e73df, #224abe);
-        color: #fff;
-        font-weight: bold;
-        font-size: 1.5rem;
-        padding: 20px;
-        border-radius: 12px 12px 0 0;
-    }
+        .card-header {
+            background: linear-gradient(120deg, #4e73df, #224abe);
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+        }
 
-    .card-body {
-        padding: 25px;
-        background-color: #f8f9fc;
-    }
+        .card-body {
+            padding: 25px;
+            background-color: #f8f9fc;
+        }
 
-    .card-title {
-        font-size: 1.3rem;
-        color: #4e73df;
-        margin-bottom: 15px;
-        font-weight: bold;
-    }
+        .card-title {
+            font-size: 1.3rem;
+            color: #4e73df;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
 
-    .btn {
-        border-radius: 6px;
-        font-size: 1rem;
-        padding: 10px 18px;
-        transition: background-color 0.3s;
-    }
+        .btn {
+            border-radius: 6px;
+            font-size: 1rem;
+            padding: 10px 18px;
+            transition: background-color 0.3s;
+        }
 
-    .btn-success:hover {
-        background-color: #218838;
-    }
+        .btn-success:hover {
+            background-color: #218838;
+        }
 
-    .btn-danger:hover {
-        background-color: #c82333;
-    }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
 
-    .badge {
-        font-size: 0.95rem;
-        padding: 0.5rem 0.7rem;
-        border-radius: 10px;
-    }
+        .badge {
+            font-size: 0.95rem;
+            padding: 0.5rem 0.7rem;
+            border-radius: 10px;
+        }
 
-    .modal-header {
-        background: linear-gradient(120deg, #4e73df, #224abe);
-        color: white;
-    }
+        .modal-header {
+            background: linear-gradient(120deg, #4e73df, #224abe);
+            color: white;
+        }
 
-    .modal-footer {
-        background-color: #f8f9fc;
-    }
+        .modal-footer {
+            background-color: #f8f9fc;
+        }
 
-    .list-group-item {
-        border: none;
-        background-color: #f8f9fc;
-        margin-bottom: 10px;
-        padding: 15px 20px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+        .list-group-item {
+            border: none;
+            background-color: #f8f9fc;
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .list-group-item:hover {
-        background-color: #e2e6ea;
-    }
+        .list-group-item:hover {
+            background-color: #e2e6ea;
+        }
 
-    .blockquote {
-        font-style: italic;
-        color: #6c757d;
-        border-left: 4px solid #4e73df;
-        padding-left: 15px;
-        margin: 10px 0;
-    }
+        .blockquote {
+            font-style: italic;
+            color: #6c757d;
+            border-left: 4px solid #4e73df;
+            padding-left: 15px;
+            margin: 10px 0;
+        }
 
-    .status-badge {
-        padding: 5px 10px;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        color: white;
-        font-weight: bold;
-    }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: white;
+            font-weight: bold;
+        }
 
-    .status-active {
-        background-color: #17a2b8;
-    }
+        .status-active {
+            background-color: #17a2b8;
+        }
 
-    .status-completed {
-        background-color: #28a745;
-    }
+        .status-completed {
+            background-color: #28a745;
+        }
 
-    .status-rejected {
-        background-color: #dc3545;
-    }
+        .status-rejected {
+            background-color: #dc3545;
+        }
 
-    .status-pending {
-        background-color: #ffc107;
-    }
+        .status-pending {
+            background-color: #ffc107;
+        }
 
-    .task-details {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
+        .task-details {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
 
-    .task-details h5 {
-        margin-bottom: 15px;
-        font-weight: bold;
-        color: #4e73df;
-    }
-</style>
+        .task-details h5 {
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #4e73df;
+        }
+    </style>
 
     <div class="container-fluid">
         <div class="row mb-4">
@@ -130,11 +130,19 @@
 
 
                     <div class="card-header bg-primary text-white">
-                        <h3 class="mb-0">Детали поручения ID: {{ $item->id }}</h3>
+                        <h3 class="mb-0">Исполнитель поручения:
+                            @if ($item->task_users->isNotEmpty())
+                                <ul class="mt-2">
+                                    @foreach ($item->task_users as $i)
+                                        <li><b>{{ $i->name ?? '' }}</b> — {{ $i->about ?? '' }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </h3>
                     </div>
                     <div class="card-body">
                         {{-- Task Details --}}
-                    
+
                         <br><br>
                         <div class="row">
                             <div class="col-6">
@@ -390,17 +398,16 @@
                         </div>
                     </div>
 
-                    @if(auth()->user()->roles[0]->name == 'Super Admin')
-                   
-                    <div class="card-body">
-                        <form action="{{ route('taskDestroy', $item->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bx bxs-trash"></i> Удалить
-                            </button>
-                        </form>
-                    </div>
+                    @if (auth()->user()->roles[0]->name == 'Super Admin')
+                        <div class="card-body">
+                            <form action="{{ route('taskDestroy', $item->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bx bxs-trash"></i> Удалить
+                                </button>
+                            </form>
+                        </div>
                     @endif
                 </div>
             </div>

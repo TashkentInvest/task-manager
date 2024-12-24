@@ -149,8 +149,10 @@ class TaskController extends Controller
         $categories = Category::all(); // Adjust as necessary
         $roles = Role::all();
         $users = User::all();
+        $documents = Document::with('category')->get();
 
-        return view('pages.task.edit', compact('task', 'categories', 'roles', 'users'));
+
+        return view('pages.task.edit', compact('task', 'categories', 'roles', 'users','documents'));
     }
     public function show($id)
     {

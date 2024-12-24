@@ -125,9 +125,20 @@
                     @endif
                 </p>
 
+                <p>
+                    <b>Ma’sullar:</b>
+                    @if ($item->task_users->isNotEmpty())
+                        <ul>
+                            @foreach ($item->task_users as $i)
+                                <li><b>{{ $i->name ?? '' }}</b> — {{ $i->about ?? '' }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </p>
                 <p><strong>Дата задачи:</strong> {{ $item->issue_date->format('d.m.Y H:i:s') ?? 'Не указана' }}</p>
                 <p><strong>Дата окончания:</strong>
                     {{ $item->planned_completion_date->format('d.m.Y H:i:s') ?? 'Не указана' }}</p>
+
 
                 <p><strong>Оставшиеся дни:</strong>
                     @php
