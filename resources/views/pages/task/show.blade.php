@@ -238,10 +238,10 @@
                                 @if ($item->order)
                                     @if ($item->order->checked_status == 2)
                                         <div class="mt-4 border p-3 rounded bg-white shadow-sm">
-                                            <h3 class="text-danger mb-3">
+                                            <h5 class="text-danger mb-3">
                                                 <i class="bi bi-x-circle-fill ms-icon"></i>
                                                 Председатель правления статус: Восстановить по поручению
-                                            </h3>
+                                            </h5>
                                             <p class="card-text">
                                                 <strong>Комментарий об восстановление:</strong>
                                             </p>
@@ -257,10 +257,10 @@
                                         </div>
                                     @elseif($item->order->checked_status == 1)
                                         <div class="mt-4 border p-3 rounded bg-white shadow-sm">
-                                            <h3 class="text-success mb-3">
+                                            <h4 class="text-success mb-3">
                                                 <i class="bi bi-check-circle-fill ms-icon"></i>
                                                 Председатель правления статус: Вазифа тасдиқланди
-                                            </h3>
+                                            </h4>
                                             <p class="card-text mt-3">
                                                 <strong>Дата одобрения:</strong>
                                                 <span class="text-muted">{{ $item->order->checked_time ?? '' }}</span>
