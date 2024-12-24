@@ -126,7 +126,8 @@
                 </p>
 
                 <p><strong>Дата задачи:</strong> {{ $item->issue_date->format('d.m.Y H:i:s') ?? 'Не указана' }}</p>
-                <p><strong>Дата окончания:</strong> {{ $item->planned_completion_date->format('d.m.Y H:i:s') ?? 'Не указана' }}</p>
+                <p><strong>Дата окончания:</strong>
+                    {{ $item->planned_completion_date->format('d.m.Y H:i:s') ?? 'Не указана' }}</p>
 
                 <p><strong>Оставшиеся дни:</strong>
                     @php
@@ -153,8 +154,11 @@
             <!-- Card Footer -->
             <div class="kanban-card-footer">
                 <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">Посмотреть</a>
-                <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-warning">PDF</a>
+                <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-primary">Fishka</a>
+
+
                 @if (auth()->user()->roles->first()->name == 'Super Admin')
+                    <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-primary">Edit</a>
                     <form action="{{ route('taskDestroy', $item->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
