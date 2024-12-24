@@ -63,6 +63,7 @@
                             <tr style="height:12.9pt">
                                 <td style="width: 100%; text-align: center; vertical-align: middle;">
                                     <p class="MsoNormal" align="center">
+                                        <img style="width: 200px" src="https://toshkentinvest.uz/assets/frontend/tild6238-3031-4265-a564-343037346231/tic_logo_blue.png" alt=""> <br><br>
                                         <b><span lang="EN-US"
                                                 style="line-height:115%; font-family: 'Times New Roman',serif;">“TOSHKENT
                                                 INVEST KOMPANIYASI”</span></b>
@@ -91,23 +92,35 @@
                     <p class="MsoNormal" align="center" style="text-align:center"><b><span lang="EN-US"
                                 style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b>
                     </p>
-                    <p class="MsoNormal" align="center" style="text-align:center"><span lang="EN-US"
-                            style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black;">
-
-                            @if ($task->task_users->isNotEmpty())
-
-                                @foreach ($task->task_users as $i)
-                                    <b>{{ $i->name ?? '' }}</b> <br>
-                                    {{ $i->about ?? '' }} <br>
-                                @endforeach
-                            @endif
-
-                        </span></p>
+                    <p class="MsoNormal">
+                        <b>Ma’sullar:</b>
+                        @if ($task->task_users->isNotEmpty())
+                        <ul>
+                            @foreach ($task->task_users as $i)
+                            <li><b>{{ $i->name ?? '' }}</b> — {{ $i->about ?? '' }}</li>
+                            @endforeach
+                        </ul>
+                        @endif
+                    </p>
                     <p class="MsoNormal" align="center" style="text-align:center"><span lang="EN-US"
                             style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black">&nbsp;</span>
                     </p>
-                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><b><span lang="EN-US"
-                                style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black;background:yellow">02.12.2024</span></b>
+
+          
+                
+                <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt">
+                    <b>
+                        <span lang="EN-US" style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black;">
+                            Muddati: {{$task->planned_completion_date->day}} 
+                            {{ $monthNames[$task->planned_completion_date->month - 1] }} 
+                            {{$task->planned_completion_date->year}}
+
+                            {{-- {{$task->planned_completion_date->format('d.m.Y') ?? ''}} |  --}}
+                        </span>
+                    </b>
+                </p>
+                
+                
                     </p>
                     <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="EN-US"
                             style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black">&nbsp;</span>
