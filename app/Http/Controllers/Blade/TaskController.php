@@ -63,6 +63,7 @@ class TaskController extends Controller
                 'note' => 'nullable|string',
 
                 'category_id' => 'nullable',
+                'document_id' => 'nullable',
                 'roles' => 'nullable|array',
                 'roles.*' => 'exists:roles,name',
                 'users' => 'nullable|array',
@@ -78,6 +79,8 @@ class TaskController extends Controller
             $task->issue_date = $validatedData['issue_date'] ?? null;
             $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
             $task->note = $validatedData['note'] ?? null;
+            $task->document_id = $validatedData['document_id'] ?? null;
+
 
 
             // Assign the assign_type based on the input
@@ -209,6 +212,7 @@ class TaskController extends Controller
             'roles.*' => 'exists:roles,name',
             'users' => 'nullable|array',
             'users.*' => 'exists:users,id',
+            'document_id' => 'nullable',
         ]);
 
         // Find the task by ID
@@ -221,6 +225,8 @@ class TaskController extends Controller
         $task->issue_date = $validatedData['issue_date'] ?? null;
         $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
         $task->note = $validatedData['note'] ?? null;
+        $task->document_id = $validatedData['document_id'] ?? null;
+
 
         // Handle the roles and users assignment
         $assignType = $request->input('assign_type');
