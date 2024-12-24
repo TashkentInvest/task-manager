@@ -140,7 +140,7 @@
                                         <strong class="text-primary">Поручитель:</strong>
                                         <span class="text-dark">{{ $item->user->name }}</span>
                                     </p>
-                            
+
                                     <h3 class="text-success my-4">Исполнитель поручения</h3>
                                     @if ($item->task_users->isNotEmpty())
                                         <ul class="list-unstyled">
@@ -154,28 +154,33 @@
                                     @else
                                         <p class="text-muted">Нет исполнителей.</p>
                                     @endif
-                            
+
                                     <h4 class="text-primary mt-5">Закрепленный файл</h4>
                                     @php
                                         $initialFiles = $item->files->filter(function ($file) {
                                             return file_exists(public_path('porucheniya/' . $file->file_name));
                                         });
                                     @endphp
-                            
+
                                     @if ($initialFiles->count() > 0)
                                         <ul class="list-group list-group-flush mt-3">
                                             @foreach ($initialFiles as $file)
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
                                                     <span>
-                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank" class="text-decoration-none">
-                                                            <span class="badge bg-primary text-white">{{ $file->name }}</span>
+                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}"
+                                                            target="_blank" class="text-decoration-none">
+                                                            <span
+                                                                class="badge bg-primary text-white">{{ $file->name }}</span>
                                                         </a>
                                                     </span>
                                                     @if (auth()->user()->roles[0]->name == 'Super Admin')
-                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST" class="d-inline">
+                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
+                                                            class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-danger">Удалить</button>
                                                         </form>
                                                     @endif
                                                 </li>
@@ -184,23 +189,30 @@
                                     @else
                                         <p class="text-muted mt-3">Нет загруженных файлов.</p>
                                     @endif
-                            
+
                                     <h4 class="text-primary mt-5">Информация о поручении</h4>
                                     @php
-                                        $remainingDays = $item->planned_completion_date ? now()->diffInDays($item->planned_completion_date, false) : 'N/A';
+                                        $remainingDays = $item->planned_completion_date
+                                            ? now()->diffInDays($item->planned_completion_date, false)
+                                            : 'N/A';
                                         $isRejected = !is_null($item->reject_time);
                                     @endphp
-                            
-                                    <p><strong class="text-primary">Дата выдачи:</strong> <span class="text-dark">{{ $item->issue_date ?? 'Не указана' }}</span></p>
+
+                                    <p><strong class="text-primary">Дата выдачи:</strong> <span
+                                            class="text-dark">{{ $item->issue_date ?? 'Не указана' }}</span></p>
                                     <p>
-                                        <strong class="text-primary">Срок выполнения:</strong> <span class="text-dark">{{ $item->planned_completion_date ?? 'Не указана' }}</span>
+                                        <strong class="text-primary">Срок выполнения:</strong> <span
+                                            class="text-dark">{{ $item->planned_completion_date ?? 'Не указана' }}</span>
                                         @if (is_int($remainingDays))
                                             @if ($isRejected)
-                                                <span class="badge bg-danger ms-3">Срок завершения был {{ abs($remainingDays) }} дней назад</span>
+                                                <span class="badge bg-danger ms-3">Срок завершения был
+                                                    {{ abs($remainingDays) }} дней назад</span>
                                             @elseif ($remainingDays > 0)
-                                                <span class="badge bg-success ms-3">{{ $remainingDays }} дней осталось</span>
+                                                <span class="badge bg-success ms-3">{{ $remainingDays }} дней
+                                                    осталось</span>
                                             @elseif ($remainingDays < 0)
-                                                <span class="badge bg-danger ms-3">Просрочено на {{ abs($remainingDays) }} дней</span>
+                                                <span class="badge bg-danger ms-3">Просрочено на {{ abs($remainingDays) }}
+                                                    дней</span>
                                             @else
                                                 <span class="badge bg-warning ms-3">Срок сегодня</span>
                                             @endif
@@ -209,21 +221,27 @@
                                         @endif
                                     </p>
                                 </div>
-                            
+
                                 @if (isset($item->document))
                                     <div class="task-details border rounded shadow p-4 bg-white mt-4">
                                         <h4 class="text-primary">Информация о документе</h4>
-                                        <p><strong>Сарлавха:</strong> <span class="text-dark">{{ $item->document->title }}</span></p>
-                                        <p><strong>Категория:</strong> <span class="text-dark">{{ $item->document->category->name ?? 'Категория танланмаган' }}</span></p>
-                                        <p><strong>Хат Рақами:</strong> <span class="text-dark">{{ $item->document->letter_number }}</span></p>
-                                        <p><strong>Қабул Қилинган Санаси:</strong> <span class="text-dark">{{ $item->document->received_date }}</span></p>
-                            
+                                        <p><strong>Сарлавха:</strong> <span
+                                                class="text-dark">{{ $item->document->title }}</span></p>
+                                        <p><strong>Категория:</strong> <span
+                                                class="text-dark">{{ $item->document->category->name ?? 'Категория танланмаган' }}</span>
+                                        </p>
+                                        <p><strong>Хат Рақами:</strong> <span
+                                                class="text-dark">{{ $item->document->letter_number }}</span></p>
+                                        <p><strong>Қабул Қилинган Санаси:</strong> <span
+                                                class="text-dark">{{ $item->document->received_date }}</span></p>
+
                                         <h4 class="text-primary mt-4">Қўшимча Файллар</h4>
                                         @if ($item->document->files->count())
                                             <ul class="list-group mt-2">
                                                 @foreach ($item->document->files as $file)
                                                     <li class="list-group-item">
-                                                        <a href="{{ Storage::url($file->file_path) }}" target="_blank" class="text-decoration-none">
+                                                        <a href="{{ Storage::url($file->file_path) }}" target="_blank"
+                                                            class="text-decoration-none">
                                                             {{ basename($file->file_path) }}
                                                         </a>
                                                     </li>
@@ -241,17 +259,18 @@
                                     // Make sure we have the order for this task_id
                                     $order = \App\Models\Order::where('task_id', $item->id)->first();
                                 @endphp
-                        
+
                                 @if ($order && $order->actions->count() > 0)
                                     <ul class="list-group list-group-flush mt-3">
                                         @foreach ($order->actions as $action)
                                             <li class="list-group-item">
                                                 <strong>{{ $action->user->name }}</strong>
                                                 <br>
-                                                <span class="text-muted">{{ $action->created_at->format('d.m.Y H:i') }}</span>
+                                                <span
+                                                    class="text-muted">{{ $action->created_at->format('d.m.Y H:i') }}</span>
                                                 <br>
                                                 <em>{{ $action->action }}</em>
-                                                @if($action->comment)
+                                                @if ($action->comment)
                                                     &mdash; <small>{{ $action->comment }}</small>
                                                 @endif
                                             </li>
@@ -260,8 +279,74 @@
                                 @else
                                     <p class="text-muted mt-3">No actions recorded yet.</p>
                                 @endif
+
+                                {{-- ----------------------------------- --}}
+                                @php
+                                    $order = \App\Models\Order::where('task_id', $item->id)->first();
+                                @endphp
+
+                                @if ($order)
+                                    <hr class="my-4">
+                                    <h4 class="text-primary">Order Details</h4>
+                                    <p>
+                                        <strong>order user:</strong>
+                                        <span class="text-dark">{{ $order->user->name ?? 'N/A' }}</span>
+                                    </p>
+                                    <p>
+                                        <strong>Checked Status:</strong>
+                                        <span
+                                            class="badge {{ $order->checked_status == 1 ? 'bg-success' : ($order->checked_status == 2 ? 'bg-danger' : 'bg-warning') }}">
+                                            {{ $order->checked_status == 1 ? 'Confirmed' : ($order->checked_status == 2 ? 'Rejected' : 'Pending') }}
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <strong>Checked Comment:</strong>
+                                        <span class="text-dark">{{ $order->checked_comment ?? 'N/A' }}</span>
+                                    </p>
+                                    <p>
+                                        <strong>Checked Time:</strong>
+                                        <span
+                                            class="text-dark">{{ $order->checked_time ? $order->checked_time : 'N/A' }}</span>
+                                    </p>
+                                    <p>
+                                        <strong>Finished User:</strong>
+                                        <span
+                                            class="text-dark">{{ $order->finished_user_id ? \App\Models\User::find($order->finished_user_id)->name : 'N/A' }}</span>
+                                    </p>
+
+                                    <!-- Action History -->
+                                   
+
+                                    <!-- Uploaded Files -->
+                                    <hr class="my-4">
+                                    <h4 class="text-primary">Uploaded Files</h4>
+                                    @php
+                                        $files = \App\Models\File::where('task_id', $item->id)->get();
+                                    @endphp
+
+                                    @if ($files->count() > 0)
+                                        <ul class="list-group">
+                                            @foreach ($files as $file)
+                                                <li class="list-group-item">
+                                                    <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}"
+                                                        target="_blank">
+                                                        <i class="bi bi-file-earmark"></i> {{ $file->name }}
+                                                    </a>
+                                                    <p class="text-muted mb-0">
+                                                        Uploaded By:
+                                                        {{ \App\Models\User::find($file->user_id)->name ?? 'Unknown' }}
+                                                    </p>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-muted">No files uploaded.</p>
+                                    @endif
+                                @else
+                                    <p class="text-muted">No order data available for this task.</p>
+                                @endif
                             </div>
-                            
+
 
                             <div class="col-5 ">
                                 <div class="card">
@@ -325,8 +410,8 @@
 
                                             <div class="WordSection1">
 
-                                                <table class="MsoTableGrid" border="1" cellspacing="0"
-                                                    cellpadding="0" width="100%" style="width:100%; none">
+                                                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0"
+                                                    width="100%" style="width:100%; none">
                                                     <tr style="height:482.1pt">
                                                         <td width="737" valign="top"
                                                             style="width:100%; padding:20px">
