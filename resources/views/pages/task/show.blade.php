@@ -1,100 +1,127 @@
 @extends('layouts.admin')
 
 @section('content')
-    <style>
-        .card {
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-        }
+<style>
+    /* General Styles */
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s ease-in-out;
+    }
 
-        .card-header {
-            border-radius: 10px 10px 0 0;
-            background: linear-gradient(45deg, #007bff, #0056b3);
-            color: white;
-        }
+    .card:hover {
+        transform: scale(1.02);
+    }
 
-        .card-body {
-            padding: 20px;
-        }
+    .card-header {
+        background: linear-gradient(120deg, #4e73df, #224abe);
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.5rem;
+        padding: 20px;
+        border-radius: 12px 12px 0 0;
+    }
 
-        .card-title {
-            font-size: 1.25rem;
-            color: #343a40;
-        }
+    .card-body {
+        padding: 25px;
+        background-color: #f8f9fc;
+    }
 
-        .card-text {
-            font-size: 1.1rem;
-        }
+    .card-title {
+        font-size: 1.3rem;
+        color: #4e73df;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
 
-        .btn {
-            border-radius: 5px;
-            padding: 10px 20px;
-        }
+    .btn {
+        border-radius: 6px;
+        font-size: 1rem;
+        padding: 10px 18px;
+        transition: background-color 0.3s;
+    }
 
-        .btn-success {
-            background-color: #28a745;
-            border-color: #28a745;
-        }
+    .btn-success:hover {
+        background-color: #218838;
+    }
 
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
 
-        .btn-info {
-            background-color: #17a2b8;
-            border-color: #17a2b8;
-        }
+    .badge {
+        font-size: 0.95rem;
+        padding: 0.5rem 0.7rem;
+        border-radius: 10px;
+    }
 
-        .btn-link {
-            color: #007bff;
-            text-decoration: none;
-        }
+    .modal-header {
+        background: linear-gradient(120deg, #4e73df, #224abe);
+        color: white;
+    }
 
-        .btn-link:hover {
-            color: #0056b3;
-            text-decoration: underline;
-        }
+    .modal-footer {
+        background-color: #f8f9fc;
+    }
 
-        .modal-header {
-            border-bottom: 1px solid #dee2e6;
-        }
+    .list-group-item {
+        border: none;
+        background-color: #f8f9fc;
+        margin-bottom: 10px;
+        padding: 15px 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        .modal-footer {
-            border-top: 1px solid #dee2e6;
-        }
+    .list-group-item:hover {
+        background-color: #e2e6ea;
+    }
 
-        .blockquote {
-            border-left: 5px solid #dc3545;
-            padding-left: 15px;
-            margin: 0;
-            font-size: 1.2rem;
-            color: #495057;
-        }
+    .blockquote {
+        font-style: italic;
+        color: #6c757d;
+        border-left: 4px solid #4e73df;
+        padding-left: 15px;
+        margin: 10px 0;
+    }
 
-        .list-group-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: white;
+        font-weight: bold;
+    }
 
-        .form-control {
-            border-radius: 5px;
-        }
+    .status-active {
+        background-color: #17a2b8;
+    }
 
-        .text-bold {
-            font-weight: bold;
-        }
+    .status-completed {
+        background-color: #28a745;
+    }
 
-        .text-muted {
-            color: #6c757d !important;
-        }
-    </style>
+    .status-rejected {
+        background-color: #dc3545;
+    }
+
+    .status-pending {
+        background-color: #ffc107;
+    }
+
+    .task-details {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .task-details h5 {
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: #4e73df;
+    }
+</style>
 
     <div class="container-fluid">
         <div class="row mb-4">
@@ -111,7 +138,7 @@
                         <br><br>
                         <div class="row">
                             <div class="col-6">
-                                <div class="mb-3">
+                                <div class="mb-3 task-details">
                                     <p class="card-text">
                                         <strong>Поручитель:</strong> <span class="text-muted">{{ $item->user->name }}</span>
                                     </p>
@@ -151,7 +178,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 task-details">
                                 <div class="mb-3">
 
                                     @php
