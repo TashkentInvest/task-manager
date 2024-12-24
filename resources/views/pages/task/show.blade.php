@@ -205,7 +205,7 @@
                                         <span class="text-dark">{{ $item->issue_date ?? 'Кўрсатилмаган' }}</span>
                                     </p>
 
-                                    <p>
+                                    {{-- <p>
                                         <strong class="text-primary">Бажариш муддати:</strong>
                                         <span class="text-dark">
                                             {{ $item->planned_completion_date ?? 'Кўрсатилмаган' }}
@@ -231,7 +231,7 @@
                                         @else
                                             <span class="badge bg-secondary ms-3">Кўрсатилмаган</span>
                                         @endif
-                                    </p>
+                                    </p> --}}
                                 </div>
 
                                 {{-- Admin Status Section --}}

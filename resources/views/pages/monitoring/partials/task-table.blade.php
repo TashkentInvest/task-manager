@@ -159,7 +159,7 @@
                 </p>
 
 
-                <p><strong>Оставшиеся дни:</strong>
+                {{-- <p><strong>Оставшиеся дни:</strong>
                     @php
                         $remainingDays = $item->planned_completion_date
                             ? now()->diffInDays($item->planned_completion_date, false)
@@ -176,7 +176,7 @@
                     @else
                         N/A
                     @endif
-                </p>
+                </p> --}}
 
                 <p><strong>Примечание:</strong> {{ $item->note }}</p>
             </div>
