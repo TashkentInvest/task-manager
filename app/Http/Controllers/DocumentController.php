@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
-    public function index()
+   public function index(Request $request)
     {
-        $documents = Document::with(['category.parent', 'ministry.parent'])->paginate(10);
+        $statusType = $request->input('status_type');
+
+        $documents = Document::when($statusType, function ($query, $statusType) {
+            return $query->where('status_type', $statusType);
+        })->with(['category.parent', 'ministry.parent'])->paginate(10);
 
         return view('pages.document.index', compact('documents'));
     }

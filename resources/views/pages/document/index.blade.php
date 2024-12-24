@@ -14,6 +14,18 @@
         @endif
     </div>
 
+    <!-- Filter Section -->
+    <form method="GET" action="{{ route('documents.index') }}" class="mb-3">
+        <div class="input-group">
+            <select name="status_type" class="form-select">
+                <option value="">Ҳужжат Турини Танланг</option>
+                <option value="kiruvchi" {{ request('status_type') == 'kiruvchi' ? 'selected' : '' }}>Кирувчи</option>
+                <option value="chiquvchi" {{ request('status_type') == 'chiquvchi' ? 'selected' : '' }}>Чиқувчи</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Филтрлаш</button>
+        </div>
+    </form>
+
     <div class="card">
         <div class="card-body">
             <table class="table table-striped table-bordered table-hover">
@@ -27,7 +39,6 @@
                         <th>Хат №</th>
                         <th>Қабул Қилинган Санаси</th>
                         <th>Сарлавха</th>
-
                         <th>Амалиётлар</th>
                     </tr>
                 </thead>
@@ -43,14 +54,11 @@
                                 {{ $document->category && $document->category->parent ? $document->category->name : 'Йўқ' }}
                             </td>
                             <td>
-                                {{ $document->ministry && $document->ministry ? $document->ministry->name : 'Йўқ' }} 
-
+                                {{ $document->ministry ? $document->ministry->name : 'Йўқ' }}
                             </td>
-                         
                             <td>{{ $document->letter_number }}</td>
                             <td>{{ $document->received_date }}</td>
                             <td>{{ $document->title }}</td>
-
                             <td class="d-flex">
                                 <a href="{{ route('documents.show', $document->id) }}" class="btn btn-info btn-sm mr-2">
                                     <i class="fas fa-eye"></i> Кўрсатиш
@@ -79,8 +87,8 @@
 
             <!-- Pagination -->
             {{-- <div class="d-flex justify-content-center mt-4">
-                    {{ $documents->links('vendor.pagination.bootstrap-4') }}
-                </div> --}}
+                {{ $documents->links('vendor.pagination.bootstrap-4') }}
+            </div> --}}
         </div>
     </div>
 @endsection
