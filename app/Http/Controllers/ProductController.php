@@ -32,7 +32,7 @@ class ProductController extends Controller
                 'isHtml5ParserEnabled' => true,
             ]);
         
-        return $pdf->download('fishka-task-' . $id . '.pdf');
+        return $pdf->download('fishka-raqami_' . $id+26 . '.pdf');
     }
     
 }

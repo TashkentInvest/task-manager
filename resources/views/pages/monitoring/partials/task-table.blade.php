@@ -82,7 +82,7 @@
 
         .kanban-card-footer .btn:hover {
             background-color: #fff;
-            color: #000 ;
+            color: #000;
         }
 
         /* Tooltip on Hover */
@@ -154,13 +154,16 @@
             <div class="kanban-card-footer">
                 <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">Посмотреть</a>
                 <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-warning">PDF</a>
-                <form action="{{ route('taskDestroy', $item->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">
-                        <i class="bx bxs-trash"></i> Удалить
-                    </button>
-                </form>
+                @if (auth()->user()->roles->first()->name == 'Super Admin')
+                    <form action="{{ route('taskDestroy', $item->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bx bxs-trash"></i> Удалить
+                        </button>
+                    </form>
+                @endif
+
             </div>
         </div>
     @endforeach
