@@ -1,8 +1,9 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="Generator" content="Microsoft Word 15 (filtered)">
+    
     <style>
         /* Font Definitions */
         @font-face {
@@ -61,37 +62,37 @@
                             <tr style="height:12.9pt">
                                 <td style="width: 100%; text-align: center; vertical-align: middle;">
                                     <p class="MsoNormal" align="center">
-                                        <b><span lang="EN-US" style="line-height:115%; font-family:'Times New Roman',serif;">“TOSHKENT INVEST KOMPANIYASI”</span></b>
+                                        <b><span lang="EN-US" style="line-height:115%; font-family: 'Times New Roman',serif;">“TOSHKENT INVEST KOMPANIYASI”</span></b>
                                     </p>
                                     <p class="MsoNormal" align="center" style="margin-top:6.0pt; margin-right:0cm; margin-bottom:0cm; margin-left:0cm; text-align:center;">
-                                        <b><span lang="EN-US" style="line-height:115%; font-family:'Times New Roman',serif;">AKSIYADORLIK JAMIYATI</span></b>
+                                        <b><span lang="EN-US" style="line-height:115%; font-family: 'Times New Roman',serif;">AKSIYADORLIK JAMIYATI</span></b>
                                     </p>
                                 </td>
                             </tr>
                             <tr style="height:12.9pt">
                                 <td width="348" style="width:261.25pt; border:none; border-bottom:double windowtext 6.0pt; padding:0cm 0cm 0cm 1.5pt; height:12.9pt; text-align:center; vertical-align:middle;">
                                     <p class="MsoNormal" align="center" style="margin-top:6.0pt; margin-right:0cm; margin-bottom:0cm; margin-left:0cm; text-align:center;">
-                                        <b><span lang="EN-US" style="line-height:115%; font-family:'Times New Roman',serif;">BOSHQARUV RAISI VAZIFASINI BAJARUVCHI</span></b>
+                                        <b><span lang="EN-US" style="line-height:115%; font-family: 'Times New Roman',serif;">BOSHQARUV RAISI VAZIFASINI BAJARUVCHI</span></b>
                                     </p>
                                 </td>
                             </tr>
                         </table>
                     </div>
-                    <p class="MsoNormal" align="center" style="text-align:center"><b><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif;">&nbsp;</span></b></p>
-                    <p class="MsoNormal" align="center" style="text-align:center"><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif; color:black;background:yellow">Moliyaviy rejalashtirish va tahlil qilish bo‘limi boshlig‘i<b> B.Mirzayevga</b></span></p>
-                    <p class="MsoNormal" align="center" style="text-align:center"><span lang="EN-US" style="font-size:10.0pt;line-height:115%;font-family:'Times New Roman',serif; color:black">&nbsp;</span></p>
-                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><b><span lang="EN-US" style="font-size:10.0pt;line-height:115%;font-family:'Times New Roman',serif; color:black;background:yellow">02.12.2024</span></b></p>
-                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="EN-US" style="font-size:10.0pt;line-height:115%;font-family:'Times New Roman',serif; color:black">&nbsp;</span></p>
-                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt;line-height:150%"><span lang="EN-US" style="font-size:12.0pt;line-height:150%;font-family:'Times New Roman',serif;color:black">&nbsp;</span></p>
-                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt;line-height:150%"><span lang="EN-US" style="font-size:12.0pt;line-height:150%;font-family:'Times New Roman',serif;color:black;background:yellow">O’zbekiston Respublikasi Toshkent shahar Hokimiyati “Yagona Buyurtmachi Xizmati” Injiniing kompaniyasi </span><span lang="UZ-CYR" style="font-size:12.0pt; line-height:150%; font-family:'Times New Roman',serif;color:black;background:yellow">2024-yil</span><span lang="UZ-CYR" style="font-size:12.0pt;line-height:150%;font-family:'Times New Roman',serif;color:black;background:yellow">02-</span><span lang="EN-US" style="font-size:12.0pt;line-height:150%;font-family:'Times New Roman',serif;color:black;background:yellow">dekabrdagi 6-7122-</span><span lang="UZ-CYR" style="font-size:12.0pt;line-height:150%;font-family:'Times New Roman',serif;color:black;background:yellow">sonli xati o‘rnatilgan tartibda ko‘rib chiqib</span><span lang="EN-US" style="font-size:12.0pt;line-height:150%;font-family:'Times New Roman',serif;color:black;background:yellow">,</span><span lang="UZ-CYR" style="font-size:12.0pt;line-height:150%;font-family:'Times New Roman',serif;color:black;background:yellow">tegishli choralar ko‘rilsin</span><span lang="EN-US" style="font-size:12.0pt;line-height:150%;font-family:'Times New Roman',serif;color:black;background:yellow">.</span></p>
-                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif;">&nbsp;</span></p>
-                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="UZ-CYR" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif;">&nbsp;</span></p>
+                    <p class="MsoNormal" align="center" style="text-align:center"><b><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b></p>
+                    <p class="MsoNormal" align="center" style="text-align:center"><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black;background:yellow">Moliyaviy rejalashtirish va tahlil qilish bo‘limi boshlig‘i<b> B.Mirzayevga</b></span></p>
+                    <p class="MsoNormal" align="center" style="text-align:center"><span lang="EN-US" style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black">&nbsp;</span></p>
+                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><b><span lang="EN-US" style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black;background:yellow">02.12.2024</span></b></p>
+                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="EN-US" style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black">&nbsp;</span></p>
+                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt;line-height:150%"><span lang="EN-US" style="font-size:12.0pt;line-height:150%;font-family: 'DejaVu Sans', sans-serif;color:black">&nbsp;</span></p>
+                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt;line-height:150%"><span lang="EN-US" style="font-size:12.0pt;line-height:150%;font-family: 'DejaVu Sans', sans-serif;color:black;background:yellow">{{$task->note}} </span><span lang="UZ-CYR" style="font-size:12.0pt; line-height:150%; font-family: 'DejaVu Sans', sans-serif;color:black;background:yellow"></p>
+                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></p>
+                    <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="UZ-CYR" style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></p>
                     <p class="MsoNormal" align="right" style="margin-right:15.75pt;text-align:right; text-indent:15.65pt">
                         <b><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif">B.&nbsp;Shakirov</span></b>
                     </p>
-                    <p class="MsoNormal" style="margin-right:15.75pt;text-indent:15.65pt"><b><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif;">&nbsp;</span></b></p>
-                    <p class="MsoNormal" style="margin-right:15.75pt;text-indent:15.65pt"><b><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif;">&nbsp;</span></b></p>
-                    <p class="MsoNormal" style="margin-right:15.75pt"><i><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif;background:yellow">2024</span></i><i><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif">-yil “___”-<span style="background:yellow">oktabr</span></span></i></p>
+                    <p class="MsoNormal" style="margin-right:15.75pt;text-indent:15.65pt"><b><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b></p>
+                    <p class="MsoNormal" style="margin-right:15.75pt;text-indent:15.65pt"><b><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b></p>
+                    <p class="MsoNormal" style="margin-right:15.75pt"><i><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;background:yellow">2024</span></i><i><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif">-yil “___”-<span style="background:yellow">oktabr</span></span></i></p>
                     <p class="MsoNormal"><i><span lang="EN-US" style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif"><span style="background:yellow">19-son</span></span></i></p>
                 </td>
             </tr>

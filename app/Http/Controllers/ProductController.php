@@ -17,11 +17,16 @@ class ProductController extends Controller
     public function fishka($id)
     {
         $task = Tasks::find($id);
-        
-        // Generate the PDF from the view
-        $pdf = Pdf::loadView('pages.monitoring.partials.fishka_pdf', compact('task'));
     
-        // Return the PDF as a response
+        $pdf = \PDF::loadView('pages.monitoring.partials.fishka_pdf', compact('task'))
+            ->setPaper('a4', 'portrait')
+            ->setOptions([
+                'defaultFont' => 'DejaVu Sans',
+                'isRemoteEnabled' => true,
+                'isHtml5ParserEnabled' => true,
+            ]);
+        
         return $pdf->download('fishka-task-' . $id . '.pdf');
     }
+    
 }

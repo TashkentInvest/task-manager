@@ -187,7 +187,7 @@
                     </td>
 
                     <td class="text-center">
-                        <ul class="list-unstyled d-flex gap-2 mb-0 justify-content-center">
+                        <ul class="list-unstyled d-flex gap-2  justify-content-center">
                             @if (auth()->user()->roles[0]->name != 'Super Admin')
                                 @if ($item->status->name == 'Active')
                                     <li data-bs-toggle="tooltip" data-bs-placement="top" title="Принять">
@@ -232,6 +232,15 @@
 
                                 </a>
                             </li>
+
+                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Посмотреть">
+                                <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-primary">
+                                    {{-- <i class="bx bxs-right-"></i>  --}}
+                                    PDF
+
+                                </a>
+                            </li>
+                            
 
                         </ul>
                         @include('pages.monitoring.partials.task-modal', [
