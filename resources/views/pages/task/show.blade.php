@@ -161,7 +161,7 @@
                         <br><br>
                         <div class="row">
                             <!-- LEFT COLUMN -->
-                            <div class="col-7 mb-4">
+                            <div class="col-lg-7 col-md-12 col-12 mb-4">
                                 <!-- Task Details Card -->
                                 <div class="task-details p-4">
                                     <!-- Title / Creator -->
@@ -469,7 +469,7 @@
 
                             <!-- RIGHT COLUMN - 'Фишка' -->
 
-                            <div class="col-5 ">
+                            <div class="col-5 col-md-12 col-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5>фишка</h5>
