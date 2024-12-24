@@ -35,6 +35,22 @@
                         <input type="hidden" name="user_id" value="{{ old('user_id', $task->user_id) }}">
 
                         <div class="row">
+
+                            <div class="mb-3">
+                                <label for="document_id" class="form-label">Ҳужжат:</label>
+                                <select name="document_id" id="document_id" class="form-select">
+                                    <option value="">-- Ҳужжат Йўқ --</option>
+                                    @foreach ($documents as $doc)
+                                        <option value="{{ $doc->id }}"
+                                            @if (old('document_id', $task->document_id) == $doc->id) selected @endif>
+                                            {{ $doc->title }}
+                                            ({{ $doc->category ? $doc->category->name : 'Категория Йўқ' }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            
                             <div class="col-md-6 mb-3">
                                 <label>Категория</label>
                                 <select class="form-control select2" name="category_id" required>
@@ -128,14 +144,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label>Краткое название (опционально)</label>
-                                <input type="text" name="short_title" class="form-control"
-                                    value="{{ old('short_title', $task->short_title) }}">
-                                @error('short_title')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+                           
                             <div class="col-md-6 mb-3">
                                 <label>Закрепленный файл (опционально)</label>
                                 <input type="file" name="attached_file[]" class="form-control" multiple>

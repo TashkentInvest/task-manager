@@ -18,7 +18,6 @@
                 {{-- <th scope="col">#</th> --}}
                 <th scope="col">Поручитель</th>
                 <th scope="col">Департамент / Исполнитель</th>
-                <th scope="col">Краткое название</th>
                 <th scope="col">Дата задачи / Дата окончания</th>
                 {{-- <th scope="col"></th> --}}
                 <th scope="col">Оставшиеся дни</th>
@@ -89,7 +88,6 @@
                         @endif
                     </td>
 
-                    <td>{{ $item->short_title }}</td>
                     <td>{{ $item->issue_date ?? 'Не указана' }} / {{ $item->planned_completion_date ?? 'Не указана' }}</td>
                     {{-- <td></td> --}}
                     <td>

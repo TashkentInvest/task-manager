@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             SystemInitSeeder::class,
-       
+            DocumentCategorySeeder::class,
+            MinistriesSeeder::class,
             
         ]);
     }

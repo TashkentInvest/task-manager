@@ -19,14 +19,17 @@
                 @endcan --}}
                 <!-- Monitoring -->
                 @can('qarorlar.show')
-                <li class="{{ Request::is('qarorlar*') ?  'mm-active':'' }}">
-                    <a href="{{ route('qarorlarIndex') }}" class=" waves-effect {{ Request::is('qarorlar*') ? 'mm-active':'' }}">
+            
+                <li class="{{ Request::is('documents*') ?  'mm-active':'' }}">
+                    <a href="{{ route('documents.index') }}" class=" waves-effect {{ Request::is('documents*') ? 'mm-active':'' }}">
                         <i class="bx bxs-file"></i>
                         <!-- <sub><i class="fas fa-child"></i></sub> -->
-                        <span>Қарорлар</span>
+                        <span>Documents</span>
                     </a>
                 </li>
                 @endcan
+
+                
                 @can('monitoring.show')
                 <li class="{{ Request::is('monitoring*') ?  'mm-active':'' }}">
                     <a href="{{ route('monitoringIndex') }}" class=" waves-effect {{ Request::is('monitoring*') ? 'mm-active':'' }}">

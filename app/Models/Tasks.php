@@ -23,14 +23,15 @@ class Tasks extends Model
         // 'author', // Автор поручения
 
         'planned_completion_date', // Срок выполнения (план)
-        'short_title', // Краткое название
         'attached_file', // Закрепленный файл
         'note', // Примичание
 
         'role_id',
         'bool_status',
 
-        'reject_comment'
+        'reject_comment',
+
+        'document_id'
     ];
 
 
@@ -192,6 +193,11 @@ class Tasks extends Model
         return $query;
     }
 
+
+    public function document()
+    {
+        return $this->belongsTo(Document::class);
+    }
 
     // ------------------
     public function assignedUser()

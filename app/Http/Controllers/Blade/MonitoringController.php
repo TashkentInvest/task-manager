@@ -78,8 +78,7 @@ class MonitoringController extends Controller
         // Apply Search Filter
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('short_title', 'like', '%' . $search . '%')
-                  ->orWhere('note', 'like', '%' . $search . '%');
+                $q->where('note', 'like', '%' . $search . '%');
                 // Add more fields to search if needed
             });
         }

@@ -31,7 +31,6 @@
                 $table->date('planned_completion_date')->nullable(); // Срок выполнения (план) (Planned completion date)
                 // $table->string('author')->nullable(); // Автор поручения (Author of the task)
 
-                $table->string('short_title')->nullable(); // Краткое название (Actual completion status)
                 $table->string('attached_file')->nullable(); // Закрепленный файл (Attached file)
                 $table->string('attached_file_employee')->nullable(); // Закрепленный файл (Attached file)
                 $table->text('note')->nullable(); // Примичание (Notes)
@@ -41,6 +40,13 @@
                 $table->text('reject_comment')->nullable(); // if employee will reject 
                 $table->dateTime('reject_time')->nullable(); // if employee will reject 
 
+                
+                $table->foreignId('document_id')->nullable()
+                    ->constrained('documents')
+                    ->nullOnDelete();
+
+
+                    
                 // Add role_id column and foreign key
                 $table->unsignedBigInteger('role_id')->nullable(); // Role associated with the task
                 $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');

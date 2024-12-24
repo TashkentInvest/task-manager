@@ -51,7 +51,6 @@
                             'Автор' => $item->user->name,
                             'Дата выдачи' => $item->issue_date ?? '',
                             'Срок выполнения (план)' => $item->planned_completion_date ?? '',
-                            'Краткое название' => $item->short_title,
                             'Состояние исполнения' => $item->status->name ?? '',
                             'Примечание' => $item->note ?? 'Нет',
                             'Закрепленный файл' => $item->attached_file ? '<a href="' . Storage::url($item->attached_file) . '" target="_blank" class="text-decoration-none">Скачать</a>' : 'Нет',

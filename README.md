@@ -134,3 +134,5 @@ employer taskini admin confirm qsa employer last_finished == now () bolshi kere 
     
 sudo update-alternatives --config php
 ```
+
+// slujebniy zapiska br qancha fayl

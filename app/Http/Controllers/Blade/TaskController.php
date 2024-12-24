@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blade;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Document;
 use App\Models\File;
 use App\Models\Order;
 use App\Models\RoleTask;
@@ -19,7 +20,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasksHistories = Tasks::where('status_id', TaskStatus::ACTIVE)->get()->all();
+        $tasksHistories = Tasks::with('document')->where('status_id', TaskStatus::ACTIVE)->get()->all();
         return view('tasks.index', compact('tasksHistories'));
     }
 
@@ -30,13 +31,14 @@ class TaskController extends Controller
         $taskStatuses = TaskStatus::all();
         $count = 1;
         $users = User::get()->all();
+        $documents = Document::with('category')->get();
 
         if (auth()->user()->hasRole('Super Admin'))
             $roles = Role::all();
         else
             $roles = Role::where('name', '!=', 'Super Admin')->get();
 
-        return view('pages.task.add', compact('categories', 'count', 'users', 'roles'));
+        return view('pages.task.add', compact('categories', 'count', 'users', 'roles','documents'));
     }
 
     public function create(Request $request)
@@ -57,7 +59,6 @@ class TaskController extends Controller
                         }
                     },
                 ],
-                'short_title' => 'nullable|string|max:255',
                 'attached_file' => 'nullable',
                 'note' => 'nullable|string',
 
@@ -76,7 +77,6 @@ class TaskController extends Controller
             $task->poruchenie = $validatedData['poruchenie'] ?? null;
             $task->issue_date = $validatedData['issue_date'] ?? null;
             $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
-            $task->short_title = $validatedData['short_title'] ?? null;
             $task->note = $validatedData['note'] ?? null;
 
 
@@ -184,7 +184,6 @@ class TaskController extends Controller
                     }
                 },
             ],
-            'short_title' => 'nullable|string|max:255',
             'attached_file.*' => 'nullable', // Allow multiple files
             'note' => 'nullable|string',
             'category_id' => 'nullable',
@@ -203,7 +202,6 @@ class TaskController extends Controller
         $task->poruchenie = $validatedData['poruchenie'] ?? null;
         $task->issue_date = $validatedData['issue_date'] ?? null;
         $task->planned_completion_date = $validatedData['planned_completion_date'] ?? null;
-        $task->short_title = $validatedData['short_title'] ?? null;
         $task->note = $validatedData['note'] ?? null;
 
         // Handle the roles and users assignment

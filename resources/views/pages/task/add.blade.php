@@ -36,7 +36,22 @@
 
                         <input type="hidden" name="user_id" class="form-control" value="{{ old('user_id') }}">
 
+
                         <div class="row">
+
+
+                            <div class="mb-3">
+                                <label for="document_id" class="form-label">Ҳужжат (Кирувчи):</label>
+                                <select name="document_id" id="document_id" class="form-control select2" required>
+                                    <option value="">-- Танланг --</option>
+                                    @foreach ($documents as $doc)
+                                        <option value="{{ $doc->id }}" @selected(old('document_id') == $doc->id)>
+                                            {{ $doc->title }}
+                                            ({{ $doc->category ? $doc->category->name : 'Категория йўқ' }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="col-md-6 mb-3">
                                 <label>Категория</label>
                                 <select class="form-control select2" name="category_id" required>
@@ -77,7 +92,7 @@
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->name }}"
                                             {{ in_array($role->name, old('roles', [])) ? 'selected' : '' }}>
-                                            {{ $role->name }} 
+                                            {{ $role->name }}
                                             ({{ $role->title ?? '' }})
                                         </option>
                                     @endforeach
@@ -124,12 +139,12 @@
                             <div class="col-md-6 mb-3">
                                 <label>Дата выдачи</label>
                                 <input type="date" name="issue_date" class="form-control"
-                                       value="{{ old('issue_date', now()->format('Y-m-d')) }}" required>
+                                    value="{{ old('issue_date', now()->format('Y-m-d')) }}" required>
                                 @error('issue_date')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+
 
                             <div class="col-md-6 mb-3">
                                 <label>Срок выполнения (план)</label>
@@ -142,14 +157,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label>Краткое название (опционально)</label>
-                                <input type="text" name="short_title" class="form-control"
-                                    value="{{ old('short_title') }}">
-                                @error('short_title')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+                         
                             <div class="col-md-6 mb-3">
                                 <label>Закрепленный файл (опционально)</label>
                                 <input type="file" name="attached_file[]" class="form-control" multiple>

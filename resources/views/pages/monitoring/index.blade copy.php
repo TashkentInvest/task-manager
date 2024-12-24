@@ -90,7 +90,6 @@
                                         @endif
                                     </td>
 
-                                    <td>{{ $item->short_title }}</td>
                                     <td>{{ $item->issue_date ?? 'Не указана' }}</td>
                                     <td>{{ $item->planned_completion_date ?? 'Не указана' }}
                                     </td>

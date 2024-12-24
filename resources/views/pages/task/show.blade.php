@@ -107,9 +107,7 @@
                     </div>
                     <div class="card-body">
                         {{-- Task Details --}}
-                        <h5 class="card-title text-secondary">
-                            Краткое название: <span class="text-bold">{{ $item->short_title }}</span>
-                        </h5>
+                    
                         <br><br>
                         <div class="row">
                             <div class="col-6">

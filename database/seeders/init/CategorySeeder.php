@@ -16,9 +16,8 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $categories = [
-            ['name' => 'По умолчанию', 'deadline' => 2, 'score' => 100, 'additional_time' => null],
-            ['name' => 'Хат', 'deadline' => 1, 'score' => 150, 'additional_time' => 3],
-            ['name' => 'Учрашув', 'deadline' => 1, 'score' => 80, 'additional_time' => 3],
+            ['name' => 'Кирувчи Хат', 'deadline' => 1, 'score' => 150, 'additional_time' => 3],
+            ['name' => 'Чиқувчи хат', 'deadline' => 1, 'score' => 80, 'additional_time' => 3],
         ];
 
         foreach ($categories as $categoryData) {
