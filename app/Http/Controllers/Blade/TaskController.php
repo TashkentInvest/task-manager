@@ -158,7 +158,7 @@ class TaskController extends Controller
     {
         // Fetch the task and related data
         $item = Tasks::where('id', $id)
-            ->with(['roles', 'user', 'task_users', 'category', 'order', 'files']) // Load files relationship
+            ->with(['roles', 'user', 'task_users', 'category', 'order', 'files','document']) // Load files relationship
             ->findOrFail($id);
 
 

@@ -140,6 +140,25 @@
                     {{ $item->planned_completion_date->format('d.m.Y H:i:s') ?? 'Не указана' }}</p>
 
 
+                <p>
+                    <strong>Статус поручения:</strong>
+                    <span
+                        class="badge 
+                            @if ($item->status->name == 'Active') badge-success
+                            @elseif($item->status->name == 'Canceled') badge-danger
+                            @elseif($item->status->name == 'Accepted') badge-primary
+                            @elseif($item->status->name == 'Completed') badge-success
+                            @elseif($item->status->name == 'Deleted') badge-dark
+                            @elseif($item->status->name == 'ORDER_ACTIVE') badge-info
+                            @elseif($item->status->name == 'TIME_IS_OVER') badge-warning
+                            @elseif($item->status->name == 'ADMIN_REJECT') badge-warning
+                            @elseif($item->status->name == 'XODIM_REJECT') badge-warning
+                            @else badge-dark @endif">
+                        {{ $item->status->name }}
+                    </span>
+                </p>
+
+
                 <p><strong>Оставшиеся дни:</strong>
                     @php
                         $remainingDays = $item->planned_completion_date
@@ -165,7 +184,7 @@
             <!-- Card Footer -->
             <div class="kanban-card-footer">
                 <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">Посмотреть</a>
-                <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-primary">Fishka</a>
+                <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-primary">фишка</a>
 
 
                 @if (auth()->user()->roles->first()->name == 'Super Admin')

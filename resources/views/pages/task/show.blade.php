@@ -135,112 +135,130 @@
                         <br><br>
                         <div class="row">
                             <div class="col-7">
-                                <div class="mb-3 task-details">
+                                <div class="mb-3 task-details border rounded shadow-sm p-3 bg-light">
                                     <p class="card-text">
-                                        <strong>Поручитель:</strong> <span class="text-muted">{{ $item->user->name }}</span>
+                                        <strong class="text-primary">Поручитель:</strong> <span class="text-muted">{{ $item->user->name }}</span>
                                     </p>
-
-                                    <h3 class="mb-0">Исполнитель поручения:
-                                        @if ($item->task_users->isNotEmpty())
-                                            <ul class="mt-2">
-                                                @foreach ($item->task_users as $i)
-                                                    <l style="font-size: 12px"><b>{{ $i->name ?? '' }}</b> — {{ $i->about ?? '' }}</l><br>
-                                                @endforeach
-                                            </ul>
-                                        @endif
-                                    </h3>
-
-                                    <p class="card-text"><strong>Закрепленный файл:</strong>
-                                        @php
-                                            $initialFiles = $item->files->filter(function ($file) {
-                                                return file_exists(public_path('porucheniya/' . $file->file_name));
-                                            });
-                                        @endphp
-
-                                        @if ($initialFiles->count() > 0)
-                                            <ul class="list-group">
-                                                @foreach ($initialFiles as $file)
-                                                    <li>
-                                                        <span class="badge badge-soft-primary font-size-16 m-1">
-                                                            {{ $file->name }}
-                                                        </span>
-                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}"
-                                                            target="_blank"> Скачать </a>
-                                                        @if (auth()->user()->roles[0]->name == 'Super Admin')
-                                                            <form action="{{ route('file.delete', $file->id) }}"
-                                                                method="POST" style="display:inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                    class="btn btn-link text-danger">Удалить</button>
-                                                            </form>
-                                                        @endif
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @else
-                                            <p>Нет загруженных файлов.</p>
-                                        @endif
-                                    </p>
-
-                                    <div class="mb-3">
-
+                            
+                                    <h3 class="mb-3 text-success">Исполнитель поручения:</h3>
+                                    @if ($item->task_users->isNotEmpty())
+                                        <ul class="mt-2 list-unstyled">
+                                            @foreach ($item->task_users as $i)
+                                                <li class="mb-2">
+                                                    <span class="badge bg-info text-dark">{{ $i->name ?? '' }}</span>
+                                                    <small class="text-muted"> — {{ $i->about ?? '' }}</small>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-muted">Нет исполнителей.</p>
+                                    @endif
+                            
+                                    <p class="card-text mt-4"><strong class="text-primary">Закрепленный файл:</strong></p>
+                                    @php
+                                        $initialFiles = $item->files->filter(function ($file) {
+                                            return file_exists(public_path('porucheniya/' . $file->file_name));
+                                        });
+                                    @endphp
+                            
+                                    @if ($initialFiles->count() > 0)
+                                        <ul class="list-group list-group-flush">
+                                            @foreach ($initialFiles as $file)
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>
+                                                        <span class="badge bg-primary text-white">{{ $file->name }}</span>
+                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}" target="_blank" class="text-decoration-none ms-2">Скачать</a>
+                                                    </span>
+                                                    @if (auth()->user()->roles[0]->name == 'Super Admin')
+                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                                                        </form>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-muted">Нет загруженных файлов.</p>
+                                    @endif
+                            
+                                    <div class="mt-4">
                                         @php
                                             $remainingDays = $item->planned_completion_date
                                                 ? now()->diffInDays($item->planned_completion_date, false)
                                                 : 'N/A';
-    
-                                            // Check if reject_time exists
+                            
                                             $isRejected = !is_null($item->reject_time);
                                         @endphp
-    
-                                        <p class="card-text"><strong>Дата выдачи:</strong> <span
-                                                class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span></p>
-                                        <p class="card-text"><strong>Срок выполнения:</strong> <span
-                                                class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}
-    
-                                                @if (is_int($remainingDays))
-                                                    @if ($isRejected)
-                                                        @if ($remainingDays >= 0)
-                                                            <span class="badge badge-soft-success font-size-16 m-1">
-                                                                Срок выполнения еще не истек: {{ $remainingDays }} дней осталось
-                                                            </span>
-                                                        @else
-                                                            <span class="badge badge-soft-danger font-size-16 m-1">
-                                                                Срок завершения был {{ abs($remainingDays) }} дней назад
-                                                            </span>
-                                                        @endif
+                            
+                                        <p class="card-text">
+                                            <strong class="text-primary">Дата выдачи:</strong>
+                                            <span class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span>
+                                        </p>
+                                        <p class="card-text">
+                                            <strong class="text-primary">Срок выполнения:</strong>
+                                            <span class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}</span>
+                            
+                                            @if (is_int($remainingDays))
+                                                @if ($isRejected)
+                                                    @if ($remainingDays >= 0)
+                                                        <span class="badge bg-success ms-2">Срок выполнения еще не истек: {{ $remainingDays }} дней осталось</span>
                                                     @else
-                                                        @if ($remainingDays > 0)
-                                                            <span class="badge badge-soft-warning font-size-16 m-1">
-                                                                {{ $remainingDays }} дней осталось
-                                                            </span>
-                                                        @elseif ($remainingDays < 0)
-                                                            <span class="badge badge-soft-danger font-size-16 m-1">
-                                                                {{ abs($remainingDays) }} дней просрочено
-                                                            </span>
-                                                        @else
-                                                            <span class="badge badge-soft-warning font-size-16 m-1">
-                                                                Срок сегодня
-                                                            </span>
-                                                        @endif
+                                                        <span class="badge bg-danger ms-2">Срок завершения был {{ abs($remainingDays) }} дней назад</span>
                                                     @endif
                                                 @else
-                                                    N/A
+                                                    @if ($remainingDays > 0)
+                                                        <span class="badge bg-warning ms-2">{{ $remainingDays }} дней осталось</span>
+                                                    @elseif ($remainingDays < 0)
+                                                        <span class="badge bg-danger ms-2">{{ abs($remainingDays) }} дней просрочено</span>
+                                                    @else
+                                                        <span class="badge bg-warning ms-2">Срок сегодня</span>
+                                                    @endif
                                                 @endif
-    
-                                            </span>
+                                            @else
+                                                <span class="badge bg-secondary ms-2">N/A</span>
+                                            @endif
                                         </p>
-    
                                     </div>
                                 </div>
 
+                                @if(isset($item->document))
+                                    <div class="mb-4 task-details border rounded shadow-sm p-3 bg-ligh">
+                                        <p><strong>Сарлавха:</strong> {{ $item->document->title }}</p>
+                                        <p><strong>Категория:</strong> 
+                                            {{ $item->document->category ? $item->document->category->name : 'Категория танланмаган' }}
+                                        </p>
+                                        <p><strong>Хат Рақами:</strong> {{ $item->document->letter_number }}</p>
+                                        <p><strong>Қабул Қилинган Санаси:</strong> {{ \Carbon\Carbon::parse($item->document->received_date)->format('d-m-Y H:i') }}</p>
+                                    </div>
+                            
+                                    <hr>
+                            
+                                    <!-- Files Section -->
+                                    <div class="mb-4">
+                                        <h4>Қўшимча Файллар:</h4>
+                                        @if($item->document->files->count())
+                                            <ul class="list-group">
+                                                @foreach($item->document->files as $file)
+                                                    <li class="list-group-item">
+                                                        <a href="{{ Storage::url($file->file_path) }}" target="_blank">
+                                                            {{ basename($file->file_path) }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <p>Файллар қўшилмаган.</p>
+                                        @endif
+                                    </div>
+                                @endif
                             </div>
-
+                            
                             <div class="col-5 ">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Fishka</h5>
+                                        <h5>фишка</h5>
                                     </div>
                                     <div class="card-body pc-component">
                                         <html>
