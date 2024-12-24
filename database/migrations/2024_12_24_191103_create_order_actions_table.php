@@ -17,13 +17,13 @@ class CreateOrderActionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders');
-            
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            
-            $table->string('action');        // e.g. 'Created', 'Rejected', 'Completed', 'Admin Confirm', etc.
+
+            $table->string('action');        // e.g., 'Created', 'Rejected', etc.
             $table->text('comment')->nullable();
-            
+
             $table->timestamps();
         });
     }

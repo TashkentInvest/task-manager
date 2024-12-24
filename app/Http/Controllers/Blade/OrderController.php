@@ -7,7 +7,7 @@ use App\Models\File;
 use App\Models\Order;
 use App\Models\Tasks;
 use Illuminate\Http\Request;
-use App\Models\OrderAction;  // <-- Make sure to import
+use App\Models\OrderAction; 
 use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
@@ -24,7 +24,7 @@ class OrderController extends Controller
             'user_id' => $request->user_id,
         ]);
 
-        $task = Tasks::find($request->task_id);
+        $task = Tasks::findOrFail($request->task_id);
         $status = \App\Models\TaskStatus::where('name', 'Accepted')->first();
 
         if ($status) {
@@ -32,7 +32,7 @@ class OrderController extends Controller
             $task->save();
         }
 
-        // Log this action in `order_actions`
+        // Log action
         OrderAction::create([
             'order_id' => $order->id,
             'user_id'  => auth()->id(),
@@ -45,16 +45,14 @@ class OrderController extends Controller
 
     public function reject(Request $request)
     {
-        // Validate the request
         $request->validate([
-            'reject_comment'   => 'required|string|max:255',
-            'attached_file.*'  => 'nullable|file', // Adjust file types and size as needed
+            'task_id'         => 'required|exists:tasks,id',
+            'reject_comment'  => 'required|string|max:255',
+            'attached_file.*' => 'nullable|file',
         ]);
 
-        // Find the task and update its status
         $task = Tasks::findOrFail($request->task_id);
         $status = \App\Models\TaskStatus::where('name', 'XODIM_REJECT')->first();
-
         if ($status) {
             $task->status_id = $status->id;
         }
@@ -63,10 +61,9 @@ class OrderController extends Controller
         $task->reject_time    = now();
         $task->save();
 
-        // Also find and relate to the order if it exists
         $order = Order::where('task_id', $task->id)->first();
 
-        // Handle file uploads
+        // File upload
         if ($request->hasFile('attached_file')) {
             foreach ($request->file('attached_file') as $file) {
                 if ($file->isValid()) {
@@ -74,18 +71,16 @@ class OrderController extends Controller
                     $file->move(public_path('porucheniya/reject'), $fileName);
 
                     File::create([
-                        'user_id'    => auth()->user()->id,
-                        'task_id'    => $task->id,
-                        'name'       => $file->getClientOriginalName(),
-                        'file_name'  => $fileName,
-                        'department' => null,
-                        'slug'       => null,
+                        'user_id'   => auth()->id(),
+                        'task_id'   => $task->id,
+                        'name'      => $file->getClientOriginalName(),
+                        'file_name' => $fileName,
                     ]);
                 }
             }
         }
 
-        // Log this action in `order_actions` if order found
+        // Log action
         if ($order) {
             OrderAction::create([
                 'order_id' => $order->id,
@@ -106,26 +101,23 @@ class OrderController extends Controller
             'attached_file.*'=> 'nullable|file',
         ]);
 
-        // Find the task first
         $task = Tasks::findOrFail($request->task_id);
         $task->reject_comment = $request->reject_comment;
         $task->reject_time    = now();
 
-        // Get the 'Completed' status
         $status = \App\Models\TaskStatus::where('name', 'Completed')->first();
         if ($status) {
             $task->status_id = $status->id;
             $task->save();
         }
 
-        // Update order information
         $order = Order::where('task_id', $task->id)->first();
         if ($order) {
             $order->finished_user_id = auth()->id();
             $order->save();
         }
 
-        // Handle file uploads
+        // File upload
         if ($request->hasFile('attached_file')) {
             foreach ($request->file('attached_file') as $file) {
                 if ($file->isValid()) {
@@ -133,18 +125,16 @@ class OrderController extends Controller
                     $file->move(public_path('porucheniya/complete'), $fileName);
 
                     File::create([
-                        'user_id'    => auth()->user()->id,
-                        'task_id'    => $task->id,
-                        'name'       => $file->getClientOriginalName(),
-                        'file_name'  => $fileName,
-                        'department' => null,
-                        'slug'       => null,
+                        'user_id'   => auth()->id(),
+                        'task_id'   => $task->id,
+                        'name'      => $file->getClientOriginalName(),
+                        'file_name' => $fileName,
                     ]);
                 }
             }
         }
 
-        // Log this action in `order_actions`
+        // Log action
         if ($order) {
             OrderAction::create([
                 'order_id' => $order->id,
@@ -174,7 +164,7 @@ class OrderController extends Controller
         $order->checked_time    = now();
         $order->save();
 
-        // Log this action in `order_actions`
+        // Log action
         OrderAction::create([
             'order_id' => $order->id,
             'user_id'  => auth()->id(),
@@ -192,10 +182,8 @@ class OrderController extends Controller
             'checked_comment' => 'required|string|max:255',
         ]);
 
-        // Fix: your form’s field name is `checked_comment`, 
-        // but you used `$request->reject_comment` in the code. Let’s correct it:
         $task = Tasks::findOrFail($request->task_id);
-        $task->reject_comment = $request->checked_comment; 
+        $task->reject_comment = $request->checked_comment;
         $task->reject_time    = now();
 
         // Return the task status to 'Active'
@@ -215,7 +203,7 @@ class OrderController extends Controller
         $order->checked_time    = now();
         $order->save();
 
-        // Log this action in `order_actions`
+        // Log action
         OrderAction::create([
             'order_id' => $order->id,
             'user_id'  => auth()->id(),

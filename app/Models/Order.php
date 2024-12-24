@@ -24,10 +24,6 @@ class Order extends Model
         'checked_time'
     ];
 
-    public function actions()
-    {
-        return $this->hasMany(OrderAction::class);
-    }
 
 
     public static function deepFilters()
@@ -147,18 +143,21 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relationship with User who finished the task
-    public function finishedUser()
+    public function finished_user()
     {
         return $this->belongsTo(User::class, 'finished_user_id');
     }
 
-    // Relationship with Task
     public function task()
     {
-        return $this->belongsTo(Tasks::class);
+        return $this->belongsTo(Tasks::class, 'task_id');
+    }
+
+    public function actions()
+    {
+        return $this->hasMany(OrderAction::class);
     }
 }
