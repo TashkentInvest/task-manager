@@ -288,7 +288,7 @@ class TaskController extends Controller
         if (!$task) {
             return redirect()->back()->with('error', 'Task not found.');
         }
-        dd($task);
+        // dd($task);
 
         // Optional: Update the status instead of deleting
         $task->status_id = TaskStatus::DELETED;

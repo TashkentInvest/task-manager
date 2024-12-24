@@ -84,7 +84,7 @@ class MonitoringController extends Controller
         }
 
         // Fetch tasks
-        $allTasks = $query->get();
+        $allTasks = $query->where('status_id', '!=',5)->get();
 
         // Separate tasks by status
         $inProgressTasks = $allTasks->where('status_id', TaskStatus::ACTIVE);
