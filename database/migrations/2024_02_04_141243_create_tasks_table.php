@@ -27,8 +27,8 @@
 
                 // New columns
                 $table->string('poruchenie')->nullable(); // Поручение (Task or assignment)
-                $table->date('issue_date')->nullable(); // Дата выдачи (Date of issue)
-                $table->date('planned_completion_date')->nullable(); // Срок выполнения (план) (Planned completion date)
+                $table->dateTime('issue_date')->nullable(); // Дата выдачи (Date of issue)
+                $table->dateTime('planned_completion_date')->nullable(); // Срок выполнения (план) (Planned completion date)
                 // $table->string('author')->nullable(); // Автор поручения (Author of the task)
 
                 $table->string('attached_file')->nullable(); // Закрепленный файл (Attached file)

@@ -127,7 +127,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label>Дата выдачи</label>
-                                <input type="date" name="issue_date" class="form-control"
+                                <input type="datetime-local" name="issue_date" class="form-control"
                                     value="{{ old('issue_date', $task->issue_date) }}" required>
                                 @error('issue_date')
                                     <div class="text-danger">{{ $message }}</div>
@@ -135,7 +135,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Срок выполнения (план)</label>
-                                <input type="date" name="planned_completion_date" class="form-control"
+                                <input type="datetime-local" name="planned_completion_date" class="form-control"
                                     value="{{ old('planned_completion_date', $task->planned_completion_date) }}" required>
                                 @error('planned_completion_date')
                                     <div class="text-danger">{{ $message }}</div>

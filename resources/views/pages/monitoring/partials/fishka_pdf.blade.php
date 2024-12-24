@@ -141,11 +141,13 @@
                     <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="UZ-CYR"
                             style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span>
                     </p>
-                    <p class="MsoNormal" align="right"
-                        style="margin-right:15.75pt;text-align:right; text-indent:15.65pt">
-                        <b><span lang="EN-US"
-                                style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif">Boshqaruv raisi v.b. B.&nbsp;Shakirov</span></b>
+                    <p class="MsoNormal" style="font-size:12.0pt; line-height:115%; font-family:'Times New Roman',serif; margin: 0;">
+                        <span style="float: left;"><b>Boshqaruv raisi v.b.</b></span>
+                        <span style="float: right;"><b>B.&nbsp;Shakirov</b></span>
                     </p>
+                    
+                    
+                    
                     <p class="MsoNormal" style="margin-right:15.75pt;text-indent:15.65pt"><b><span lang="EN-US"
                                 style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b>
                     </p>

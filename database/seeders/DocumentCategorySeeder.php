@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Document;
 use Illuminate\Database\Seeder;
 use App\Models\DocumentCategory;
 
@@ -33,6 +34,7 @@ class DocumentCategorySeeder extends Seeder
             'Vazirlar Mahkamasi',
             'Vazirlar idoras + Vazirliklar ro’yxatii',
             'Shahar Hokimligi',
+            
         ]);
 
         // 3) Vazirlik va Idoralar murojatlari
@@ -58,6 +60,25 @@ class DocumentCategorySeeder extends Seeder
             'Yagona Aksiyador (Shahar Hokimi)',
             'Kuzatuv Kengashi',
         ]);
+
+        $kompaniyaCategory = DocumentCategory::create(['name' => 'Korxona va fuqorolar murojatlar']);
+        $this->createSubcategories($kompaniyaCategory, [
+            'Tadbirkorlar',
+        ]);
+
+        // $document = Document::create([
+        //     'title' => '"IT SOLUTIONS" mas’uliyati cheklangan jamiyatning 2024-yil 23-dekabrdagi №42-sonli xati oʻrnatilgan tartibda koʻrib chiqilsin.',
+        //     'xat' => 'исх № 42 от 23.12.2024',
+        //     'qabul_sana' => '24.12.2024 11:18',
+        //     'asosiy_categorya' => 'yuqorda turuvchi tashkilotlar',
+        //     'qoshimcha catororya' => 'kuzatuv kengashi'
+        // ]);
+
+        // $product = [
+        //     'Тошкент шаҳар кенгашидан лойиҳаси ўтмаганлик сабабли тўланган маблағни қайтариш.'
+        //     muddati = 25 dekabr 
+        //     iskandaraka, baxtyoraka
+        // ]
     }
 
     /**

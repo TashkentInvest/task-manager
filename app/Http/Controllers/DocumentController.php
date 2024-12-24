@@ -40,7 +40,8 @@ class DocumentController extends Controller
             'document_category_id' => 'nullable',
             'ministry_id' => 'nullable',
 
-            'files.*'              => 'nullable'
+            'files.*'              => 'nullable',
+            'status_type*'              => 'nullable',
         ]);
 
         // dd('daw');
@@ -53,6 +54,7 @@ class DocumentController extends Controller
             'user_id'              => Auth::id(),
             'document_category_id' => $request->document_category_id,
             'ministry_id' => $request->ministry_id,
+            'status_type' => $request->status_type,
 
         ]);
 
@@ -101,6 +103,8 @@ class DocumentController extends Controller
             'received_date'        => 'required|date',
             'document_category_id' => 'nullable',
             'ministry_id' => 'nullable',
+            'status_type*'              => 'nullable',
+
         ]);
 
         $document->update($request->only(
@@ -108,7 +112,8 @@ class DocumentController extends Controller
             'letter_number',
             'received_date',
             'document_category_id',
-            'ministry_id'
+            'ministry_id',
+            'status_type',
         ));
 
         // If new files are uploaded

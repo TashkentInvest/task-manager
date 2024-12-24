@@ -15,7 +15,8 @@ class Document extends Model
         'received_date',
         'user_id',
         'document_category_id',
-        'ministry_id'
+        'ministry_id',
+        'status_type'
     ];
 
     public function category()
