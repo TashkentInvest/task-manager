@@ -1,188 +1,160 @@
-<div class="table-responsive">
+<div class="kanban-board">
     <style>
-        /* Compact table styling */
-        th,
-        td {
-            font-size: 12px;
-            padding: 8px !important;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
+        /* General Board Styling */
+        .kanban-board {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 15px;
+            background-color: #f4f5f7;
+            border-radius: 8px;
         }
 
-        table {
+        /* Task Card Styling */
+        .kanban-card {
             width: 100%;
-            border-collapse: collapse;
+            max-width: 300px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-left: 5px solid #007bff;
+            display: flex;
+            flex-direction: column;
         }
 
-        .table th {
+        .kanban-card-header {
+            padding: 12px;
             background-color: #f8f9fa;
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .kanban-card-body {
+            padding: 12px;
+            flex: 1;
+        }
+
+        .kanban-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background-color: #f4f5f7;
+            border-top: 1px solid #ddd;
         }
 
         .badge {
+            display: inline-block;
             font-size: 10px;
-            padding: 5px 8px;
+            padding: 3px 6px;
+            border-radius: 5px;
+            color: #fff;
         }
 
-        .btn {
-            font-size: 12px;
-            padding: 4px 6px;
+        .badge-primary {
+            background-color: #007bff;
         }
 
-        .btn-primary,
-        .btn-info,
-        .btn-success,
-        .btn-warning {
+        .badge-success {
+            background-color: #28a745;
+        }
+
+        .badge-warning {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .badge-danger {
+            background-color: #dc3545;
+        }
+
+        .kanban-card-footer .btn {
             font-size: 10px;
+            padding: 4px 8px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: 0.3s;
         }
 
-        /* Tooltip styling */
+        .kanban-card-footer .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Tooltip on Hover */
         [data-bs-toggle="tooltip"] {
             cursor: pointer;
         }
 
-        td.note-column {
-            max-width: 200px; /* Set a maximum width for the column */
-            word-break: break-word;
-            white-space: normal;
-            line-height: 1.6; /* Add line-height for better spacing */
-        }
-        /* Responsive scrolling */
+        /* Responsive Adjustments */
         @media screen and (max-width: 768px) {
-            th,
-            td {
-                font-size: 10px;
-            }
-
-            .btn {
-                padding: 2px 4px;
-            }
-
-            .badge {
-                font-size: 8px;
-            }
-
-            .table-responsive {
-                overflow-x: auto;
+            .kanban-card {
+                max-width: 100%;
             }
         }
     </style>
 
-    <table class="table table-nowrap align-middle table-borderless">
-        <thead class="table-light">
-            <tr>
-                <th>Поручитель</th>
-                <th>Департамент / Исполнитель</th>
-                <th>Дата задачи / Дата окончания</th>
-                <th>Оставшиеся дни</th>
-                <th>Исполнитель</th>
-                <th>Председатель</th>
-                <th style="width: 300px !important">Note</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($tasks as $item)
-                <tr>
-                    <td title="{{ $item->user->name }}">{{ $item->user->name }}</td>
-                    <td>
-                        @if ($item->assign_type == 'role')
-                            @if ($roleNamesByTask[$item->id] ?? false)
-                                @php
-                                    $roles = $roleNamesByTask[$item->id];
-                                @endphp
+    <!-- Task Cards -->
+    @foreach ($tasks as $item)
+        <div class="kanban-card">
+            <!-- Card Header -->
+            <div class="kanban-card-header">
+                {{ $item->user->name }}
+            </div>
 
-                                <div class="d-flex align-items-center flex-wrap">
-                                    <span class="badge bg-primary text-light" title="{{ $roles->first() }}">
-                                        <i class="fas fa-user-tag"></i> {{ $roles->first() }}
-                                    </span>
-                                    @if ($roles->count() > 1)
-                                        <span class="badge bg-secondary text-light" title="Назначены роли">
-                                            <i class="fas fa-users"></i> +{{ $roles->count() - 1 }}
-                                        </span>
-                                    @endif
-                                </div>
-                            @else
-                                <span class="badge bg-secondary text-light">
-                                    <i class="fas fa-times-circle"></i> Роли не назначены
-                                </span>
-                            @endif
-                        @elseif($item->assign_type == 'custom')
-                            @php
-                                $users = $item->task_users;
-                            @endphp
-                            @if ($users->isNotEmpty())
-                                <div class="d-flex align-items-center flex-wrap">
-                                    <span class="badge bg-primary text-light" title="{{ $users->first()->name }}">
-                                        <i class="fas fa-user"></i> {{ $users->first()->name }}
-                                    </span>
-                                    @if ($users->count() > 1)
-                                        <span class="badge bg-secondary text-light" title="Назначены пользователи">
-                                            <i class="fas fa-users"></i> +{{ $users->count() - 1 }}
-                                        </span>
-                                    @endif
-                                </div>
-                            @else
-                                <span class="badge bg-secondary text-light">
-                                    <i class="fas fa-times-circle"></i> Нет назначенных пользователей
-                                </span>
-                            @endif
-                        @else
-                            <span class="badge bg-warning text-dark">Не найдено</span>
-                        @endif
-                    </td>
-                    <td>{{ $item->issue_date ?? 'Не указана' }} / {{ $item->planned_completion_date ?? 'Не указана' }}</td>
-                    <td>
+            <!-- Card Body -->
+            <div class="kanban-card-body">
+                <p><strong>Департамент / Исполнитель:</strong>
+                    @if ($item->assign_type == 'role')
                         @php
-                            $remainingDays = $item->planned_completion_date
-                                ? now()->diffInDays($item->planned_completion_date, false)
-                                : 'N/A';
+                            $roles = $roleNamesByTask[$item->id] ?? [];
                         @endphp
-                        @if (is_int($remainingDays))
-                            @if ($remainingDays > 0)
-                                <span class="badge bg-warning">Осталось: {{ $remainingDays }} дней</span>
-                            @elseif ($remainingDays < 0)
-                                <span class="badge bg-danger">Просрочено на {{ abs($remainingDays) }} дней</span>
-                            @else
-                                <span class="badge bg-warning">Срок сегодня</span>
+                        @if ($roles)
+                            {{ $roles->first() }} @if ($roles->count() > 1)
+                                <span class="badge badge-secondary">+{{ $roles->count() - 1 }} роли</span>
                             @endif
                         @else
-                            N/A
+                            <span class="badge badge-warning">Роли не назначены</span>
                         @endif
-                    </td>
-                    <td>
-                        <span class="badge bg-{{ $item->status->getColor() }}">
-                            {{ $item->status->name }}
-                        </span>
-                    </td>
-                    <td>
-                        @if (isset($item->order) && $item->order->checked_status == 1)
-                            <span class="badge bg-success">Тасдиқланди</span>
-                        @elseif(isset($item->order) && $item->order->checked_status == 2)
-                            <span class="badge bg-danger">Рад этилди</span>
+                    @else
+                        Назначенный пользователь
+                    @endif
+                </p>
+
+                <p><strong>Дата задачи:</strong> {{ $item->issue_date ?? 'Не указана' }}</p>
+                <p><strong>Дата окончания:</strong> {{ $item->planned_completion_date ?? 'Не указана' }}</p>
+
+                <p><strong>Оставшиеся дни:</strong>
+                    @php
+                        $remainingDays = $item->planned_completion_date
+                            ? now()->diffInDays($item->planned_completion_date, false)
+                            : 'N/A';
+                    @endphp
+                    @if (is_int($remainingDays))
+                        @if ($remainingDays > 0)
+                            <span class="badge badge-warning">Осталось: {{ $remainingDays }} дней</span>
+                        @elseif ($remainingDays < 0)
+                            <span class="badge badge-danger">Просрочено на {{ abs($remainingDays) }} дней</span>
+                        @else
+                            <span class="badge badge-warning">Срок сегодня</span>
                         @endif
-                    </td>
-                    <td class="note-column">
-                        {{ $item->note }}
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex flex-wrap gap-1 justify-content-center">
-                            <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary" title="Посмотреть">
-                                Посмотреть
-                            </a>
-                            <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-primary" title="PDF">
-                                PDF
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="text-center">
-                        <img src="{{ asset('assets/images/empty.png') }}" alt="No Data" style="width: 50%;">
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+                    @else
+                        N/A
+                    @endif
+                </p>
+
+                <p><strong>Note:</strong> {{ $item->note }}</p>
+            </div>
+
+            <!-- Card Footer -->
+            <div class="kanban-card-footer">
+                <a href="{{ route('taskShow', $item->id) }}" class="btn btn-primary">Посмотреть</a>
+                <a href="{{ route('monitoringFishka', $item->id) }}" class="btn btn-warning">PDF</a>
+            </div>
+        </div>
+    @endforeach
 </div>
