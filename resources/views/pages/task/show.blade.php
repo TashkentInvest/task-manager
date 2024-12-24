@@ -433,48 +433,12 @@
                                     </div>
                                 @endif
 
-                                @if ($order)
-                                   
-
-                                <!-- Uploaded Files (Reject/Complete) -->
-                                <h4 class="text-primary mt-5 mb-2">
-                                    <i class="bi bi-upload ms-icon"></i>
-                                    Юкланган файллар
-                                </h4>
-                                @php
-                                    $files = \App\Models\File::where('task_id', $item->id)->get();
-                                @endphp
-
-                                @if ($files->count() > 0)
-                                    <ul class="list-group">
-                                        @foreach ($files as $file)
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}"
-                                                        target="_blank" class="btn btn-outline-primary btn-sm">
-                                                        <i class="bi bi-file-earmark"></i>
-                                                        {{ $file->name }}
-                                                    </a>
-                                                </div>
-                                                <p class="text-muted mb-0 ms-3">
-                                                    Юкловчи:
-                                                    {{ \App\Models\User::find($file->user_id)->name ?? 'Номаълум' }}
-                                                </p>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <p class="text-muted">Юкланган файллар мавжуд эмас.</p>
-                                @endif
-                            @else
-                                <p class="text-muted">Буюруқ ҳақида маълумот мавжуд эмас.</p>
-                            @endif
+                             
 
                                 <!-- Order Action History -->
                                 <h4 class="text-primary mt-5">
                                     <i class="bi bi-clock-history ms-icon"></i>
-                                    Буюруқ ҳаракатлари тарихи
+                                    Буйруқ ҳаракатлари тарихи
                                 </h4>
                                 @php
                                     $order = \App\Models\Order::where('task_id', $item->id)->first();
