@@ -129,27 +129,26 @@
                 <div class="card shadow-lg border-0 rounded">
 
 
-                    <div class="card-header bg-primary text-white">
-                        <h3 class="mb-0">Исполнитель поручения:
-                            @if ($item->task_users->isNotEmpty())
-                                <ul class="mt-2">
-                                    @foreach ($item->task_users as $i)
-                                        <li><b>{{ $i->name ?? '' }}</b> — {{ $i->about ?? '' }}</li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                        </h3>
-                    </div>
                     <div class="card-body">
                         {{-- Task Details --}}
 
                         <br><br>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-7">
                                 <div class="mb-3 task-details">
                                     <p class="card-text">
                                         <strong>Поручитель:</strong> <span class="text-muted">{{ $item->user->name }}</span>
                                     </p>
+
+                                    <h3 class="mb-0">Исполнитель поручения:
+                                        @if ($item->task_users->isNotEmpty())
+                                            <ul class="mt-2">
+                                                @foreach ($item->task_users as $i)
+                                                    <l style="font-size: 12px"><b>{{ $i->name ?? '' }}</b> — {{ $i->about ?? '' }}</l><br>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </h3>
 
                                     <p class="card-text"><strong>Закрепленный файл:</strong>
                                         @php
@@ -183,72 +182,251 @@
                                             <p>Нет загруженных файлов.</p>
                                         @endif
                                     </p>
-                                </div>
 
-                            </div>
-                            <div class="col-6 task-details">
-                                <div class="mb-3">
+                                    <div class="mb-3">
 
-                                    @php
-                                        $remainingDays = $item->planned_completion_date
-                                            ? now()->diffInDays($item->planned_completion_date, false)
-                                            : 'N/A';
-
-                                        // Check if reject_time exists
-                                        $isRejected = !is_null($item->reject_time);
-                                    @endphp
-
-                                    <p class="card-text"><strong>Дата выдачи:</strong> <span
-                                            class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span></p>
-                                    <p class="card-text"><strong>Срок выполнения:</strong> <span
-                                            class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}
-
-                                            @if (is_int($remainingDays))
-                                                @if ($isRejected)
-                                                    @if ($remainingDays >= 0)
-                                                        <span class="badge badge-soft-success font-size-16 m-1">
-                                                            Срок выполнения еще не истек: {{ $remainingDays }} дней осталось
-                                                        </span>
+                                        @php
+                                            $remainingDays = $item->planned_completion_date
+                                                ? now()->diffInDays($item->planned_completion_date, false)
+                                                : 'N/A';
+    
+                                            // Check if reject_time exists
+                                            $isRejected = !is_null($item->reject_time);
+                                        @endphp
+    
+                                        <p class="card-text"><strong>Дата выдачи:</strong> <span
+                                                class="text-muted">{{ $item->issue_date ?? 'Не указана' }}</span></p>
+                                        <p class="card-text"><strong>Срок выполнения:</strong> <span
+                                                class="text-muted">{{ $item->planned_completion_date ?? 'Не указана' }}
+    
+                                                @if (is_int($remainingDays))
+                                                    @if ($isRejected)
+                                                        @if ($remainingDays >= 0)
+                                                            <span class="badge badge-soft-success font-size-16 m-1">
+                                                                Срок выполнения еще не истек: {{ $remainingDays }} дней осталось
+                                                            </span>
+                                                        @else
+                                                            <span class="badge badge-soft-danger font-size-16 m-1">
+                                                                Срок завершения был {{ abs($remainingDays) }} дней назад
+                                                            </span>
+                                                        @endif
                                                     @else
-                                                        <span class="badge badge-soft-danger font-size-16 m-1">
-                                                            Срок завершения был {{ abs($remainingDays) }} дней назад
-                                                        </span>
+                                                        @if ($remainingDays > 0)
+                                                            <span class="badge badge-soft-warning font-size-16 m-1">
+                                                                {{ $remainingDays }} дней осталось
+                                                            </span>
+                                                        @elseif ($remainingDays < 0)
+                                                            <span class="badge badge-soft-danger font-size-16 m-1">
+                                                                {{ abs($remainingDays) }} дней просрочено
+                                                            </span>
+                                                        @else
+                                                            <span class="badge badge-soft-warning font-size-16 m-1">
+                                                                Срок сегодня
+                                                            </span>
+                                                        @endif
                                                     @endif
                                                 @else
-                                                    @if ($remainingDays > 0)
-                                                        <span class="badge badge-soft-warning font-size-16 m-1">
-                                                            {{ $remainingDays }} дней осталось
-                                                        </span>
-                                                    @elseif ($remainingDays < 0)
-                                                        <span class="badge badge-soft-danger font-size-16 m-1">
-                                                            {{ abs($remainingDays) }} дней просрочено
-                                                        </span>
-                                                    @else
-                                                        <span class="badge badge-soft-warning font-size-16 m-1">
-                                                            Срок сегодня
-                                                        </span>
-                                                    @endif
+                                                    N/A
                                                 @endif
-                                            @else
-                                                N/A
-                                            @endif
-
-                                        </span>
-                                    </p>
-
+    
+                                            </span>
+                                        </p>
+    
+                                    </div>
                                 </div>
 
                             </div>
 
+                            <div class="col-5 ">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Fishka</h5>
+                                    </div>
+                                    <div class="card-body pc-component">
+                                        <html>
+
+                                        <head>
+                                            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                                            <meta name="Generator" content="Microsoft Word 15 (filtered)">
+                                        
+                                            <style>
+                                                /* Font Definitions */
+                                                @font-face {
+                                                    font-family: "Cambria Math";
+                                                    panose-1: 2 4 5 3 5 4 6 3 2 4;
+                                                }
+                                        
+                                                @font-face {
+                                                    font-family: Calibri;
+                                                    panose-1: 2 15 5 2 2 2 4 3 2 4;
+                                                }
+                                        
+                                                /* Style Definitions */
+                                                p.MsoNormal,
+                                                li.MsoNormal,
+                                                div.MsoNormal {
+                                                    margin-top: 0cm;
+                                                    margin-right: 0cm;
+                                                    margin-bottom: 10.0pt;
+                                                    margin-left: 0cm;
+                                                    line-height: 115%;
+                                                    font-size: 11.0pt;
+                                                    font-family: "Calibri", sans-serif;
+                                                }
+                                        
+                                                .MsoChpDefault {
+                                                    font-family: "Calibri", sans-serif;
+                                                }
+                                        
+                                                .MsoPapDefault {
+                                                    margin-bottom: 8.0pt;
+                                                    line-height: 107%;
+                                                }
+                                        
+                                                @page WordSection1 {
+                                                    size: 595.3pt 841.9pt;
+                                                    margin: 2.0cm 42.5pt 2.0cm 3.0cm;
+                                                }
+                                        
+                                                div.WordSection1 {
+                                                    page: WordSection1;
+                                                }
+                                            </style>
+                                        
+                                        </head>
+                                        
+                                        <body lang="RU">
+                                        
+                                            <div class="WordSection1">
+                                        
+                                                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" width="100%" style="width:100%; none">
+                                                    <tr style="height:482.1pt">
+                                                        <td width="737" valign="top" style="width:100%; padding:20px">
+                                                            <div align="center">
+                                                                <table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0" align="center"
+                                                                    style="border-collapse:collapse">
+                                                                    <tr style="height:12.9pt">
+                                                                        <td style="width: 100%; text-align: center; vertical-align: middle;">
+                                                                            <p class="MsoNormal" align="center">
+                                                                                <img style="width: 200px" src="https://toshkentinvest.uz/assets/frontend/tild6238-3031-4265-a564-343037346231/tic_logo_blue.png" alt=""> <br><br>
+                                                                                <b><span lang="EN-US"
+                                                                                        style="line-height:115%; font-family: 'Times New Roman',serif;">“TOSHKENT
+                                                                                        INVEST KOMPANIYASI”</span></b>
+                                                                            </p>
+                                                                            <p class="MsoNormal" align="center"
+                                                                                style="margin-top:6.0pt; margin-right:0cm; margin-bottom:0cm; margin-left:0cm; text-align:center;">
+                                                                                <b><span lang="EN-US"
+                                                                                        style="line-height:115%; font-family: 'Times New Roman',serif;">AKSIYADORLIK
+                                                                                        JAMIYATI</span></b>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    {{-- <tr style="height:12.9pt">
+                                                                        <td width="348"
+                                                                            style="width:261.25pt; border:none; border-bottom:double windowtext 6.0pt; padding:0cm 0cm 0cm 1.5pt; height:12.9pt; text-align:center; vertical-align:middle;">
+                                                                            <p class="MsoNormal" align="center"
+                                                                                style="margin-top:6.0pt; margin-right:0cm; margin-bottom:0cm; margin-left:0cm; text-align:center;">
+                                                                                <b><span lang="EN-US"
+                                                                                        style="line-height:115%; font-family: 'Times New Roman',serif;">BOSHQARUV
+                                                                                        RAISI VAZIFASINI BAJARUVCHI</span></b>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr> --}}
+                                                                </table>
+                                                            </div>
+                                                            <p class="MsoNormal" align="center" style="text-align:center"><b><span lang="EN-US"
+                                                                        style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b>
+                                                            </p>
+                                                            <p class="MsoNormal">
+                                                                <b>Ma’sullar:</b>
+                                                                @if ($item->task_users->isNotEmpty())
+                                                                <ul>
+                                                                    @foreach ($item->task_users as $i)
+                                                                    <li><b>{{ $i->name ?? '' }}</b> — {{ $i->about ?? '' }}</li>
+                                                                    @endforeach
+                                                                </ul>
+                                                                @endif
+                                                            </p>
+                                                            <p class="MsoNormal" align="center" style="text-align:center"><span lang="EN-US"
+                                                                    style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black">&nbsp;</span>
+                                                            </p>
+                                        
+                                                  
+                                                        
+                                                        <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt">
+                                                            <b>
+                                                                <span lang="EN-US" style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black;">
+                                                                    Muddati: {{$item->planned_completion_date->day}} 
+                                                                    {{ $monthNames[$item->planned_completion_date->month - 1] }} 
+                                                                    {{$item->planned_completion_date->year}}
+                                        
+                                                                    {{-- {{$item->planned_completion_date->format('d.m.Y') ?? ''}} |  --}}
+                                                                </span>
+                                                            </b>
+                                                        </p>
+                                                        
+                                                        
+                                                            </p>
+                                                            <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="EN-US"
+                                                                    style="font-size:10.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif; color:black">&nbsp;</span>
+                                                            </p>
+                                                            <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt;line-height:150%"><span
+                                                                    lang="EN-US"
+                                                                    style="font-size:12.0pt;line-height:150%;font-family: 'DejaVu Sans', sans-serif;color:black">&nbsp;</span>
+                                                            </p>
+                                                            <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt;line-height:150%"><span
+                                                                    lang="EN-US"
+                                                                    style="font-size:12.0pt;line-height:150%;font-family: 'DejaVu Sans', sans-serif;color:black;">{{ $item->note }}
+                                                                </span><span lang="UZ-CYR"
+                                                                    style="font-size:12.0pt; line-height:150%; font-family: 'DejaVu Sans', sans-serif;color:black;">
+                                                            </p>
+                                                            <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="EN-US"
+                                                                    style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span>
+                                                            </p>
+                                                            <p class="MsoNormal" style="text-align:justify;text-indent:15.65pt"><span lang="UZ-CYR"
+                                                                    style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span>
+                                                            </p>
+                                                            <p class="MsoNormal" style="font-size:12.0pt; line-height:115%; font-family:'Times New Roman',serif; margin: 0;">
+                                                                <span style="float: left;"><b>Boshqaruv raisi v.b.</b></span>
+                                                                <span style="float: right;"><b>B.&nbsp;Shakirov</b></span>
+                                                            </p>
+                                                            
+                                                            
+                                                            
+                                                            <p class="MsoNormal" style="margin-right:15.75pt;text-indent:15.65pt"><b><span lang="EN-US"
+                                                                        style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b>
+                                                            </p>
+                                                            <p class="MsoNormal" style="margin-right:15.75pt;text-indent:15.65pt"><b><span lang="EN-US"
+                                                                        style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">&nbsp;</span></b>
+                                                            </p>
+                                                            <p class="MsoNormal" style="margin-right:15.75pt"><i><span lang="EN-US"
+                                                                        style="font-size:12.0pt;line-height:115%;font-family: 'DejaVu Sans', sans-serif;">{{$item->created_at->day}} 
+                                                                        {{ $monthNames[$item->created_at->month - 1] }} 
+                                                                        {{$item->created_at->year}}</span></i><i>
+                                                                            <br>
+                                                                            <span lang="EN-US"
+                                                                        style="font-size:12.0pt;line-height:115%;font-family:'Times New Roman',serif"><span
+                                                                            style="">{{$item->id + 26}}-son</span></span></i></p>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                        
+                                                <p class="MsoNormal"><span lang="EN-US">&nbsp;</span></p>
+                                        
+                                            </div>
+                                        
+                                        </body>
+                                        
+                                        </html>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        
+
                         </div>
 
-                        <div class="mt-4 border p-3 rounded bg-light">
-                            <p class="card-text"><strong>Примечание:</strong></p>
-                            <blockquote class="blockquote">
-                                <p class="mb-0">{{ $item->note }}</p>
-                            </blockquote>
-
-                        </div>
+                    
 
                         {{-- Admin Status Section --}}
                         @if ($item->order)
@@ -297,8 +475,8 @@
                                                         <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}"
                                                             class="btn btn-primary" target="_blank">{{ $file->name }}
                                                             Посмотреть</a>
-                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
-                                                            style="display:inline;">
+                                                        <form action="{{ route('file.delete', $file->id) }}"
+                                                            method="POST" style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger">Удалить</button>
@@ -343,8 +521,8 @@
                                                         <a href="{{ asset('porucheniya/complete/' . $file->file_name) }}"
                                                             class="btn btn-primary" target="_blank">{{ $file->name }}
                                                             Посмотреть</a>
-                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
-                                                            style="display:inline;">
+                                                        <form action="{{ route('file.delete', $file->id) }}"
+                                                            method="POST" style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger">Удалить</button>
@@ -367,7 +545,8 @@
                         {{-- Action Buttons --}}
                         <div class="d-flex justify-content-end mt-4">
                             @if (auth()->user()->roles[0]->name == 'Super Admin' && $item->status->name != 'Active')
-                                <a href="{{ route('taskEdit', $item->id) }}" class="btn btn-warning mx-2">Редактировать</a>
+                                <a href="{{ route('taskEdit', $item->id) }}"
+                                    class="btn btn-warning mx-2">Редактировать</a>
                                 <form action="{{ route('orders.admin_confirm') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="task_id" value="{{ $item->id }}">

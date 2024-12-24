@@ -38,7 +38,7 @@ class TaskController extends Controller
         else
             $roles = Role::where('name', '!=', 'Super Admin')->get();
 
-        return view('pages.task.add', compact('categories', 'count', 'users', 'roles','documents'));
+        return view('pages.task.add', compact('categories', 'count', 'users', 'roles', 'documents'));
     }
 
     public function create(Request $request)
@@ -152,7 +152,7 @@ class TaskController extends Controller
         $documents = Document::with('category')->get();
 
 
-        return view('pages.task.edit', compact('task', 'categories', 'roles', 'users','documents'));
+        return view('pages.task.edit', compact('task', 'categories', 'roles', 'users', 'documents'));
     }
     public function show($id)
     {
@@ -161,12 +161,28 @@ class TaskController extends Controller
             ->with(['roles', 'user', 'task_users', 'category', 'order', 'files']) // Load files relationship
             ->findOrFail($id);
 
+
+        \Carbon\Carbon::setLocale('uz'); // Ensure locale is set
+        $monthNames = [
+            'yanvar',
+            'fevral',
+            'mart',
+            'aprel',
+            'may',
+            'iyun',
+            'iyul',
+            'avgust',
+            'sentabr',
+            'oktabr',
+            'noyabr',
+            'dekabr'
+        ];
         $categories = Category::all(); // Adjust as necessary
         $roles = Role::all();
         $users = User::all();
         $order = Order::withTrashed()->where('task_id', $id)->first();
 
-        return view('pages.task.show', compact('item', 'categories', 'roles', 'users', 'order'));
+        return view('pages.task.show', compact('item', 'categories', 'roles', 'users', 'order','monthNames'));
     }
 
 
@@ -261,25 +277,25 @@ class TaskController extends Controller
     public function deleteFile($fileId)
     {
         $file = File::findOrFail($fileId);
-    
+
         // Attempt to build the file paths
         $filePath1 = public_path('porucheniya/' . $file->file_name);
         $filePath2 = public_path('porucheniya/reject/' . $file->file_name);
-    
+
         // Determine which path to use
         $filePath = file_exists($filePath1) ? $filePath1 : $filePath2;
-    
+
         // Check if the file exists and is a file, then delete it
         if (file_exists($filePath) && is_file($filePath)) {
             unlink($filePath); // Delete the file from storage
         }
-    
+
         // Delete the file record from the database
         $file->delete();
-    
+
         return redirect()->back()->with('success', 'File deleted successfully!');
     }
-    
+
 
 
     public function destroy($id)
