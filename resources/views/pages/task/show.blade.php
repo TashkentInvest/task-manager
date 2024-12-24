@@ -8,6 +8,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             transition: transform 0.2s ease-in-out;
         }
+
         .card:hover {
             transform: scale(1.02);
         }
@@ -33,6 +34,7 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
+
         .task-details h5 {
             margin-bottom: 15px;
             font-weight: bold;
@@ -46,6 +48,7 @@
             padding: 15px 20px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
+
         .list-group-item:hover {
             background-color: #e2e6ea;
         }
@@ -60,12 +63,15 @@
         .status-active {
             background-color: #17a2b8;
         }
+
         .status-completed {
             background-color: #28a745;
         }
+
         .status-rejected {
             background-color: #dc3545;
         }
+
         .status-pending {
             background-color: #ffc107;
         }
@@ -74,6 +80,7 @@
             background: linear-gradient(120deg, #4e73df, #224abe);
             color: white;
         }
+
         .modal-footer {
             background-color: #f8f9fc;
         }
@@ -121,18 +128,22 @@
                                     @if ($initialFiles->count() > 0)
                                         <ul class="list-group list-group-flush mt-3">
                                             @foreach ($initialFiles as $file)
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
                                                     <span>
-                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}" 
-                                                           target="_blank" class="text-decoration-none">
-                                                            <span class="badge bg-primary text-white">{{ $file->name }}</span>
+                                                        <a href="{{ asset('porucheniya/' . $file->file_name) }}"
+                                                            target="_blank" class="text-decoration-none">
+                                                            <span
+                                                                class="badge bg-primary text-white">{{ $file->name }}</span>
                                                         </a>
                                                     </span>
                                                     @if (auth()->user()->roles[0]->name == 'Super Admin')
-                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST" class="d-inline">
+                                                        <form action="{{ route('file.delete', $file->id) }}" method="POST"
+                                                            class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-danger">Ўчириш</button>
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-danger">Ўчириш</button>
                                                         </form>
                                                     @endif
                                                 </li>
@@ -145,8 +156,10 @@
                                     <!-- Task Info -->
                                     <h4 class="text-primary mt-5">Буюруқ ҳақида маълумот</h4>
                                     @php
-                                        $remainingDays = $item->planned_completion_date ? now()->diffInDays($item->planned_completion_date, false) : 'N/A';
-                                        $isRejected    = !is_null($item->reject_time);
+                                        $remainingDays = $item->planned_completion_date
+                                            ? now()->diffInDays($item->planned_completion_date, false)
+                                            : 'N/A';
+                                        $isRejected = !is_null($item->reject_time);
                                     @endphp
 
                                     <p>
@@ -155,15 +168,18 @@
                                     </p>
                                     <p>
                                         <strong class="text-primary">Бажариш муддати:</strong>
-                                        <span class="text-dark">{{ $item->planned_completion_date ?? 'Кўрсатилмаган' }}</span>
+                                        <span
+                                            class="text-dark">{{ $item->planned_completion_date ?? 'Кўрсатилмаган' }}</span>
 
                                         @if (is_int($remainingDays))
                                             @if ($isRejected)
-                                                <span class="badge bg-danger ms-3">Муддат {{ abs($remainingDays) }} кун олдин тугади</span>
+                                                <span class="badge bg-danger ms-3">Муддат {{ abs($remainingDays) }} кун
+                                                    олдин тугади</span>
                                             @elseif ($remainingDays > 0)
                                                 <span class="badge bg-success ms-3">{{ $remainingDays }} кун қолди</span>
                                             @elseif ($remainingDays < 0)
-                                                <span class="badge bg-danger ms-3">{{ abs($remainingDays) }} кун кечиктирилди</span>
+                                                <span class="badge bg-danger ms-3">{{ abs($remainingDays) }} кун
+                                                    кечиктирилди</span>
                                             @else
                                                 <span class="badge bg-warning ms-3">Муддат бугун</span>
                                             @endif
@@ -172,6 +188,131 @@
                                         @endif
                                     </p>
                                 </div>
+
+                                {{-- Admin Status Section --}}
+                                @if ($item->order)
+                                    @if ($item->order->checked_status == 2)
+                                        <div class="mt-4 border p-3 rounded bg-light">
+                                            <h3 class="text-danger">Председатель правления статус: Восстановить по поручению
+                                            </h3>
+                                            <p class="card-text"><strong>Комментарий об восстановление:</strong></p>
+                                            <blockquote class="blockquote">
+                                                <p class="mb-0">{{ $item->order->checked_comment }}</p>
+                                            </blockquote>
+                                            <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
+                                                    class="text-muted">{{ $item->order->checked_time ?? '' }}</span></p>
+
+                                        </div>
+                                    @elseif($item->order->checked_status == 1)
+                                        <div class="mt-4 border p-3 rounded bg-light">
+                                            <h3 class="text-success">Председатель правления статус: Вазифа тасдиқланди</h3>
+                                            <p class="card-text mt-3"><strong>Дата одобрения:</strong> <span
+                                                    class="text-muted">{{ $item->order->checked_time ?? '' }}</span></p>
+                                        </div>
+                                    @endif
+
+                                    {{-- Employee Rejection Comments --}}
+                                    @if ($item->status->id != 4 && $item->status->name == 'XODIM_REJECT')
+                                        <h3>Ходим статус</h3>
+                                        <div class="mt-4 border p-3 rounded bg-light">
+                                            <h5 class="text-danger">Восстановить по поручению</h5>
+                                            <p class="card-text"><strong>Кто отклонил:</strong> <span
+                                                    class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span>
+                                            </p>
+                                            <p class="card-text"><strong>Комментарий об восстановление:</strong></p>
+                                            <blockquote class="blockquote">
+                                                <p class="mb-0">{{ $item->reject_comment }}</p>
+                                            </blockquote>
+                                            @php
+                                                $rejectFiles = $item->files->filter(function ($file) {
+                                                    return file_exists(
+                                                        public_path('porucheniya/reject/' . $file->file_name),
+                                                    );
+                                                });
+                                            @endphp
+                                            @if ($rejectFiles->count() > 0)
+                                                <h5>Загруженные файлы:</h5>
+                                                <ul class="list-group">
+                                                    @foreach ($rejectFiles as $file)
+                                                        <li
+                                                            class="list-group-item d-flex justify-content-between align-items-center">
+                                                            <span>
+                                                                <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}"
+                                                                    class="btn btn-primary"
+                                                                    target="_blank">{{ $file->name }}
+                                                                    Посмотреть</a>
+                                                                <form action="{{ route('file.delete', $file->id) }}"
+                                                                    method="POST" style="display:inline;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger">Удалить</button>
+                                                                </form>
+                                                            </span>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <p>Нет загруженных файлов.</p>
+                                            @endif
+
+                                            <p class="card-text mt-3"><strong>Дата восстановление:</strong> <span
+                                                    class="text-muted">{{ $item->reject_time }}</span></p>
+                                        </div>
+                                    @elseif($item->status->name == 'Completed')
+                                        <div class="mt-4 border p-3 rounded bg-light">
+                                            <h5 class="text-success">Завершено</h5>
+                                            <p class="card-text"><strong>Кто закончил:</strong> <span
+                                                    class="text-warning">{{ $item->order->user->name ?? 'Не указано' }}</span>
+                                            </p>
+
+
+                                            <blockquote class="blockquote text-success">
+                                                <p class="mb-0">Вазифа якунланди</p>
+                                                <p class="mb-0">{{ $item->reject_comment }}</p>
+                                            </blockquote>
+
+                                            @php
+                                                $completeFiles = $item->files->filter(function ($file) {
+                                                    return file_exists(
+                                                        public_path('porucheniya/complete/' . $file->file_name),
+                                                    );
+                                                });
+                                            @endphp
+
+                                            @if ($completeFiles->count() > 0)
+                                                <h5>Загруженные файлы:</h5>
+                                                <ul class="list-group">
+                                                    @foreach ($completeFiles as $file)
+                                                        <li
+                                                            class="list-group-item d-flex justify-content-between align-items-center">
+                                                            <span>
+                                                                <a href="{{ asset('porucheniya/complete/' . $file->file_name) }}"
+                                                                    class="btn btn-primary"
+                                                                    target="_blank">{{ $file->name }}
+                                                                    Посмотреть</a>
+                                                                <form action="{{ route('file.delete', $file->id) }}"
+                                                                    method="POST" style="display:inline;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger">Удалить</button>
+                                                                </form>
+                                                            </span>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <p>Нет загруженных файлов.</p>
+                                            @endif
+
+                                            <p class="card-text mt-3"><strong>Дата окончания:</strong> <span
+                                                    class="text-muted">{{ $item->reject_time }}</span></p>
+                                        </div>
+                                    @endif
+                                @endif
+
+
 
                                 <!-- Document Info, if any -->
                                 @if (isset($item->document))
@@ -183,7 +324,8 @@
                                         </p>
                                         <p>
                                             <strong>Категория:</strong>
-                                            <span class="text-dark">{{ $item->document->category->name ?? 'Категория кўрсатилмаган' }}</span>
+                                            <span
+                                                class="text-dark">{{ $item->document->category->name ?? 'Категория кўрсатилмаган' }}</span>
                                         </p>
                                         <p>
                                             <strong>Ҳат рақами:</strong>
@@ -199,9 +341,9 @@
                                             <ul class="list-group mt-2">
                                                 @foreach ($item->document->files as $file)
                                                     <li class="list-group-item">
-                                                        <a href="{{ Storage::url($file->file_path) }}" 
-                                                           target="_blank" class="text-decoration-none">
-                                                           {{ basename($file->file_path) }}
+                                                        <a href="{{ Storage::url($file->file_path) }}" target="_blank"
+                                                            class="text-decoration-none">
+                                                            {{ basename($file->file_path) }}
                                                         </a>
                                                     </li>
                                                 @endforeach
@@ -247,7 +389,8 @@
                                     </p>
                                     <p>
                                         <strong>Ҳолат:</strong>
-                                        <span class="badge {{ $order->checked_status == 1 ? 'bg-success' : ($order->checked_status == 2 ? 'bg-danger' : 'bg-warning') }}">
+                                        <span
+                                            class="badge {{ $order->checked_status == 1 ? 'bg-success' : ($order->checked_status == 2 ? 'bg-danger' : 'bg-warning') }}">
                                             {{ $order->checked_status == 1 ? 'Тасдиқланган' : ($order->checked_status == 2 ? 'Рад этилган' : 'Кутилаётган') }}
                                         </span>
                                     </p>
@@ -257,7 +400,8 @@
                                     </p>
                                     <p>
                                         <strong>Текширилган вақт:</strong>
-                                        <span class="text-dark">{{ $order->checked_time ? $order->checked_time : 'Кўрсатилмаган' }}</span>
+                                        <span
+                                            class="text-dark">{{ $order->checked_time ? $order->checked_time : 'Кўрсатилмаган' }}</span>
                                     </p>
                                     <p>
                                         <strong>Тамомлаган фойдаланувчи:</strong>
@@ -276,12 +420,13 @@
                                         <ul class="list-group">
                                             @foreach ($files as $file)
                                                 <li class="list-group-item">
-                                                    <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}" 
-                                                       target="_blank">
+                                                    <a href="{{ asset('porucheniya/reject/' . $file->file_name) }}"
+                                                        target="_blank">
                                                         <i class="bi bi-file-earmark"></i> {{ $file->name }}
                                                     </a>
                                                     <p class="text-muted mb-0">
-                                                        Юкловчи: {{ \App\Models\User::find($file->user_id)->name ?? 'Номаълум' }}
+                                                        Юкловчи:
+                                                        {{ \App\Models\User::find($file->user_id)->name ?? 'Номаълум' }}
                                                     </p>
                                                 </li>
                                             @endforeach
@@ -295,7 +440,7 @@
                             </div>
 
                             <!-- RIGHT COLUMN - 'Фишка' -->
-                           
+
                             <div class="col-5 ">
                                 <div class="card">
                                     <div class="card-header">
@@ -358,8 +503,8 @@
 
                                             <div class="WordSection1">
 
-                                                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0"
-                                                    width="100%" style="width:100%; none">
+                                                <table class="MsoTableGrid" border="1" cellspacing="0"
+                                                    cellpadding="0" width="100%" style="width:100%; none">
                                                     <tr style="height:482.1pt">
                                                         <td width="737" valign="top"
                                                             style="width:100%; padding:20px">
@@ -522,7 +667,8 @@
                                     <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                                     <button type="submit" class="btn btn-success">Тасдиқлаш</button>
                                 </form>
-                                <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#rejectModal">Қайта тиклаш</button>
+                                <button class="btn btn-primary mx-2" data-bs-toggle="modal"
+                                    data-bs-target="#rejectModal">Қайта тиклаш</button>
                             @else
                                 @if ($item->status->name == 'Active' && auth()->user()->roles[0]->name != 'Super Admin')
                                     <form action="{{ route('orders.store') }}" method="POST">
@@ -537,7 +683,8 @@
                             @endif
 
                             @if (auth()->user()->roles[0]->name != 'Super Admin' && $item->status->name != 'Active')
-                                <button class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#finishModalEmp">
+                                <button class="btn btn-success mx-2" data-bs-toggle="modal"
+                                    data-bs-target="#finishModalEmp">
                                     Тамомлаш
                                 </button>
 
@@ -581,7 +728,8 @@
                                 <textarea class="form-control" id="checked_comment" name="checked_comment" rows="3" required></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Бекор қилиш</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Бекор
+                                    қилиш</button>
                                 <button type="submit" class="btn btn-primary">Қайта тиклаш</button>
                             </div>
                         </form>
@@ -591,7 +739,8 @@
         </div>
 
         <!-- Employee Reject Modal -->
-        <div class="modal fade" id="rejectModalEmp" tabindex="-1" aria-labelledby="rejectModalEmpLabel" aria-hidden="true">
+        <div class="modal fade" id="rejectModalEmp" tabindex="-1" aria-labelledby="rejectModalEmpLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
@@ -609,10 +758,12 @@
                             </div>
                             <div class="mb-3">
                                 <label for="attached_file" class="form-label">Файл юклаш</label>
-                                <input type="file" class="form-control" id="attached_file" name="attached_file[]" multiple>
+                                <input type="file" class="form-control" id="attached_file" name="attached_file[]"
+                                    multiple>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Бекор қилиш</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Бекор
+                                    қилиш</button>
                                 <button type="submit" class="btn btn-danger">Рад этиш</button>
                             </div>
                         </form>
@@ -622,7 +773,8 @@
         </div>
 
         <!-- Employee Finish Modal -->
-        <div class="modal fade" id="finishModalEmp" tabindex="-1" aria-labelledby="finishModalEmpLabel" aria-hidden="true">
+        <div class="modal fade" id="finishModalEmp" tabindex="-1" aria-labelledby="finishModalEmpLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-success text-white">
@@ -640,10 +792,12 @@
                             </div>
                             <div class="mb-3">
                                 <label for="attached_file" class="form-label">Файл юклаш</label>
-                                <input type="file" class="form-control" id="attached_file" name="attached_file[]" multiple>
+                                <input type="file" class="form-control" id="attached_file" name="attached_file[]"
+                                    multiple>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Бекор қилиш</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Бекор
+                                    қилиш</button>
                                 <button type="submit" class="btn btn-success">Тамомлаш</button>
                             </div>
                         </form>
