@@ -136,3 +136,5 @@ sudo update-alternatives --config php
 ```
 
 // slujebniy zapiska br qancha fayl
+
+composer require barryvdh/laravel-dompdf

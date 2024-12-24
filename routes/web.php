@@ -107,6 +107,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Task
     Route::get('/monitoring', [ProductController::class, 'index'])->name('monitoringIndex');
+    Route::get('/monitoring/fishka/{id}', [ProductController::class, 'fishka'])->name('monitoringFishka');
     // Route::resource('tasks', TaskController::class);
     // Route::get('/tasks',[TaskController::class,'index'])->name('monitoringIndex');
     Route::get('/task/add', [TaskController::class, 'add'])->name('taskAdd');
